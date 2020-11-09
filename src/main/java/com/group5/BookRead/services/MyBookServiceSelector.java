@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 public class MyBookServiceSelector {
 
     @Autowired
-    @Qualifier("regular")
+    @Qualifier("myBook")
     MyBookService myBookService;
 
     MyBook removeBook(int myBookId) {

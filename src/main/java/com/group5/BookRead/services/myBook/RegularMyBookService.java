@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.sql.SQLIntegrityConstraintViolationException;
 
-@Service(value = "regular")
+@Service(value = "myBook")
 public class RegularMyBookService implements  MyBookService {
 
     @Autowired
