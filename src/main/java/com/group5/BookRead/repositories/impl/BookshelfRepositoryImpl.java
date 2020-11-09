@@ -75,17 +75,7 @@ public class BookshelfRepositoryImpl implements BookshelfRepository {
 
 	@Override
 	public int findIdByNameAndUserId(String name, int user_id) {
-		try {
-			int id = jdbcTemplate.queryForObject("select id from Bookshelf "+"where name = ? and user_id = ?",
-				new Object[] {
-					name, user_id	
-				}, 
-				int.class);
-			return id;
-					
-		} catch (EmptyResultDataAccessException e) {
-			return -1;
-		}
+		return 0;
 	}
 
 	@Override
