@@ -10,7 +10,7 @@ public class TestController {
      * <p>This is the test api
      * </p>
      * @param name query stirng for name
-     * @param model spring boot model
+     * @param model Thymyleaf model
      * @return value to be outputed
      * @since 1.0
      */
