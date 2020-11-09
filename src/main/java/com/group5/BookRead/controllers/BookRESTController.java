@@ -1,6 +1,6 @@
 package com.group5.BookRead.controllers;
 
-import java.util.*; 
+import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -10,17 +10,28 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PathVariable;
 
 @RestController
-public class BookRESTController extends BookBaseController{
-    @PutMapping(value = "/book/shelf/{dst_shelf}", consumes = "application/json", produces = "application/json")
+public class BookRESTController extends BookBaseController {
+    /**
+     * <p> move book between shelf restful api
+     * </p>
+     * @param json body object
+     * @param dstShelf destination bookshelf
+     * @param response response object
+     * @return response message
+     * @since 1.0
+     */
+    @PutMapping(value = "/book/shelf/{dstShelf}",
+        consumes = "application/json", produces = "application/json")
     public String moveBookInBookeshelf(
-        @RequestBody final Map<String, String> json, 
-        @PathVariable final String dst_shelf, HttpServletResponse response) {
-        int book_id = Integer.parseInt(json.get("book_id"));
-        String src_shelf = json.get("src_shelf");
-        
-        MockupBook book = BookBaseController.removeMockupBook(book_id, src_shelf);
-        BookBaseController.bookshelfs.get(dst_shelf).add(book);
-        
+        @RequestBody final Map<String, String> json,
+        @PathVariable final String dstShelf,
+        final HttpServletResponse response) {
+        int bookId = Integer.parseInt(json.get("bookId"));
+        String srcShelf = json.get("srcShelf");
+
+        MockupBook book = BookBaseController.removeMockupBook(bookId, srcShelf);
+        BookBaseController.bookshelfs.get(dstShelf).add(book);
+
         response.setStatus(HttpServletResponse.SC_OK);
 
         return "{\"msg\":\"success\"}";

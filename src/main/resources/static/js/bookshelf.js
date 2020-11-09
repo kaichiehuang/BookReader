@@ -1,10 +1,10 @@
 $(function() {
-    let src_shelf;
+    let srcShelf;
     $(".bookshelf #book").draggable({
         revert: "invalid",
         start: function (event, ui) {
             //NEW
-            src_shelf = $(this).parents('.bookshelf').find('.heading').text();
+            srcShelf = $(this).parents('.bookshelf').find('.heading').text();
             
         },
         stack: ".bookshelf #book"
@@ -12,19 +12,19 @@ $(function() {
 
     $(".bookshelf").droppable({ 
         drop:function(ev, ui){ 
-            let dst_shelf = $(this).find('.heading').text()
-            let book_id = ui.draggable.attr("data-book-id")
+            let dstShelf = $(this).find('.heading').text()
+            let bookId = ui.draggable.attr("data-book-id")
 
-            // console.log(book_id); 
-            // console.log(src_shelf);
-            // console.log(dst_shelf)
+            // console.log(bookId); 
+            // console.log(srcShelf);
+            // console.log(dstShelf)
 
             $.ajax({
-                url: '/book/shelf/' + dst_shelf,
+                url: '/book/shelf/' + dstShelf,
                 type: 'PUT',
                 cache: false,
                 contentType: 'application/json; charset=utf-8',
-                data: JSON.stringify({src_shelf: src_shelf, book_id: book_id}),
+                data: JSON.stringify({srcShelf: srcShelf, bookId: bookId}),
                 headers: {'Authorization': 'Bearer '},
                 success: function(res) {
                     location.reload();
