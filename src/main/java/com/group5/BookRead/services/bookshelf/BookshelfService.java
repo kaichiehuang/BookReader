@@ -4,13 +4,22 @@ import com.group5.BookRead.repositories.BookshelfRepository;
 
 public abstract class BookshelfService {
 
-    BookshelfRepository bookshelfRepository;
-    BookshelfService(BookshelfRepository bookshelfRepository) {
+    private BookshelfRepository bookshelfRepository;
+    BookshelfService(final BookshelfRepository bookshelfRepository) {
         this.bookshelfRepository = bookshelfRepository;
     }
 
-    public Bookshelf findBookshelf(String bookshelfName, String username) {
-        return bookshelfRepository.findByBookshelfNameAndUsername(bookshelfName, username);
+    /**
+     *  Find the Bookshelf object based onthe type and the onwer
+     * @param bookshelf bookshelf type
+     * @param user username
+     * @return BookShelf object
+     */
+    public Bookshelf findBookshelf(final String bookshelf, final String user) {
+        return bookshelfRepository.findByBookshelfNameAndUsername(
+                bookshelf,
+                user);
     }
 
 }
+

@@ -13,11 +13,22 @@ public class MyBookServiceSelector {
     @Qualifier("myBook")
     MyBookService myBookService;
 
-    MyBook removeBook(int myBookId) {
+    /**
+     * remove book from the bookshelf of an uer
+     * @param myBookId mybook id (associated with user and bookshelf already)
+     * @return MyBook
+     */
+    public MyBook removeBook(final int myBookId) {
         return myBookService.removeFromShelf(myBookId);
     }
 
-    MyBook addBookToShelf(MyBook myBook, int desBookshelfId) {
-        return myBookService.addToShelf(myBook, desBookshelfId);
+    /**
+     * add a book to the shelf of an user
+     * @param myBook the book being added (MyBook)
+     * @param bookshelfId the bookshelf where the book is added to
+     * @return the added book MyBook obejct
+     */
+    public MyBook addBookToShelf(final MyBook myBook, final int bookshelfId) {
+        return myBookService.addToShelf(myBook, bookshelfId);
     }
 }

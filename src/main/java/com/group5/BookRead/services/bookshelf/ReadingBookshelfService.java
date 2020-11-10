@@ -4,12 +4,12 @@ import com.group5.BookRead.repositories.BookshelfRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-@Service (value="reading")
+@Service (value = "reading")
 public class ReadingBookshelfService extends BookshelfService {
 
-    BookshelfRepository bookshelfRepository;
+    private BookshelfRepository bookshelfRepository;
     @Autowired
-    ReadingBookshelfService(BookshelfRepository bookshelfRepository) {
+    ReadingBookshelfService(final BookshelfRepository bookshelfRepository) {
         super(bookshelfRepository);
         this.bookshelfRepository = bookshelfRepository;
     }
