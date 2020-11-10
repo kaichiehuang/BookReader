@@ -20,7 +20,14 @@ public class MyBook {
 		this.bookshelf_id = bookshelf_id;
 		this.progress = progress;
 	}
-	
+
+	public MyBook(int book_id, int user_id, int bookshelf_id, double progress) {
+		this.book_id = book_id;
+		this.user_id = user_id;
+		this.bookshelf_id = bookshelf_id;
+		this.progress = progress;
+	}
+
 	public int getId() {
 		return id;
 	}

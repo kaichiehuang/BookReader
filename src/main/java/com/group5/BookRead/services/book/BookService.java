@@ -1,15 +1,14 @@
-package com.group5.BookRead.services.myBook;
+package com.group5.BookRead.services.book;
 
 import com.group5.BookRead.models.Book;
-import com.group5.BookRead.models.MyBook;
 
-import java.util.HashMap;
 import java.util.List;
 
-public interface MyBookService {
-    MyBook removeFromShelf(int bookId);
-    MyBook addToShelf(MyBook book, int bookshelfId);
-    List<Book> getBooks(String bookshelf, int userId);
-    List<MyBook> getMyBooks(String bookshelf, int userId);
-    HashMap<String, List<Book>> getBooksOnBookshelves(int userId);
+public interface BookService {
+    Book remove(int bookId);
+    Book add(Book book,
+             String bookshelfName,
+             int userId);
+    Book getBook(int id);
+    List<Book> getBooks(String bookshelfName, int userId);
 }

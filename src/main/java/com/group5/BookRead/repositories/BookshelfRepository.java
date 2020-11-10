@@ -16,5 +16,6 @@ public interface BookshelfRepository {
 	Bookshelf findById(int id);
 	int deleteById(int id);
 	Bookshelf findByBookshelfNameAndUsername(String bookshelfName, String username);
-	
+
+    Bookshelf findByBookshelfNameAndUserId(String bookshelf, int user);
 }

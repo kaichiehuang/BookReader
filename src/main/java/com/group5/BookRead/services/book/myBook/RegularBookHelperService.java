@@ -6,6 +6,8 @@ import com.group5.BookRead.models.MyBook;
 import com.group5.BookRead.repositories.BookRepository;
 import com.group5.BookRead.repositories.BookshelfRepository;
 import com.group5.BookRead.repositories.MyBookRepository;
+import com.group5.BookRead.services.BookServiceSelector;
+import com.group5.BookRead.services.BookshelfServiceSelector;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.sql.SQLIntegrityConstraintViolationException;
@@ -13,44 +15,29 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-@Service(value = "myBook")
-public final class RegularMyBookService implements  MyBookService {
-
+public final class RegularBookHelperService implements BookHelperService {
 
     private MyBookRepository myBookRepository;
-    private BookRepository bookRepository;
-    private BookshelfRepository bookshelfRepository;
+    private BookshelfServiceSelector bookshelfServiceSelector;
 
     @Autowired
-    public RegularMyBookService(final MyBookRepository myBookRepository,
-                                final BookRepository bookRepository,
-                                final BookshelfRepository bookshelfRepository) {
-        this.myBookRepository = myBookRepository;
+    public RegularBookHelperService(final BookRepository bookRepository,
+                              final  BookshelfServiceSelector bookshelfServiceSelector) {
         this.bookRepository = bookRepository;
-        this.bookshelfRepository = bookshelfRepository;
+        this.bookshelfServiceSelector = bookshelfServiceSelector;
     }
 
     public MyBook removeFromShelf(final int myBookId) {
-        MyBook myBook = myBookRepository.findById(myBookId);
-        if (myBookRepository.deleteById(myBookId) == 1) {
-            return myBook;
-        }
         return null;
     }
 
     public MyBook addToShelf(final MyBook book, final int bookshelfId) {
-        book.setBookshelf_id(bookshelfId);
-        try {
-            if (myBookRepository.insert(book) == 1) {
-                return myBookRepository.findById(
-                        book.getBookshelf_id(),
-                        book.getUser_id(),
-                        book.getBook_id());
-            }
-            return null;
-        } catch (SQLIntegrityConstraintViolationException e) {
-            return null;
-        }
+        return null;
+    }
+
+    @Override
+    public List<Book> getBooks(String bookshelf, int userId) {
+        return null;
     }
 
     /**
@@ -61,9 +48,9 @@ public final class RegularMyBookService implements  MyBookService {
      */
     @Override
     public List<MyBook> getMyBooks(final String bookshelfName, final int userId) {
-        Bookshelf bookshelf = bookshelfRepository.findByNameAndUserId(
-                bookshelfName,
-                userId);
+        Bookshelf bookshelf = bookshelfServiceSelector.getBookShelf(
+                userId,
+                bookshelfName);
         return myBookRepository.findAllByUserIdAndShelfId(
                 userId,
                 bookshelf.getId());
@@ -75,7 +62,7 @@ public final class RegularMyBookService implements  MyBookService {
      * @return
      */
     public HashMap<String, List<Book>> getBooksOnBookshelves(final int userId) {
-        List<Bookshelf> bookshelves = bookshelfRepository.findAllByUserId(userId);
+        List<Bookshelf> bookshelves =bookshelfServiceSelector.getBookShelves(userId);
         HashMap<String, List<Book>> map = new HashMap<>();
         for (Bookshelf bookshelf : bookshelves) {
             map.put(bookshelf.getName(),
