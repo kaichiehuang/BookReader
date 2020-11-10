@@ -11,7 +11,6 @@ import java.util.List;
 public class ExternalBookAPI {
     @Autowired
     BookAPI bookAPI;
-
     /**
      * set the desired bookAPI
      * @param bookAPI
