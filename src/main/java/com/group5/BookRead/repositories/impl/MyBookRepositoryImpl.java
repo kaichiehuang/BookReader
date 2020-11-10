@@ -120,4 +120,19 @@ public class MyBookRepositoryImpl implements MyBookRepository {
 			});
 	}
 
+	@Override
+	public MyBook findById(int id) {
+		return null;
+	}
+
+	@Override
+	public MyBook findById(int bookshelf_id, int user_id, int book_id) {
+		return null;
+	}
+
+	@Override
+	public MyBook findByUsernameAndBookShelfnameAndBookId(String username, String bookshelfName, String bookId) {
+		return null;
+	}
+
 }
