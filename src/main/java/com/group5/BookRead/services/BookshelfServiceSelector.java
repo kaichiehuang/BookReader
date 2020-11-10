@@ -1,10 +1,13 @@
 package com.group5.BookRead.services;
 
+import com.group5.BookRead.models.Book;
 import com.group5.BookRead.models.Bookshelf;
 import com.group5.BookRead.services.bookshelf.BookshelfService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
+import java.util.HashMap;
+import java.util.List;
 
 @Component
 public class BookshelfServiceSelector {
@@ -40,6 +43,27 @@ public class BookshelfServiceSelector {
                                   final String bookshelfName) {
         BookshelfService bookshelfService = getService(bookshelfName);
         return bookshelfService.findBookshelf(bookshelfName, username);
+    }
+
+    /**
+     * get the bookshelf of type (bookshelfName) for user
+     * @param userId
+     * @param bookshelfName
+     * @return
+     */
+    public Bookshelf getBookShelf(final int userId,
+                                  final String bookshelfName) {
+        BookshelfService bookshelfService = getService(bookshelfName);
+        return bookshelfService.findBookshelf(bookshelfName, userId);
+    }
+
+    /**
+     *  get bookshelves of an user
+     * @param userId
+     * @return
+     */
+    public List<Bookshelf> getBookShelves(final int userId) {
+        return getService("defualt").findBookshelves(userId);
     }
 
 
