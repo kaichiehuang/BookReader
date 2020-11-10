@@ -1,23 +1,30 @@
 package com.group5.BookRead.repositories;
 
+import com.group5.BookRead.models.MyBook;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 
-import com.group5.BookRead.models.MyBook;
-
 public interface MyBookRepository {
 
-	int insert(MyBook mybook) throws SQLIntegrityConstraintViolationException;
-	List<MyBook> findAllByUserId(int id);
-	List<MyBook> findAllByUserIdAndShelfId(int user_id, int bookshelf_id);
-	List<MyBook> findAllByBookId(int id);
-	int findIdByAllIds(int book_id, int user_id, int bookshelf_id);
-	int update(MyBook mybook);
-	int deleteById(int id);
+    int insert(MyBook mybook) throws SQLIntegrityConstraintViolationException;
+
+    List<MyBook> findAllByUserId(int id);
+
+    List<MyBook> findAllByUserIdAndShelfId(int userId, int bookshelfId);
+
+    List<MyBook> findAllByBookId(int id);
+
+    int findIdByAllIds(int bookId, int userId, int bookshelfId);
+
+    int update(MyBook mybook);
+
+    int deleteById(int id);
 
     MyBook findById(int id);
 
-	MyBook findById(int bookshelf_id, int user_id, int book_id);
+    MyBook findById(int bookshelfId, int userId, int bookId);
 
-    MyBook findByUsernameAndBookShelfnameAndBookId(String username, String bookshelfName, String bookId);
+    MyBook findByUsernameAndBookShelfnameAndBookId(
+            String username, String shelfName, String bookId);
+
 }

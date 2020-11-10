@@ -21,13 +21,13 @@ public class RegularMyBookService implements  MyBookService {
     }
 
     public MyBook addToShelf(MyBook book, int bookshelfId) {
-        book.setBookshelf_id(bookshelfId);
+        book.setBookshelfId(bookshelfId);
         try {
             if (myBookRepository.insert(book) == 1)
                 return myBookRepository.findById(
-                    book.getBookshelf_id(),
-                    book.getUser_id(),
-                    book.getBook_id());
+                    book.getBookshelfId(),
+                    book.getUserId(),
+                    book.getBookId());
             return null;
         } catch(SQLIntegrityConstraintViolationException e) {
             return null;
