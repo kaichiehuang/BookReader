@@ -6,9 +6,17 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class TestController {
-
+    /**
+     * <p>This is the test api
+     * </p>
+     * @param name query stirng for name
+     * @param model Thymyleaf model
+     * @return value to be outputed
+     * @since 1.0
+     */
     @GetMapping("/greeting")
-    public String greeting(@RequestParam(name="name", required=false, defaultValue="World") String name, Model model) {
+    public String greeting(@RequestParam(name = "name", required = false,
+        defaultValue = "World") final String name, final Model model) {
         model.addAttribute("name", name);
         return "greeting";
     }
