@@ -3,8 +3,8 @@ package com.group5.BookRead.services.bookAPI;
 public class BookFromAPI {
 
     int page;
-    public String authors;
-    public String title;
+    String authors;
+    String title;
     String description;
     String link;
 
@@ -33,5 +33,13 @@ public class BookFromAPI {
                 + ", description='" + description + '\''
                 + ", link='" + link + '\''
                 + '}';
+    }
+
+    public String getAuthors() {
+        return authors.substring(1, authors.length()-1).replace("\"","");
+    }
+
+    public String getTitle() {
+        return title;
     }
 }
