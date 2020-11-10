@@ -3,8 +3,8 @@ package com.group5.BookRead.services.bookAPI;
 public class BookFromAPI {
 
     int page;
-    String authors;
-    String title;
+    public String authors;
+    public String title;
     String description;
     String link;
 
