@@ -18,8 +18,13 @@
     <table>
         <thead>
         <tr>
+            <th> Book Cover </th>
             <th> Title </th>
             <th> Author </th>
+            <th> Pages </th>
+            <th> Description </th>
+
+
         </tr>
         </thead>
         <tbody>
@@ -27,8 +32,13 @@
             <td colspan="2"> No Books Available </td>
         </tr>
         <tr th:each="book : ${books}">
+            <td><img th:src="${book.getLink()}"></img></td>
             <td><span th:text="${book.getTitle()}"> Title </span></td>
             <td><span th:text="${book.getAuthors()}"> Author </span></td>
+            <td><span th:text="${book.getPage()}"> Pages </span></td>
+            <td><span th:text="${book.getDescription()}"> Description </span></td>
+
+
         </tr>
         </tbody>
     </table>

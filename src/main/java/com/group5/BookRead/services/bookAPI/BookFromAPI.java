@@ -36,10 +36,25 @@ public class BookFromAPI {
     }
 
     public String getAuthors() {
-        return authors.substring(1, authors.length()-1).replace("\"","");
+        if (authors.length() > 2)
+            return authors.substring(1, authors.length()-1).replace("\"","");
+        else
+            return authors;
     }
 
     public String getTitle() {
         return title;
+    }
+
+    public int getPage() {
+        return page;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public String getLink() {
+        return link;
     }
 }
