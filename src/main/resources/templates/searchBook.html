@@ -3,45 +3,54 @@
 <head>
     <title>Search Book</title>
     <meta charset="UTF-8"/>
+    <link rel="stylesheet" th:href="@{/css/searchBook.css}" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <div th:replace="fragments/common :: include"></div>
     <div th:replace="fragments/header :: header-css"></div>
 </head>
 <body>
 <div th:replace="fragments/header :: header"></div>
-<div class = "search">
+    <div class = "search">
     <h1> Search </h1>
-    <form class="form-inline my-2 my-lg-0" th:action="@{/search}" method="get">
-        <input class="form-control mr-sm-2" name="term" type="text" id = "search_input" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-success my-2 my-sm-0" id= "searchButton" type="submit">Search</button>
-    </form>
-    <table>
-        <thead>
-        <tr>
-            <th> Book Cover </th>
-            <th> Title </th>
-            <th> Author </th>
-            <th> Pages </th>
-            <th> Description </th>
+<!--    <form th:action="@{/search}" method="get">-->
+<!--        <input class="form-control" name="term" type="text" id = "search_input" placeholder="Search" aria-label="Search">-->
+<!--        <button class="btn btn-outline-success my-2 my-sm-0" id= "searchButton" type="submit">Search</button>-->
+<!--    </form>-->
+        <form th:action="@{/search}" method="get">
+            <div class="input-group">
+                <textarea class="form-control" style="resize:none" name="term" type="text" id = "search_input_main" placeholder="Search" aria-label="Search"> </textarea>
+                <button class="btn btn-outline-success my-2 my-sm-0" id= "searchButton" type="submit">Search</button>
+            </div>
+        </form>
+        <table class = "table table-hover">
+            <thead class = "thead-dark">
+            <tr>
+                <th scope = "col"> # </th>
+                <th scope = "col"> Book Cover </th>
+                <th scope = "col"> Title </th>
+                <th scope = "col"> Author </th>
+                <th scope = "col"> Pages </th>
+                <th scope = "col"> Description </th>
+
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:if="${books.isEmpty()}">
+                <td colspan="2"> No Books Available </td>
+            </tr>
+            <tr th:each="book, iterator : ${books}">
+                <td><span th:text="${iterator.index+1}"> # </span></td>
+                <td><img th:src="${book.getLink()}"></img></td>
+                <td><span th:text="${book.getTitle()}"> Title </span></td>
+                <td><span th:text="${book.getAuthors()}"> Author </span></td>
+                <td><span th:text="${book.getPage()}"> Pages </span></td>
+                <td><span th:text="${book.getDescription()}"> Description </span></td>
 
 
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:if="${books.isEmpty()}">
-            <td colspan="2"> No Books Available </td>
-        </tr>
-        <tr th:each="book : ${books}">
-            <td><img th:src="${book.getLink()}"></img></td>
-            <td><span th:text="${book.getTitle()}"> Title </span></td>
-            <td><span th:text="${book.getAuthors()}"> Author </span></td>
-            <td><span th:text="${book.getPage()}"> Pages </span></td>
-            <td><span th:text="${book.getDescription()}"> Description </span></td>
-
-
-        </tr>
-        </tbody>
-    </table>
+            </tr>
+            </tbody>
+        </table>
 
 </div>
 </body>
