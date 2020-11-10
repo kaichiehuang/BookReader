@@ -1,51 +1,56 @@
 package com.group5.BookRead.models;
 
 public class Bookshelf {
-	
-	private int id;
-	private int user_id;
-	private String name;
-	
-	public Bookshelf() {
-		super();
-	}
 
-	public Bookshelf(int id, int user_id, String name) {
-		super();
-		this.id = id;
-		this.user_id = user_id;
-		this.name = name;
-	}
+    private int id;
+    private int userId;
+    private String name;
 
-	public int getId() {
-		return id;
-	}
+    public Bookshelf() {
+        super();
+        this.id = 0;
+        this.userId = 0;
+        this.name = "";
 
-	public void setId(int id) {
-		this.id = id;
-	}
+    }
 
-	public int getUser_id() {
-		return user_id;
-	}
+    public Bookshelf(int id, int userId, String name) {
+        super();
+        this.id = id;
+        this.userId = userId;
+        this.name = name;
+    }
 
-	public void setUser_id(int user_id) {
-		this.user_id = user_id;
-	}
+    public final int getId() {
+        return id;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public final void setId(int id) {
+        this.id = id;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public final int getUserId() {
+        return userId;
+    }
 
-	@Override
-	public String toString() {
-		return "Bookshelf [id=" + id + ", user_id=" + user_id + ", name=" + name + "]";
-	}
-	
-	
-	
+    public final void setUserId(int userId) {
+        this.userId = userId;
+    }
+
+    public final String getName() {
+        return name;
+    }
+
+    public final void setName(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public final String toString() {
+        return "Bookshelf [id=" + id + ", user_id=" + userId + ", "
+                + "name=" + name + "]";
+    }
+
+
+
 }
