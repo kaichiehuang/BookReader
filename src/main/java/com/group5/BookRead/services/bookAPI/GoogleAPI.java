@@ -2,32 +2,35 @@ package com.group5.BookRead.services.bookAPI;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.group5.BookRead.models.Book;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 @Service
-public class GoogleAPI implements BookAPI{
-
-    RestTemplate restTemplate;
+public class GoogleAPI implements BookAPI {
+    private RestTemplate restTemplate;
 
     @Autowired
-    public GoogleAPI (RestTemplate restTemplate) {
+    public GoogleAPI(final RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
     }
 
-    String GENERAL_KEYWORDS_SEARCH = "https://www.googleapis.com/books/v1/volumes?q=%s&key=AIzaSyBS_bQYbKIUs7hBTGYpQFtpNJI8hcG76ww";
+    final String keywordsSEARCH = "https://www.googleapis.com/books/v1/volumes?"
+            + "q=%s&key=AIzaSyBS_bQYbKIUs7hBTGYpQFtpNJI8hcG76ww";
 
+    /**
+     *  search for books whoes titles match the search key
+     * @param searchKey
+     * @return a list of BookFromAPI object
+     */
     @Override
-    public List<BookFromAPI> getBooks(String searchKey) {
+    public List<BookFromAPI> getBooks(final String searchKey) {
         String searchUrl
-                = String.format(GENERAL_KEYWORDS_SEARCH, searchKey);
+                = String.format(keywordsSEARCH, searchKey);
         ResponseEntity<String> response
                 = restTemplate.getForEntity(searchUrl, String.class);
         ObjectMapper mapper = new ObjectMapper();
@@ -44,8 +47,10 @@ public class GoogleAPI implements BookAPI{
                 String authors = parent.path("authors").toString();
                 String description = parent.path("description").textValue();
                 int page = parent.path("pageCount").asInt();
-                String imageLink = parent.path("imageLinks").path("thumbnail").textValue();
-                //System.out.printf("title: %s\nauthors:%s\npage:%d\nimageLink:%s\n\n", title, authors, page, imageLink);
+                String imageLink = parent.
+                        path("imageLinks").
+                        path("thumbnail").
+                        textValue();
                 res.add(new BookFromAPI(
                         page,
                         authors,
