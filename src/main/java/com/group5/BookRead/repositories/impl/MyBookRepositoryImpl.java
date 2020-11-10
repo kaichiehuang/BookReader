@@ -131,11 +131,7 @@ public class MyBookRepositoryImpl implements MyBookRepository {
 	}
 
 	@Override
-<<<<<<< HEAD
-	public MyBook findByUserAndBookShelfAndBookId(String username, String bookshelfName, int bookId) {
-=======
 	public MyBook findByUsernameAndBookShelfnameAndBookId(String username, String bookshelfName, int bookId) {
->>>>>>> e5b99e3816889673e979430097a6b788a6ffbb11
 		return null;
 	}
 

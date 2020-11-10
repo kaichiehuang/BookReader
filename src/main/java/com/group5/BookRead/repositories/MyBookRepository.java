@@ -21,4 +21,4 @@ public interface MyBookRepository {
 
 
     MyBook findByUsernameAndBookShelfnameAndBookId(String username, String bookshelfName, int bookId);
-}s
+}
