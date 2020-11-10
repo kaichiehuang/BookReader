@@ -99,5 +99,10 @@ public class BookshelfRepositoryImpl implements BookshelfRepository {
 				id	
 			});
 	}
-	
+
+	@Override
+	public Bookshelf findByBookshelfNameAndUsername(String bookshelfName, String username) {
+		return null;
+	}
+
 }

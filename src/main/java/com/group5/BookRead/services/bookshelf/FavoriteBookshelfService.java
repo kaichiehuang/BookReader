@@ -5,11 +5,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service(value = "favorites")
-public class FavoriteBookshelfService extends   BookshelfService{
-
-    BookshelfRepository bookshelfRepository;
+public final class FavoriteBookshelfService extends BookshelfService {
+    private BookshelfRepository bookshelfRepository;
     @Autowired
-    FavoriteBookshelfService(BookshelfRepository bookshelfRepository) {
+    FavoriteBookshelfService(final BookshelfRepository bookshelfRepository) {
         super(bookshelfRepository);
         this.bookshelfRepository = bookshelfRepository;
     }
