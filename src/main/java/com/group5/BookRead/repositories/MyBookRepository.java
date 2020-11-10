@@ -19,5 +19,6 @@ public interface MyBookRepository {
 
 	MyBook findById(int bookshelf_id, int user_id, int book_id);
 
-    MyBook findByUserAndBookShelfAndBookId(String username, String bookshelfName, int bookId);
-}
+
+    MyBook findByUsernameAndBookShelfnameAndBookId(String username, String bookshelfName, int bookId);
+}s
