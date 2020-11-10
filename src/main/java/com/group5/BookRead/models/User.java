@@ -10,7 +10,7 @@ public class User {
         super();
     }
 
-    public User(int id, String usernme, String password) {
+    public User(final int id, final String usernme, final String password) {
         super();
         this.id = id;
         this.usernme = usernme;
@@ -20,19 +20,19 @@ public class User {
     public final int getId() {
         return id;
     }
-    public final void setId(int id) {
+    public final void setId(final int id) {
         this.id = id;
     }
     public final String getUsernme() {
         return usernme;
     }
-    public final void setUsernme(String usernme) {
+    public final void setUsernme(final String usernme) {
         this.usernme = usernme;
     }
     public final String getPassword() {
         return password;
     }
-    public final void setPassword(String password) {
+    public final void setPassword(final String password) {
         this.password = password;
     }
 

@@ -23,7 +23,8 @@ public class BookshelfRepositoryImpl implements BookshelfRepository {
     class BookshelfRowMapper implements RowMapper<Bookshelf> {
 
         @Override
-        public Bookshelf mapRow(ResultSet rs, int rowNum) throws SQLException {
+        public Bookshelf mapRow(final ResultSet rs, final int rowNum)
+                throws SQLException {
             Bookshelf shelf = new Bookshelf();
             shelf.setId(rs.getInt("id"));
             shelf.setName(rs.getString("name"));
@@ -34,7 +35,7 @@ public class BookshelfRepositoryImpl implements BookshelfRepository {
     }
 
     @Override
-    public final int insert(Bookshelf shelf) throws
+    public final int insert(final Bookshelf shelf) throws
         SQLIntegrityConstraintViolationException {
         return jdbcTemplate.update("insert into Bookshelf (user_id, name) "
                 + "values(?, ?)",
@@ -42,7 +43,7 @@ public class BookshelfRepositoryImpl implements BookshelfRepository {
     }
 
     @Override
-    public final List<Bookshelf> findAllByUserId(int userId) {
+    public final List<Bookshelf> findAllByUserId(final int userId) {
         try {
             List<Bookshelf> shelfList = jdbcTemplate.query("select * "
                     + "from Bookshelf " + "where user_id = ?",
@@ -55,7 +56,8 @@ public class BookshelfRepositoryImpl implements BookshelfRepository {
     }
 
     @Override
-    public final Bookshelf findByNameAndUserId(String name, int userId) {
+    public final Bookshelf findByNameAndUserId(
+            final String name, final int userId) {
         try {
             Bookshelf shelf = jdbcTemplate.queryForObject("select * "
                     + "from Bookshelf " + "where name = ? and user_id = ?",
@@ -69,12 +71,13 @@ public class BookshelfRepositoryImpl implements BookshelfRepository {
     }
 
     @Override
-    public final int findIdByNameAndUserId(String name, int userId) {
+    public final int findIdByNameAndUserId(final String name,
+            final int userId) {
         return 0;
     }
 
     @Override
-    public final Bookshelf findById(int id) {
+    public final Bookshelf findById(final int id) {
         try {
             Bookshelf shelf = jdbcTemplate.queryForObject("select * "
                     + "from Bookshelf " + "where id = ?",
@@ -87,14 +90,14 @@ public class BookshelfRepositoryImpl implements BookshelfRepository {
     }
 
     @Override
-    public final int deleteById(int id) {
+    public final int deleteById(final int id) {
         return jdbcTemplate.update("delete from Bookshelf where id = ?",
             new Object[] {id});
     }
 
     @Override
-    public final Bookshelf findByBookshelfNameAndUsername(String bookshelfName,
-            String username) {
+    public final Bookshelf findByBookshelfNameAndUsername(
+            final String bookshelfName, final String username) {
         return null;
     }
 

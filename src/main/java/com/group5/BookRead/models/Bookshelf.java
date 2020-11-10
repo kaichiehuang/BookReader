@@ -14,7 +14,7 @@ public class Bookshelf {
 
     }
 
-    public Bookshelf(int id, int userId, String name) {
+    public Bookshelf(final int id, final int userId, final String name) {
         super();
         this.id = id;
         this.userId = userId;
@@ -25,7 +25,7 @@ public class Bookshelf {
         return id;
     }
 
-    public final void setId(int id) {
+    public final void setId(final int id) {
         this.id = id;
     }
 
@@ -33,7 +33,7 @@ public class Bookshelf {
         return userId;
     }
 
-    public final void setUserId(int userId) {
+    public final void setUserId(final int userId) {
         this.userId = userId;
     }
 
@@ -41,7 +41,7 @@ public class Bookshelf {
         return name;
     }
 
-    public final void setName(String name) {
+    public final void setName(final String name) {
         this.name = name;
     }
 
