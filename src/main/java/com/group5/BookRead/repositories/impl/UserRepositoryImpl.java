@@ -23,7 +23,7 @@ public class UserRepositoryImpl implements UserRepository {
     class UserRowMapper implements RowMapper<User> {
 
         @Override
-        public User mapRow(ResultSet rs, int rowNum)
+        public User mapRow(final ResultSet rs, final int rowNum)
                 throws SQLException {
             User user = new User();
             user.setId(rs.getInt("id"));
@@ -34,7 +34,7 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public final int insert(User user) throws
+    public final int insert(final User user) throws
         SQLIntegrityConstraintViolationException {
         return jdbcTemplate.update("insert into User (username, password) "
         + "values(?, ?)",
@@ -47,7 +47,7 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public final User findById(int id) {
+    public final User findById(final int id) {
         try {
             User user = jdbcTemplate.queryForObject(
                     "select * from User " + "where id = ?",
@@ -60,7 +60,7 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public final User findByUsername(String username) {
+    public final User findByUsername(final String username) {
         try {
             User user = jdbcTemplate.queryForObject(
                 "select * from User " + "where username = ?",
@@ -73,7 +73,7 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public final int findIdByUsername(String username) {
+    public final int findIdByUsername(final String username) {
         try {
             int id = jdbcTemplate.queryForObject("select id from User "
                     + "where username = ?",
@@ -86,7 +86,7 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public final int update(User user) {
+    public final int update(final User user) {
         return jdbcTemplate.update("update User "
                 + "set username = ?, password = ? "
                 + "where id = ?",
@@ -95,7 +95,7 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public final int deleteById(int id) {
+    public final int deleteById(final int id) {
         return jdbcTemplate.update("delete from User where id = ?",
                 new Object[] {id});
     }

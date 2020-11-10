@@ -12,7 +12,8 @@ public class Book {
         super();
     }
 
-    public Book(int id, String name, String author, int page, String summary) {
+    public Book(final int id, final String name, final String author,
+            final int page, final String summary) {
         super();
         this.id = id;
         this.name = name;
@@ -26,31 +27,31 @@ public class Book {
     public final int getId() {
         return id;
     }
-    public final void setId(int id) {
+    public final void setId(final int id) {
         this.id = id;
     }
     public final String getName() {
         return name;
     }
-    public final void setName(String name) {
+    public final void setName(final String name) {
         this.name = name;
     }
     public final String getAuthor() {
         return author;
     }
-    public final void setAuthor(String author) {
+    public final void setAuthor(final String author) {
         this.author = author;
     }
     public final int getPage() {
         return page;
     }
-    public final void setPage(int page) {
+    public final void setPage(final int page) {
         this.page = page;
     }
     public final String getSummary() {
         return summary;
     }
-    public final void setSummary(String summary) {
+    public final void setSummary(final String summary) {
         this.summary = summary;
     }
 

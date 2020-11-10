@@ -23,7 +23,8 @@ public class MyBookRepositoryImpl implements MyBookRepository {
     class MyBookRowMapper implements RowMapper<MyBook> {
 
         @Override
-        public MyBook mapRow(ResultSet rs, int rowNum) throws SQLException {
+        public MyBook mapRow(final ResultSet rs, final int rowNum)
+                throws SQLException {
             MyBook mb = new MyBook();
             mb.setId(rs.getInt("id"));
             mb.setBookId(rs.getInt("book_id"));
@@ -36,7 +37,7 @@ public class MyBookRepositoryImpl implements MyBookRepository {
     }
 
     @Override
-    public final int insert(MyBook mybook) throws
+    public final int insert(final MyBook mybook) throws
         SQLIntegrityConstraintViolationException {
         return jdbcTemplate.update("insert into MyBook (book_id, "
                 + "user_id, bookshelf_id, progress) " + "values(?, ?, ?, ?)",
@@ -46,7 +47,7 @@ public class MyBookRepositoryImpl implements MyBookRepository {
     }
 
     @Override
-    public final List<MyBook> findAllByUserId(int id) {
+    public final List<MyBook> findAllByUserId(final int id) {
         try {
             List<MyBook> myBookList = jdbcTemplate.query(
                     "select * from MyBook " + "where user_id = ?",
@@ -60,7 +61,7 @@ public class MyBookRepositoryImpl implements MyBookRepository {
 
     @Override
     public final List<MyBook> findAllByUserIdAndShelfId(
-            int userId, int bookshelfId) {
+            final int userId, final int bookshelfId) {
         try {
             List<MyBook> myBookList = jdbcTemplate.query(
                     "select * from MyBook " + "where user_id = ?"
@@ -74,7 +75,7 @@ public class MyBookRepositoryImpl implements MyBookRepository {
     }
 
     @Override
-    public final List<MyBook> findAllByBookId(int id) {
+    public final List<MyBook> findAllByBookId(final int id) {
         try {
             List<MyBook> myBookList = jdbcTemplate.query(
                     "select * from MyBook " + "where book_id = ?",
@@ -87,7 +88,8 @@ public class MyBookRepositoryImpl implements MyBookRepository {
     }
 
     @Override
-    public final int findIdByAllIds(int bookId, int userId, int bookshelfId) {
+    public final int findIdByAllIds(final int bookId,
+            final int userId, final int bookshelfId) {
         try {
             int id = jdbcTemplate.queryForObject("select id from MyBook "
                     + "where book_id = ? and user_id = ? and bookshelf_id = ?",
@@ -101,7 +103,7 @@ public class MyBookRepositoryImpl implements MyBookRepository {
     }
 
     @Override
-    public final int update(MyBook mb) {
+    public final int update(final MyBook mb) {
         return jdbcTemplate.update("update MyBook " + "set book_id = ?,"
                 + "user_id = ?, bookshelf_id = ?, progress = ? "
                 + "where id = ?",
@@ -112,24 +114,26 @@ public class MyBookRepositoryImpl implements MyBookRepository {
     }
 
     @Override
-    public final int deleteById(int id) {
+    public final int deleteById(final int id) {
         return jdbcTemplate.update("delete from MyBook where id = ?",
                 new Object[] {id});
     }
 
     @Override
-    public final MyBook findById(int id) {
+    public final MyBook findById(final int id) {
         return null;
     }
 
     @Override
-    public final MyBook findById(int bookshelfId, int userId, int bookId) {
+    public final MyBook findById(final int bookshelfId,
+            final int userId, final int bookId) {
         return null;
     }
 
     @Override
     public final MyBook findByUsernameAndBookShelfnameAndBookId(
-            String username, String bookshelfName, String bookId) {
+            final String username, final String bookshelfName,
+            final String bookId) {
         return null;
     }
 
