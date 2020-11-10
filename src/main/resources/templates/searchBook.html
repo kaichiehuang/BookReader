@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Search Book</title>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <div th:replace="fragments/common :: include"></div>
+    <div th:replace="fragments/header :: header-css"></div>
+</head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+<div class = "search">
+    <h1> Search </h1>
+    <form class="form-inline my-2 my-lg-0" data-th-action="@{/search}" method="get">
+        <input class="form-control mr-sm-2" name="term" type="text" id = "search_input" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-success my-2 my-sm-0" id= "searchButton" type="submit">Search</button>
+    </form>
+    <table>
+        <thead>
+        <tr>
+            <th> Title </th>
+            <th> Author </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:if="${books.empty}">
+            <td colspan="2"> No Books Available </td>
+        </tr>
+        <tr th:each="book : ${books}">
+            <td><span th:text="${book.title}"> Title </span></td>
+            <td><span th:text="${book.authors}"> Author </span></td>
+        </tr>
+        </tbody>
+    </table>
+
+</div>
+</body>
+<script src="/js/search.js"></script>
+
+</html>
