@@ -129,7 +129,7 @@ public class MyBookRepositoryImpl implements MyBookRepository {
 
     @Override
     public final MyBook findByUsernameAndBookShelfnameAndBookId(
-            String username, String bookshelfName, String bookId) {
+            String username, String bookshelfName, int bookId) {
         return null;
     }
 

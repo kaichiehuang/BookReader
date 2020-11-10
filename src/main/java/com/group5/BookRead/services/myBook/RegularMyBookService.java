@@ -43,7 +43,7 @@ public final class RegularMyBookService implements  MyBookService {
     public MyBook getMyBook(final String user,
                             final String bookshelf,
                             final int bookId) {
-        return myBookRepository.findByUserAndBookShelfAndBookId(
+        return myBookRepository.findByUsernameAndBookShelfnameAndBookId(
                 user,
                 bookshelf,
                 bookId);

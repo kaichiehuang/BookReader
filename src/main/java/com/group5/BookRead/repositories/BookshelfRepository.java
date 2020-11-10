@@ -5,7 +5,6 @@ import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 import org.springframework.stereotype.Repository;
 
-@Repository
 public interface BookshelfRepository {
 
     int insert(Bookshelf shelf) throws SQLIntegrityConstraintViolationException;
