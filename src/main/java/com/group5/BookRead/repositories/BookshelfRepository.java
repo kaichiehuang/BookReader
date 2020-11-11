@@ -3,7 +3,6 @@ package com.group5.BookRead.repositories;
 import com.group5.BookRead.models.Bookshelf;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
-import org.springframework.stereotype.Repository;
 
 public interface BookshelfRepository {
 

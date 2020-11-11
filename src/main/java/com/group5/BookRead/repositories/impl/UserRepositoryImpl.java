@@ -60,7 +60,7 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public final User findByUsername(String username) {
+    public User findByUsername(String username) {
         try {
             System.out.println("in findByUserName try");
             User user = jdbcTemplate.queryForObject(
@@ -72,6 +72,8 @@ public class UserRepositoryImpl implements UserRepository {
         } catch (EmptyResultDataAccessException e) {
             System.out.println("in findByUserName catch");
             return null;
+        } catch (Exception e) {
+            throw e;
         }
     }
 
