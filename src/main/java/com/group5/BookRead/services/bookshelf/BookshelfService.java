@@ -1,6 +1,9 @@
 package com.group5.BookRead.services.bookshelf;
+import com.group5.BookRead.models.Book;
 import com.group5.BookRead.models.Bookshelf;
 import com.group5.BookRead.repositories.BookshelfRepository;
+
+import java.util.List;
 
 public abstract class BookshelfService {
 
@@ -21,5 +24,25 @@ public abstract class BookshelfService {
                 user);
     }
 
+    /**
+     * Find the Bookshelf object based onthe type and the onwer
+     * @param bookshelf
+     * @param user
+     * @return
+     */
+    public Bookshelf findBookshelf(final String bookshelf, final int user) {
+        return bookshelfRepository.findByBookshelfNameAndUserId(
+                bookshelf,
+                user);
+    }
+
+    /**
+     *  find all bookshelves of an given user
+     * @param userId
+     * @return a list of bookshelves
+     */
+    public List<Bookshelf> findBookshelves(final int userId) {
+        return bookshelfRepository.findAllByUserId(userId);
+    }
 }
 
