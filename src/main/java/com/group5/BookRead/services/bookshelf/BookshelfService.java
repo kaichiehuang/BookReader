@@ -24,6 +24,12 @@ public abstract class BookshelfService {
                 user);
     }
 
+    /**
+     * Find the Bookshelf object based onthe type and the onwer
+     * @param bookshelf
+     * @param user
+     * @return
+     */
     public Bookshelf findBookshelf(final String bookshelf, final int user) {
         return bookshelfRepository.findByBookshelfNameAndUserId(
                 bookshelf,

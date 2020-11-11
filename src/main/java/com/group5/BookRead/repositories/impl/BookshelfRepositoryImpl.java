@@ -101,4 +101,16 @@ public class BookshelfRepositoryImpl implements BookshelfRepository {
         return null;
     }
 
+    /**
+     *  find bookshelf
+     * @param bookshelf
+     * @param user
+     * @return
+     */
+    @Override
+    public Bookshelf findByBookshelfNameAndUserId(final String bookshelf,
+                                                  final int user) {
+        return null;
+    }
+
 }
