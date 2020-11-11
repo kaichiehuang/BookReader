@@ -1,43 +1,53 @@
 package com.group5.BookRead.services.book.myBook;
 
-import com.group5.BookRead.models.Book;
+
 import com.group5.BookRead.models.Bookshelf;
 import com.group5.BookRead.models.MyBook;
-import com.group5.BookRead.repositories.BookRepository;
-import com.group5.BookRead.repositories.BookshelfRepository;
 import com.group5.BookRead.repositories.MyBookRepository;
-import com.group5.BookRead.services.BookServiceSelector;
 import com.group5.BookRead.services.BookshelfServiceSelector;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 import java.sql.SQLIntegrityConstraintViolationException;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
+@Component
 public final class RegularBookHelperService implements BookHelperService {
 
     private MyBookRepository myBookRepository;
     private BookshelfServiceSelector bookshelfServiceSelector;
 
     @Autowired
-    public RegularBookHelperService(final BookRepository bookRepository,
+    public RegularBookHelperService(final MyBookRepository mybookRepository,
                               final  BookshelfServiceSelector bookshelfServiceSelector) {
-        this.bookRepository = bookRepository;
+        this.myBookRepository = mybookRepository;
         this.bookshelfServiceSelector = bookshelfServiceSelector;
     }
 
-    public MyBook removeFromShelf(final int myBookId) {
-        return null;
-    }
 
-    public MyBook addToShelf(final MyBook book, final int bookshelfId) {
-        return null;
+    public Bookshelf getShelf(final String bookshelf, final int userId) {
+        return bookshelfServiceSelector.getBookShelf(userId, bookshelf);
     }
 
     @Override
-    public List<Book> getBooks(String bookshelf, int userId) {
-        return null;
+    public boolean remove(final int bookId,
+                          final int userId,
+                          final String bookshelf) {
+        Bookshelf shelf = bookshelfServiceSelector.getBookShelf(userId,
+                bookshelf);
+        int status = myBookRepository.deleteByUserIdAndBookshelfIdAndBookId(
+                userId,
+                shelf.getId(),
+                bookId);
+        return  status == 1;
+    }
+
+    @Override
+    public boolean addToShelf(final MyBook book) {
+        try {
+            return myBookRepository.insert(book) == 1;
+        } catch (SQLIntegrityConstraintViolationException e) {
+            return false;
+        }
     }
 
     /**
@@ -47,7 +57,8 @@ public final class RegularBookHelperService implements BookHelperService {
      * @return
      */
     @Override
-    public List<MyBook> getMyBooks(final String bookshelfName, final int userId) {
+    public List<MyBook> getMyBooks(final String bookshelfName,
+                                   final int userId) {
         Bookshelf bookshelf = bookshelfServiceSelector.getBookShelf(
                 userId,
                 bookshelfName);
@@ -56,21 +67,8 @@ public final class RegularBookHelperService implements BookHelperService {
                 bookshelf.getId());
     }
 
-    /**
-     * Get all books from all bookshelf, used for initial rendering
-     * @param userId
-     * @return
-     */
-    public HashMap<String, List<Book>> getBooksOnBookshelves(final int userId) {
-        List<Bookshelf> bookshelves =bookshelfServiceSelector.getBookShelves(userId);
-        HashMap<String, List<Book>> map = new HashMap<>();
-        for (Bookshelf bookshelf : bookshelves) {
-            map.put(bookshelf.getName(),
-                    getBooks(bookshelf.getName(), userId));
-        }
-        return map;
-    }
 
+    @Override
     public MyBook getMyBook(final String user,
                             final String bookshelf,
                             final int bookId) {
@@ -78,6 +76,11 @@ public final class RegularBookHelperService implements BookHelperService {
                 user,
                 bookshelf,
                 bookId);
+    }
+
+    @Override
+    public List<Bookshelf> getBookShelves(final int userId) {
+        return bookshelfServiceSelector.getBookShelves(userId);
     }
 
 

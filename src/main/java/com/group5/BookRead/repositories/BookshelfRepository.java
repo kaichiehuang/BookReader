@@ -1,21 +1,25 @@
 package com.group5.BookRead.repositories;
 
+import com.group5.BookRead.models.Bookshelf;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
-
-import com.group5.BookRead.models.Bookshelf;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public interface BookshelfRepository {
 
-	int insert(Bookshelf shelf) throws SQLIntegrityConstraintViolationException;
-	List<Bookshelf> findAllByUserId(int user_id);
-	Bookshelf findByNameAndUserId(String name, int user_id);
-	int findIdByNameAndUserId(String name, int user_id);
-	Bookshelf findById(int id);
-	int deleteById(int id);
-	Bookshelf findByBookshelfNameAndUsername(String bookshelfName, String username);
+    int insert(Bookshelf shelf) throws SQLIntegrityConstraintViolationException;
 
-    Bookshelf findByBookshelfNameAndUserId(String bookshelf, int user);
+    List<Bookshelf> findAllByUserId(int userId);
+
+    Bookshelf findByNameAndUserId(String name, int userId);
+
+    int findIdByNameAndUserId(String name, int userId);
+
+    Bookshelf findById(int id);
+
+    int deleteById(int id);
+
+    Bookshelf findByBookshelfNameAndUsername(String shelfName, String username);
+
 }

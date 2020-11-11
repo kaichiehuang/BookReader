@@ -1,12 +1,10 @@
 package com.group5.BookRead.services;
 
-import com.group5.BookRead.models.Book;
 import com.group5.BookRead.models.Bookshelf;
 import com.group5.BookRead.services.bookshelf.BookshelfService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
-import java.util.HashMap;
 import java.util.List;
 
 @Component

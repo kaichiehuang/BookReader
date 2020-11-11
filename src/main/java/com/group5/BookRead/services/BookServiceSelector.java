@@ -1,7 +1,6 @@
 package com.group5.BookRead.services;
 
 import com.group5.BookRead.models.Book;
-import com.group5.BookRead.models.MyBook;
 import com.group5.BookRead.services.book.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -22,17 +21,37 @@ public class BookServiceSelector {
      * @param userId
      * @return
      */
-    public Book removeBook(final int bookId, final String bookshelf, final int userId) {
-        return null;
+    public Book removeBook(final int bookId,
+                           final String bookshelf,
+                           final int userId) {
+        Book book = bookService.remove(bookId, bookshelf, userId);
+        return book;
     }
 
     /**
-     *  add a book
-     * @param myBook
-     * @param bookshelfId
+     * add a book
+     * @param book
+     * @param bookshelf
+     * @param userId
      * @return
      */
-    public MyBook addBookToShelf(final MyBook myBook, final int bookshelfId) {
+    public Book addBookToShelf(final Book book,
+                               final String bookshelf,
+                               final int userId) {
+        // check if book exists in database
+        Book curBook = bookService.getBook(book.getId());
+        if (curBook == null
+                || (curBook.getAuthor().equals(book.getAuthor())
+                    && curBook.getName().equals(book.getName()))) {
+            // the book does not exist
+            curBook = bookService.chooseBook(book);
+        }
+
+        // The curBook is the current book
+        Book addedBook = bookService.addBookToShelf(curBook, bookshelf, userId);
+        if (addedBook != null) {
+            return addedBook;
+        }
         return null;
     }
 
@@ -43,7 +62,7 @@ public class BookServiceSelector {
      * @return
      */
     public HashMap<String, List<Book>> getBooksFromShelves(final int userId) {
-        return null;
+        return bookService.getBooksOnBookshelves(userId);
     }
 
     /**
@@ -53,7 +72,7 @@ public class BookServiceSelector {
      * @return
      */
     public List<Book> getBooks(final String bookshelfType, final int userId) {
-        return null;
+        return bookService.getBooks(bookshelfType, userId);
     }
 
 }

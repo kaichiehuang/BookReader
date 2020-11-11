@@ -4,8 +4,6 @@ import com.group5.BookRead.models.Book;
 import com.group5.BookRead.models.Bookshelf;
 import com.group5.BookRead.models.MyBook;
 import com.group5.BookRead.repositories.BookRepository;
-import com.group5.BookRead.services.BookshelfServiceSelector;
-import com.group5.BookRead.services.BookServiceSelector;
 import com.group5.BookRead.services.book.myBook.BookHelperService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,6 +19,7 @@ public final class RegularBookService implements BookService {
     private BookRepository bookRepository;
     private BookHelperService bookHelperService;
 
+
     @Autowired
     public RegularBookService(final BookRepository bookRepository,
                               final BookHelperService bookHelperService) {
@@ -30,9 +29,11 @@ public final class RegularBookService implements BookService {
 
 
     @Override
-    public Book remove(final int bookId) {
+    public Book remove(final int bookId,
+                       final String bookshelf,
+                       final int userId) {
         Book book = getBook(bookId);
-        if (bookRepository.deleteById(bookId) == 1) {
+        if (bookHelperService.remove(userId, bookId, bookshelf)) {
             return book;
         }
         return null;
@@ -56,24 +57,40 @@ public final class RegularBookService implements BookService {
      * @return
      */
     @Override
-    public Book add(final Book book,
+    public Book addBookToShelf(final Book book,
                     final String bookshelfName,
                     final int userId) {
-        try {
 
+        Bookshelf bookShelf = bookHelperService.getShelf(
+                bookshelfName,
+                userId);
+
+        // Create a new myBook as we are changing the bookshelf
+        MyBook myBook = new MyBook(
+                book.getId(),
+                userId,
+                bookShelf.getId(),
+                0);
+
+        // add myBook object to db
+        if (bookHelperService.addToShelf(myBook)) {
+            return book;
+        }
+        return null;
+    }
+
+    /**
+     *  add the book to the Book repository
+     * @param book
+     * @return
+     */
+    @Override
+    public Book chooseBook(final Book book) {
+        try {
             if (bookRepository.insert(book) == 1) {
-                Book stored = bookRepository.findByNameAndAuthor(
+                return bookRepository.findByNameAndAuthor(
                         book.getName(),
                         book.getAuthor());
-                Bookshelf bookShelf = bookshelfServiceSelector.getBookShelf(
-                        userId,
-                        bookshelfName);
-                MyBook myBook = new MyBook(stored.getId(),
-                        userId,
-                        bookShelf.getId(),
-                        0);
-                bookServiceSelector.addBookToShelf(myBook, bookShelf.getId());
-                return book;
             }
             return null;
         } catch (SQLIntegrityConstraintViolationException exception) {
@@ -90,15 +107,16 @@ public final class RegularBookService implements BookService {
      */
     @Override
     public List<Book> getBooks(final String bookshelfName, final int userId) {
-        List<MyBook> myBooks = bookServiceSelector.getAllBooks(
+        List<MyBook> myBooks = bookHelperService.getMyBooks(
                 bookshelfName,
                 userId);
         List<Book> books = new ArrayList<>();
         for (MyBook mybook : myBooks) {
-            books.add(bookRepository.findById(mybook.getBook_id()));
+            books.add(bookRepository.findById(mybook.getBookId()));
         }
         return books;
     }
+
 
     /**
      * Get all books from all bookshelf, used for initial rendering
@@ -106,7 +124,7 @@ public final class RegularBookService implements BookService {
      * @return
      */
     public HashMap<String, List<Book>> getBooksOnBookshelves(final int userId) {
-        List<Bookshelf> bookshelves = bookshelfRepository.findAllByUserId(userId);
+        List<Bookshelf> bookshelves = bookHelperService.getBookShelves(userId);
         HashMap<String, List<Book>> map = new HashMap<>();
         for (Bookshelf bookshelf : bookshelves) {
             map.put(bookshelf.getName(),
