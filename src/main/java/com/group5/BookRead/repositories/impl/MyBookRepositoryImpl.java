@@ -199,6 +199,7 @@ public class MyBookRepositoryImpl implements MyBookRepository {
      * @return MyBook object
      */
     @Override
+
     public MyBook findByUsernameAndBookShelfnameAndBookId(
             final String username,
             final String bookshelfName,

@@ -2,9 +2,10 @@ package com.group5.BookRead.services.user;
 
 import com.group5.BookRead.models.User;
 import com.group5.BookRead.repositories.UserRepository;
-import com.group5.BookRead.services.BookServiceSelector;
 import com.group5.BookRead.services.BookshelfServiceSelector;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.sql.SQLIntegrityConstraintViolationException;
@@ -34,7 +35,7 @@ public class RegularUserService implements UserService {
         String[] bookshelves = {"favorites", "recommended", "reading", "read"};
         try {
             userRepository.insert(user);
-            User storedUser = userRepository.findByUsername(user.getUsernme());
+            User storedUser = userRepository.findByUsername(user.getUsername());
             for (String bookshelf : bookshelves) {
                 bookshelfServiceSelector.create(bookshelf, storedUser.getId());
             }
@@ -51,8 +52,13 @@ public class RegularUserService implements UserService {
      * @return user
      */
     @Override
-    public User findByUsername(final String username) {
-        return null;
+    public User findByUsername(final String username)
+            throws UsernameNotFoundException {
+        User user = userRepository.findByUsername(username);
+        if (user == null) {
+            throw new UsernameNotFoundException(username);
+        }
+        return user;
     }
 
     /**
