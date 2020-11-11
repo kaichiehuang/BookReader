@@ -23,7 +23,7 @@ public class UserRepositoryImpl implements UserRepository {
     class UserRowMapper implements RowMapper<User> {
 
         @Override
-        public User mapRow(ResultSet rs, int rowNum)
+        public User mapRow(final ResultSet rs, final int rowNum)
                 throws SQLException {
             User user = new User();
             user.setId(rs.getInt("id"));
@@ -33,19 +33,31 @@ public class UserRepositoryImpl implements UserRepository {
         }
     }
 
+    /**  insert user
+     * @param user
+     * @return status code
+     */
     @Override
     public int insert(User user) throws
+
         SQLIntegrityConstraintViolationException {
         return jdbcTemplate.update("insert into User (username, password) "
         + "values(?, ?)",
             new Object[] {user.getUsername(), user.getPassword()});
     }
 
+    /**  find all user
+     * @return userList
+     */
     @Override
     public List<User> findAll() {
         return jdbcTemplate.query("select * from User", new UserRowMapper());
     }
 
+    /**  find user by id
+     * @param id
+     * @return user
+     */
     @Override
     public User findById(int id) {
         try {
@@ -59,6 +71,10 @@ public class UserRepositoryImpl implements UserRepository {
         }
     }
 
+    /**  find user by username
+     * @param username
+     * @return user
+     */
     @Override
     public User findByUsername(String username) {
         try {
@@ -74,6 +90,10 @@ public class UserRepositoryImpl implements UserRepository {
         }
     }
 
+    /**  find user id by username
+     * @param username
+     * @return id
+     */
     @Override
     public int findIdByUsername(String username) {
         try {
@@ -87,6 +107,10 @@ public class UserRepositoryImpl implements UserRepository {
         }
     }
 
+    /**  update user
+     * @param user
+     * @return status code
+     */
     @Override
     public int update(User user) {
         return jdbcTemplate.update("update User "
@@ -96,6 +120,10 @@ public class UserRepositoryImpl implements UserRepository {
                         user.getId()});
     }
 
+    /**  delete user by id
+     * @param id
+     * @return status code
+     */
     @Override
     public int deleteById(int id) {
         return jdbcTemplate.update("delete from User where id = ?",

@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class SignUpSignInController {
+public class UserController {
 
     @Autowired
     private AuthenticationManager authenticationManager;
@@ -33,7 +33,7 @@ public class SignUpSignInController {
     @Autowired
     private UserService userService;
 
-    @PostMapping("/authenticate")
+    @PostMapping("/login")
     public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthenticationRequest authenticationRequest) throws Exception {
 
         try {
