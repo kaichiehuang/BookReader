@@ -23,6 +23,12 @@ public class BookHTMLController extends BookController {
      * @return value to be outputed
      * @since 1.0
      */
+    @GetMapping("/")
+    public String getLoginPage() {
+        return "login";
+    }
+
+
     @GetMapping("/book/shelf")
     public String getBookBookshelf(@RequestParam(name = "shelf",
         required = true, defaultValue = "All") final String shelf,
