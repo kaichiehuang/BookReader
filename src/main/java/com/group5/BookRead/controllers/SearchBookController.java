@@ -4,6 +4,8 @@ import java.util.List;
 import com.group5.BookRead.services.ExternalBookAPI;
 import com.group5.BookRead.services.bookAPI.BookFromAPI;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,6 +26,8 @@ public class SearchBookController {
     @GetMapping("/search")
     public String search(@RequestParam("term") final String query,
                          final Model model) {
+//        SecurityContext context = SecurityContextHolder.getContext();
+//        context.getAuthentication().getPrincipal();
         List<BookFromAPI> foundBooks = externalBookAPI.searchBook(query);
         model.addAttribute("books", foundBooks);
         return "searchBook";

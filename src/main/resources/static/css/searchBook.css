@@ -1,0 +1,16 @@
+.search{
+    padding: 25px;
+}
+.input-group{
+    padding-bottom:10px;
+}
+#search_input_main{
+    font-size:2em;
+    height: 2em;
+}
+th {
+    font-size: 14px;
+}
+td {
+    font-size: 14px;
+}
