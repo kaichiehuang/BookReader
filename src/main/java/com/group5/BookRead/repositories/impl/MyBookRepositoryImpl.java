@@ -138,20 +138,34 @@ public class MyBookRepositoryImpl implements MyBookRepository {
         return null;
     }
 
+    /**
+     * find book by username, bookshelf, and bookId
+     * @param username
+     * @param bookshelfName
+     * @param bookId
+     * @return MyBook object
+     */
     @Override
     public MyBook findByUsernameAndBookShelfnameAndBookId(
             final String username,
             final String bookshelfName,
             final int bookId) {
-		return null;
-	}
+        return null;
+    }
 
+    /**
+     * delete book by userId, bookshelf, and bookId
+     * @param userId
+     * @param bookshelfName
+     * @param bookId
+     * @return
+     */
     @Override
-	public int deleteByUserIdAndBookshelfIdAndBookId(
-			final int userId,
-			final int id,
-			final int bookId) {
-		return 0;
-	}
+    public int deleteByUserIdAndBookshelfIdAndBookId(
+            final int userId,
+            final int id,
+            final int bookId) {
+        return 0;
+    }
 
 }

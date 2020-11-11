@@ -18,7 +18,7 @@ public final class RegularBookHelperService implements BookHelperService {
 
     @Autowired
     public RegularBookHelperService(final MyBookRepository mybookRepository,
-                              final  BookshelfServiceSelector bookshelfServiceSelector) {
+                    final  BookshelfServiceSelector bookshelfServiceSelector) {
         this.myBookRepository = mybookRepository;
         this.bookshelfServiceSelector = bookshelfServiceSelector;
     }

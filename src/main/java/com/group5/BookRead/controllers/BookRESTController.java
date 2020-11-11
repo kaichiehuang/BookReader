@@ -27,17 +27,19 @@ public class BookRESTController extends BookController {
         @RequestBody final Map<String, String> json,
         @PathVariable final String dstShelf,
         final HttpServletResponse response) {
-        int bookId = Integer.parseInt(json.get("bookId"));
-        String srcShelf = json.get("srcShelf");
+        try {
+            int bookId = Integer.parseInt(json.get("bookId"));
+            String srcShelf = json.get("srcShelf");
 
-        // MockupBook book = BookBaseController.removeMockupBook(bookId, srcShelf);
-        // BookBaseController.bookshelfs.get(dstShelf).add(book);
+            Book book = bookServiceSelector.removeBook(bookId, srcShelf,
+                DUMMYID);
+            bookServiceSelector.addBookToShelf(book, dstShelf, DUMMYID);
 
-        Book book = bookshelfServiceSelector.deleteBook(srcShelf, bookId, DUMMYID);
-        bookshelfServiceSelector.addBook(dstShelf, book, DUMMYID);
+            response.setStatus(HttpServletResponse.SC_OK);
 
-        response.setStatus(HttpServletResponse.SC_OK);
-
-        return "{\"msg\":\"success\"}";
+            return "{\"msg\":\"success\"}";
+        } catch (Exception e) {
+            throw e;
+        }
     }
 }

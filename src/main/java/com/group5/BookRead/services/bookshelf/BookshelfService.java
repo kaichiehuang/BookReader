@@ -1,5 +1,4 @@
 package com.group5.BookRead.services.bookshelf;
-import com.group5.BookRead.models.Book;
 import com.group5.BookRead.models.Bookshelf;
 import com.group5.BookRead.repositories.BookshelfRepository;
 

@@ -5,8 +5,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.Map;
+import java.util.List;
 
-// import com.group5.BookRead.services.BookService;
+import com.group5.BookRead.models.Book;
 
 @Controller
 public class BookHTMLController extends BookController {
@@ -22,11 +24,12 @@ public class BookHTMLController extends BookController {
      * @since 1.0
      */
     @GetMapping("/book/shelf")
-    public String getBookBookshelf(@RequestParam(name = "shelf", required = true,
-        defaultValue = "All") final String shelf, final Model model) {
-        // TODO: based on the implementation of bookshelf service
-        Map<String, Book> bookshelfs = bookshelfServiceSelector.findAll(type);
-        // List<MockupBook> books = get("Read");
+    public String getBookBookshelf(@RequestParam(name = "shelf",
+        required = true, defaultValue = "All") final String shelf,
+        final Model model) {
+
+        Map<String, List<Book>> bookshelfs =
+            bookServiceSelector.getBooksFromShelves(DUMMYID);
         model.addAttribute("bookshelfs", bookshelfs);
         return "bookshelf";
     }

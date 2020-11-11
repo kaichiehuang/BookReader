@@ -1,11 +1,16 @@
 package com.group5.BookRead.controllers;
 
+import com.group5.BookRead.services.BookServiceSelector;
 import com.group5.BookRead.services.BookshelfServiceSelector;
 
 abstract class BookController {
 
-    BookshelfServiceSelector bookshelfServiceSelector = new BookshelfServiceSelector();
-    public int DUMMYID = 1;
+    BookshelfServiceSelector bookshelfServiceSelector
+        = new BookshelfServiceSelector();
+
+    BookServiceSelector bookServiceSelector = new BookServiceSelector();
+
+    public static final int DUMMYID = 1;
 
     // public static final String DUMMYSUMM = "DUMMYSUMM";
     // public static final String DUMMYTITLE = "test";
@@ -46,7 +51,8 @@ abstract class BookController {
 
     //     for (int i = 1; i < DUMMYTOTALBOOK; i++) {
     //         books.add(new MockupBook(
-    //             DUMMYTITLE + i, DUMMYAUTHOR + i, DUMMYPAGE, DUMMYSUMM + 1, i));
+    //             DUMMYTITLE + i, DUMMYAUTHOR + i,
+    //             DUMMYPAGE, DUMMYSUMM + 1, i));
     //     }
 
     //     List<MockupBook> books2 = new ArrayList<MockupBook>(books);
@@ -59,7 +65,8 @@ abstract class BookController {
     //     BookBaseController.bookshelfs.put("Favorites", books4);
     // }
 
-    // public static MockupBook removeMockupBook(final int id, final String type) {
+    // public static MockupBook removeMockupBook(final int id,
+    //    final String type) {
     //     for (MockupBook book : bookshelfs.get(type)) {
     //         if (book.id == id) {
     //             bookshelfs.get(type).remove(book);

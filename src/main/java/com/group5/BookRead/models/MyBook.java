@@ -9,15 +9,15 @@ public class MyBook {
     private double progress = 0;
 
     public MyBook() {
-    	super();
+        super();
     }
 
     public MyBook(
-    		final int id,
-			final int bookId,
-			final int uId,
-			final int shelfId,
-			final double progress) {
+            final int id,
+            final int bookId,
+            final int uId,
+            final int shelfId,
+            final double progress) {
         super();
         this.id = id;
         this.bookId = bookId;
