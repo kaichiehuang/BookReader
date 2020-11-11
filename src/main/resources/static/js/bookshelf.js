@@ -7,7 +7,7 @@ $(function() {
             srcShelf = $(this).parents('.bookshelf').find('.heading').text();
             
         },
-        stack: ".bookshelf #book"
+        stack: ".bookshelf #book",
     });
 
     $(".bookshelf").droppable({ 

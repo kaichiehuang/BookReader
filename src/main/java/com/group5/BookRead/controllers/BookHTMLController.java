@@ -4,12 +4,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-//import org.springframework.beans.factory.annotation.Autowired;
+
 
 // import com.group5.BookRead.services.BookService;
 
 @Controller
-public class BookHTMLController extends BookBaseController {
+public class BookHTMLController extends BookController {
 
     // // @Autowired
     // private BookService bookshelfService;
@@ -22,12 +22,12 @@ public class BookHTMLController extends BookBaseController {
      * @since 1.0
      */
     @GetMapping("/book/shelf")
-    public String bookshelf(@RequestParam(name = "shelf", required = true,
+    public String getBookBookshelf(@RequestParam(name = "shelf", required = true,
         defaultValue = "All") final String shelf, final Model model) {
         // TODO: based on the implementation of bookshelf service
-        //Map<String, Book> bookshelfs = bookshelfService.findAll(type);
+        Map<String, Book> bookshelfs = bookshelfServiceSelector.findAll(type);
         // List<MockupBook> books = get("Read");
-        model.addAttribute("bookshelfs", BookBaseController.bookshelfs);
+        model.addAttribute("bookshelfs", bookshelfs);
         return "bookshelf";
     }
 }
