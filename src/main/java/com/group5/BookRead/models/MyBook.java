@@ -8,9 +8,7 @@ public class MyBook {
     private int bookshelfId;
     private double progress = 0;
 
-    public MyBook() {
-        super();
-    }
+    public MyBook() {}
 
     public MyBook(
             final int id,
@@ -18,14 +16,12 @@ public class MyBook {
             final int uId,
             final int shelfId,
             final double progress) {
-        super();
         this.id = id;
         this.bookId = bookId;
         this.userId = uId;
         this.bookshelfId = shelfId;
         this.progress = progress;
     }
-
     /*
         new constructor
      */
@@ -33,41 +29,75 @@ public class MyBook {
                   final int userId,
                   final int bookshelfId,
                   final double progress) {
+        this.bookId = bookId;
+        this.userId = userId;
+        this.bookshelfId = bookshelfId;
+        this.progress = progress;
     }
 
     public final int getId() {
         return id;
     }
-    public final void setId(final int id) {
+    /**  set mybook id
+     * @param id
+     */
+    public void setId(final int id) {
         this.id = id;
     }
-    public final int getBookId() {
+    /**  get mybook's bookId
+     * @return id
+     */
+    public int getBookId() {
         return bookId;
     }
-    public final void setBookId(final int bookId) {
+    /**  set mybook's bookId
+     * @param bookId
+     */
+    public void setBookId(final int bookId) {
         this.bookId = bookId;
     }
-    public final int getUserId() {
+    /**  get mybook's userId
+     * @return userId
+     */
+    public int getUserId() {
         return userId;
     }
-    public final void setUserId(final int userId) {
+    /**  set mybook's userId
+     * @param bookId
+     */
+    public void setUserId(final int userId) {
         this.userId = userId;
     }
-    public final int getBookshelfId() {
+    /**  get mybook's bookshelfId
+     * @return bookshelfId
+     */
+    public int getBookshelfId() {
         return bookshelfId;
     }
-    public final void setBookshelfId(final int bookshelfId) {
+    /**  set mybook's userId
+     * @param bookId
+     */
+    public void setBookshelfId(final int bookshelfId) {
         this.bookshelfId = bookshelfId;
     }
-    public final double getProgress() {
+    /**  get mybook's progress
+     * @return progress
+     */
+    public double getProgress() {
         return progress;
     }
-    public final void setProgress(final double progress) {
+    /**  set mybook's progress
+     * @param progress
+     */
+    public void setProgress(final double progress) {
         this.progress = progress;
     }
 
+    /**  serialize mybook to string
+     * @return string
+     */
     @Override
-    public final String toString() {
+    public String toString() {
         return "MyBook [id=" + id + ", bookId=" + bookId
                 + ", userId=" + userId + ", bookshelfId="
                 + bookshelfId + ", progress=" + progress + "]";

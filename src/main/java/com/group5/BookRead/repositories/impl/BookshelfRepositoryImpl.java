@@ -34,6 +34,10 @@ public class BookshelfRepositoryImpl implements BookshelfRepository {
 
     }
 
+    /**  insert bookshelf
+     * @param shelf
+     * @return status code
+     */
     @Override
     public int insert(final Bookshelf shelf) throws
         SQLIntegrityConstraintViolationException {
@@ -42,6 +46,10 @@ public class BookshelfRepositoryImpl implements BookshelfRepository {
                 new Object[] {shelf.getUserId(), shelf.getName()});
     }
 
+    /**  find all bookshelves of a user
+     * @param userId
+     * @return bookshelfList
+     */
     @Override
     public List<Bookshelf> findAllByUserId(final int userId) {
         try {
@@ -56,6 +64,11 @@ public class BookshelfRepositoryImpl implements BookshelfRepository {
         }
     }
 
+    /**  find bookshelf by shelf name and userId
+     * @param name
+     * @param userId
+     * @return bookshelf
+     */
     @Override
     public Bookshelf findByNameAndUserId(
             final String name, final int userId) {
@@ -71,12 +84,21 @@ public class BookshelfRepositoryImpl implements BookshelfRepository {
         }
     }
 
+    /**  find bookshelf id by shelf name and userId
+     * @param name
+     * @param userId
+     * @return id
+     */
     @Override
-    public final int findIdByNameAndUserId(final String name,
+    public int findIdByNameAndUserId(final String name,
             final int userId) {
         return 0;
     }
 
+    /**  find bookshelf by id
+     * @param id
+     * @return bookshelf
+     */
     @Override
     public Bookshelf findById(final int id) {
         try {
@@ -90,12 +112,21 @@ public class BookshelfRepositoryImpl implements BookshelfRepository {
         }
     }
 
+    /**  delete bookshelf by id
+     * @param id
+     * @return status code
+     */
     @Override
     public int deleteById(final int id) {
         return jdbcTemplate.update("delete from Bookshelf where id = ?",
             new Object[] {id});
     }
 
+    /**  find bookshelf by shelf name and user name
+     * @param bookshelfName
+     * @param username
+     * @return bookshelf
+     */
     @Override
     public Bookshelf findByBookshelfNameAndUsername(
             final String bookshelfName, final String username) {

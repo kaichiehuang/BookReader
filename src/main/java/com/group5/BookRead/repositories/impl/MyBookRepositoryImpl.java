@@ -37,6 +37,10 @@ public class MyBookRepositoryImpl implements MyBookRepository {
 
     }
 
+    /**  insert mybook
+     * @param mybook
+     * @return status code
+     */
     @Override
     public int insert(final MyBook mybook) throws
         SQLIntegrityConstraintViolationException {
@@ -47,6 +51,10 @@ public class MyBookRepositoryImpl implements MyBookRepository {
                 });
     }
 
+    /**  find all mybook of a user by userId
+     * @param id
+     * @return mybookList
+     */
     @Override
     public List<MyBook> findAllByUserId(final int id) {
         try {
@@ -60,6 +68,11 @@ public class MyBookRepositoryImpl implements MyBookRepository {
         }
     }
 
+    /**  find all mybook by userId and bookshelfId
+     * @param userId
+     * @param bookshelfId
+     * @return mybookList
+     */
     @Override
     public List<MyBook> findAllByUserIdAndShelfId(
             final int userId, final int bookshelfId) {
@@ -75,6 +88,10 @@ public class MyBookRepositoryImpl implements MyBookRepository {
         }
     }
 
+    /**  find all mybook by mybook id
+     * @param id
+     * @return mybookList
+     */
     @Override
     public List<MyBook> findAllByBookId(final int id) {
         try {
@@ -88,6 +105,12 @@ public class MyBookRepositoryImpl implements MyBookRepository {
         }
     }
 
+    /**  find mybook id by other ids (bookId, userId, bookshelfId)
+     * @param bookId
+     * @param userId
+     * @param bookshelfId
+     * @return id
+     */
     @Override
     public int findIdByAllIds(final int bookId,
             final int userId, final int bookshelfId) {
@@ -103,8 +126,12 @@ public class MyBookRepositoryImpl implements MyBookRepository {
         }
     }
 
+    /**  update mybook
+     * @param mybook
+     * @return status code
+     */
     @Override
-    public final int update(final MyBook mb) {
+    public int update(final MyBook mb) {
         return jdbcTemplate.update("update MyBook " + "set book_id = ?,"
                 + "user_id = ?, bookshelf_id = ?, progress = ? "
                 + "where id = ?",
@@ -114,25 +141,45 @@ public class MyBookRepositoryImpl implements MyBookRepository {
             });
     }
 
+    /**  delete mybook by id
+     * @param id
+     * @return status code
+     */
     @Override
-    public final int deleteById(final int id) {
+    public int deleteById(final int id) {
         return jdbcTemplate.update("delete from MyBook where id = ?",
                 new Object[] {id});
     }
 
+    /**  find mybook by id
+     * @param id
+     * @return mybook
+     */
     @Override
-    public final MyBook findById(final int id) {
+    public MyBook findById(final int id) {
         return null;
     }
 
+    /**  find mybook by all other ids
+     * @param bookshelfId
+     * @param userId
+     * @param bookId
+     * @return mybook
+     */
     @Override
-    public final MyBook findById(final int bookshelfId,
+    public MyBook findById(final int bookshelfId,
             final int userId, final int bookId) {
         return null;
     }
 
+    /**  find mybook by username, shelfName, and bookId
+     * @param username
+     * @param bookshelfName
+     * @param bookId
+     * @return mybook
+     */
     @Override
-    public final MyBook findByUsernameAndBookShelfnameAndBookId(
+    public MyBook findByUsernameAndBookShelfnameAndBookId(
             final String username, final String bookshelfName,
             final String bookId) {
         return null;
