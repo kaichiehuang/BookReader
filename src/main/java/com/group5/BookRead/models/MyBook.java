@@ -8,24 +8,34 @@ public class MyBook {
     private int bookshelfId;
     private double progress = 0;
 
-    public MyBook() {
-        super();
-    }
+    public MyBook() {}
 
-    public MyBook(final int id, final int bookId, final int uId,
-            final int shelfId, final double progress) {
-        super();
+    public MyBook(
+            final int id,
+            final int bookId,
+            final int uId,
+            final int shelfId,
+            final double progress) {
         this.id = id;
         this.bookId = bookId;
         this.userId = uId;
         this.bookshelfId = shelfId;
         this.progress = progress;
     }
-
-    /**  get mybook id
-     * @return id
+    /*
+        new constructor
      */
-    public int getId() {
+    public MyBook(final int bookId,
+                  final int userId,
+                  final int bookshelfId,
+                  final double progress) {
+        this.bookId = bookId;
+        this.userId = userId;
+        this.bookshelfId = bookshelfId;
+        this.progress = progress;
+    }
+
+    public final int getId() {
         return id;
     }
     /**  set mybook id
@@ -92,5 +102,5 @@ public class MyBook {
                 + ", userId=" + userId + ", bookshelfId="
                 + bookshelfId + ", progress=" + progress + "]";
     }
-
 }
+

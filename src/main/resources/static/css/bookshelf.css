@@ -94,7 +94,8 @@ body{
     -ms-transform-origin: 125px 0;
     transform-origin: 125px 0;
 	border-radius: 0 10px 10px 0;
-	z-index: 100;
+    z-index: 5;
+    position: relative;
 }
 .book:after {
     content: "";

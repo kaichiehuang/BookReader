@@ -57,6 +57,7 @@ public class BookshelfRepositoryImpl implements BookshelfRepository {
                     + "from Bookshelf " + "where user_id = ?",
                 new Object[] {userId},
                 new BookshelfRowMapper());
+            System.out.print(userId);
             return shelfList;
         } catch (Exception e) {
             return null;
@@ -129,6 +130,18 @@ public class BookshelfRepositoryImpl implements BookshelfRepository {
     @Override
     public Bookshelf findByBookshelfNameAndUsername(
             final String bookshelfName, final String username) {
+        return null;
+    }
+
+    /**
+     *  find bookshelf
+     * @param bookshelf
+     * @param user
+     * @return
+     */
+    @Override
+    public Bookshelf findByBookshelfNameAndUserId(final String bookshelf,
+                                                  final int user) {
         return null;
     }
 
