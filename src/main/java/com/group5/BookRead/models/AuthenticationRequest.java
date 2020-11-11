@@ -14,7 +14,6 @@ public class AuthenticationRequest {
     }
 
     public String getUsername() {
-        System.out.println("in get user name: "+username);
         return username;
     }
 
@@ -23,7 +22,6 @@ public class AuthenticationRequest {
     }
 
     public String getPassword() {
-        System.out.println("in get password: "+password);
         return password;
     }
 
