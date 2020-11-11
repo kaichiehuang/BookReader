@@ -28,7 +28,7 @@ public class UserRepositoryImpl implements UserRepository {
             User user = new User();
             user.setId(rs.getInt("id"));
             user.setPassword(rs.getString("password"));
-            user.setUsernme(rs.getString("username"));
+            user.setUsername(rs.getString("username"));
             return user;
         }
     }
@@ -38,7 +38,7 @@ public class UserRepositoryImpl implements UserRepository {
         SQLIntegrityConstraintViolationException {
         return jdbcTemplate.update("insert into User (username, password) "
         + "values(?, ?)",
-            new Object[] {user.getUsernme(), user.getPassword()});
+            new Object[] {user.getUsername(), user.getPassword()});
     }
 
     @Override
@@ -92,7 +92,7 @@ public class UserRepositoryImpl implements UserRepository {
         return jdbcTemplate.update("update User "
                 + "set username = ?, password = ? "
                 + "where id = ?",
-                new Object[] {user.getUsernme(), user.getPassword(),
+                new Object[] {user.getUsername(), user.getPassword(),
                         user.getId()});
     }
 

@@ -5,6 +5,8 @@ import com.group5.BookRead.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.SQLIntegrityConstraintViolationException;
+
 @Service (value = "regular")
 public class RegularUserService implements UserService {
 
@@ -23,8 +25,8 @@ public class RegularUserService implements UserService {
      * @return registered user
      */
     @Override
-    public User createUser(final String username, final String password) {
-        return null;
+    public int createUser(final User user) throws SQLIntegrityConstraintViolationException {
+        return userRepository.insert(user);
     }
 
     /**

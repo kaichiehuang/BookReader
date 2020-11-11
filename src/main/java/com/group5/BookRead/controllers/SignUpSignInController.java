@@ -2,7 +2,9 @@ package com.group5.BookRead.controllers;
 
 import com.group5.BookRead.models.AuthenticationRequest;
 import com.group5.BookRead.models.AuthenticationResponse;
+import com.group5.BookRead.models.User;
 import com.group5.BookRead.services.user.MyUserDetailsService;
+import com.group5.BookRead.services.user.UserService;
 import com.group5.BookRead.util.JwtUtil;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class AuthController {
+public class SignUpSignInController {
 
     @Autowired
     private AuthenticationManager authenticationManager;
@@ -27,6 +29,9 @@ public class AuthController {
 
     @Autowired
     private MyUserDetailsService userDetailsService;
+
+    @Autowired
+    private UserService userService;
 
     @PostMapping("/authenticate")
     public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthenticationRequest authenticationRequest) throws Exception {
@@ -49,4 +54,18 @@ public class AuthController {
 
         return ResponseEntity.ok(new AuthenticationResponse(jwt));
     }
+
+    @PostMapping("/signup")
+    public String signup(@RequestBody User newUser) throws Exception {
+        try {
+            userService.createUser(newUser);
+        } catch (Exception e) {
+            throw new Exception("Create new account failed", e);
+        }
+
+        return "Success";
+    }
+
+
+
 }

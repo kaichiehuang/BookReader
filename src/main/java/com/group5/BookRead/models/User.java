@@ -3,7 +3,7 @@ package com.group5.BookRead.models;
 public class User {
 
     private int id;
-    private String usernme;
+    private String username;
     private String password;
 
     public User() {
@@ -13,7 +13,7 @@ public class User {
     public User(int id, String usernme, String password) {
         super();
         this.id = id;
-        this.usernme = usernme;
+        this.username = usernme;
         this.password = password;
     }
 
@@ -23,11 +23,11 @@ public class User {
     public final void setId(int id) {
         this.id = id;
     }
-    public final String getUsernme() {
-        return usernme;
+    public final String getUsername() {
+        return username;
     }
-    public final void setUsernme(String usernme) {
-        this.usernme = usernme;
+    public final void setUsername(String usernme) {
+        this.username = usernme;
     }
     public final String getPassword() {
         return password;
@@ -39,7 +39,7 @@ public class User {
     @Override
     public final String toString() {
         return "User [id=" + id + ", usernme="
-                + usernme + ", password="
+                + username + ", password="
                 + password + "]";
     }
 }
