@@ -17,6 +17,7 @@ import com.group5.BookRead.repositories.MyBookRepository;
 @Repository
 public class MyBookRepositoryImpl implements MyBookRepository {
 
+
     @Autowired
     JdbcTemplate jdbcTemplate;
 
@@ -136,5 +137,21 @@ public class MyBookRepositoryImpl implements MyBookRepository {
             final String bookId) {
         return null;
     }
+
+    @Override
+    public MyBook findByUsernameAndBookShelfnameAndBookId(
+            final String username,
+            final String bookshelfName,
+            final int bookId) {
+		return null;
+	}
+
+    @Override
+	public int deleteByUserIdAndBookshelfIdAndBookId(
+			final int userId,
+			final int id,
+			final int bookId) {
+		return 0;
+	}
 
 }

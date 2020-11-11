@@ -9,17 +9,30 @@ public class MyBook {
     private double progress = 0;
 
     public MyBook() {
-        super();
+    	super();
     }
 
-    public MyBook(final int id, final int bookId, final int uId,
-            final int shelfId, final double progress) {
+    public MyBook(
+    		final int id,
+			final int bookId,
+			final int uId,
+			final int shelfId,
+			final double progress) {
         super();
         this.id = id;
         this.bookId = bookId;
         this.userId = uId;
         this.bookshelfId = shelfId;
         this.progress = progress;
+    }
+
+    /*
+        new constructor
+     */
+    public MyBook(final int bookId,
+                  final int userId,
+                  final int bookshelfId,
+                  final double progress) {
     }
 
     public final int getId() {
@@ -59,5 +72,5 @@ public class MyBook {
                 + ", userId=" + userId + ", bookshelfId="
                 + bookshelfId + ", progress=" + progress + "]";
     }
-
 }
+
