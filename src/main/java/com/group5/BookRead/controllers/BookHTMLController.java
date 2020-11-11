@@ -30,7 +30,7 @@ public class BookHTMLController extends BookController {
 
         Map<String, List<Book>> bookshelfs =
             bookServiceSelector.getBooksFromShelves(DUMMYID);
-
+        System.out.println(bookshelfs);
         model.addAttribute("bookshelfs", bookshelfs);
         return "bookshelf";
     }

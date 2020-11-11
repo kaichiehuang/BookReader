@@ -110,6 +110,8 @@ public final class RegularBookService implements BookService {
         List<MyBook> myBooks = bookHelperService.getMyBooks(
                 bookshelfName,
                 userId);
+
+        System.out.println(myBooks);
         List<Book> books = new ArrayList<>();
         for (MyBook mybook : myBooks) {
             books.add(bookRepository.findById(mybook.getBookId()));

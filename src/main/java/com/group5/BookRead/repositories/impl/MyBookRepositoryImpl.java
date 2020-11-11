@@ -79,7 +79,7 @@ public class MyBookRepositoryImpl implements MyBookRepository {
         try {
             List<MyBook> myBookList = jdbcTemplate.query(
                     "select * from MyBook " + "where user_id = ?"
-                            + "and bookshelf_id = ?",
+                            + " and bookshelf_id = ?",
                 new Object[] {userId, bookshelfId},
                 new MyBookRowMapper());
             return myBookList;
@@ -157,6 +157,8 @@ public class MyBookRepositoryImpl implements MyBookRepository {
      */
     @Override
     public MyBook findById(final int id) {
+        System.err.println("MyBookRepositoryImpl:159 - not implement");
+        System.exit(10);
         return null;
     }
 
@@ -169,6 +171,8 @@ public class MyBookRepositoryImpl implements MyBookRepository {
     @Override
     public MyBook findById(final int bookshelfId,
             final int userId, final int bookId) {
+        System.err.println("MyBookRepositoryImpl:172 - not implement");
+        System.exit(10);
         return null;
     }
 
@@ -182,6 +186,8 @@ public class MyBookRepositoryImpl implements MyBookRepository {
     public MyBook findByUsernameAndBookShelfnameAndBookId(
             final String username, final String bookshelfName,
             final String bookId) {
+        System.err.println("MyBookRepositoryImpl:185 - not implement");
+        System.exit(10);
         return null;
     }
 
@@ -197,6 +203,8 @@ public class MyBookRepositoryImpl implements MyBookRepository {
             final String username,
             final String bookshelfName,
             final int bookId) {
+        System.err.println("MyBookRepositoryImpl:200 - not implement");
+        System.exit(10);
         return null;
     }
 
@@ -212,6 +220,8 @@ public class MyBookRepositoryImpl implements MyBookRepository {
             final int userId,
             final int id,
             final int bookId) {
+        System.err.println("MyBookRepositoryImpl:217 - not implement");
+        System.exit(10);
         return 0;
     }
 

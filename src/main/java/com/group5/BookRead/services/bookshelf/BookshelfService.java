@@ -41,6 +41,7 @@ public abstract class BookshelfService {
      * @return a list of bookshelves
      */
     public List<Bookshelf> findBookshelves(final int userId) {
+        //System.out.println(bookshelfRepository.findAllByUserId(userId));
         return bookshelfRepository.findAllByUserId(userId);
     }
 }
