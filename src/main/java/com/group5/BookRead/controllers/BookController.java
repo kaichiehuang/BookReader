@@ -3,14 +3,16 @@ package com.group5.BookRead.controllers;
 import com.group5.BookRead.services.BookServiceSelector;
 import com.group5.BookRead.services.BookshelfServiceSelector;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 abstract class BookController {
+    @Autowired
+    BookshelfServiceSelector bookshelfServiceSelector;
 
-    BookshelfServiceSelector bookshelfServiceSelector
-        = new BookshelfServiceSelector();
+    @Autowired
+    BookServiceSelector bookServiceSelector;
 
-    BookServiceSelector bookServiceSelector = new BookServiceSelector();
-
-    public static final int DUMMYID = 1;
+    public static final int DUMMYID = 3;
 
     // public static final String DUMMYSUMM = "DUMMYSUMM";
     // public static final String DUMMYTITLE = "test";

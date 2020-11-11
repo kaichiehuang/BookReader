@@ -2,6 +2,7 @@ package com.group5.BookRead.services.bookshelf;
 import com.group5.BookRead.models.Bookshelf;
 import com.group5.BookRead.repositories.BookshelfRepository;
 
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 
 public abstract class BookshelfService {
@@ -41,7 +42,23 @@ public abstract class BookshelfService {
      * @return a list of bookshelves
      */
     public List<Bookshelf> findBookshelves(final int userId) {
+        //System.out.println(bookshelfRepository.findAllByUserId(userId));
         return bookshelfRepository.findAllByUserId(userId);
+    }
+
+    /**
+     *  create a new shelf
+     * @param bookshelf
+     * @param userId
+     * @return
+     */
+    public boolean create(final String bookshelf, final int userId) {
+        Bookshelf shelf = new Bookshelf(userId, bookshelf);
+        try {
+            return bookshelfRepository.insert(shelf) == 1;
+        } catch (SQLIntegrityConstraintViolationException exception) {
+            return false;
+        }
     }
 }
 
