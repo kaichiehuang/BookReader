@@ -46,12 +46,12 @@ public class BookRepositoryImpl implements BookRepository {
     }
 
     @Override
-    public final List<Book> findAll() {
+    public List<Book> findAll() {
         return jdbcTemplate.query("select * from Book", new BookRowMapper());
     }
 
     @Override
-    public final Book findById(final int id) {
+    public Book findById(final int id) {
         try {
             Book book = jdbcTemplate.queryForObject("select * from Book "
                     + "where id = ?",
@@ -65,7 +65,7 @@ public class BookRepositoryImpl implements BookRepository {
     }
 
     @Override
-    public final Book findByNameAndAuthor(final String name,
+    public Book findByNameAndAuthor(final String name,
             final String author) {
         try {
             Book book = jdbcTemplate.queryForObject("select * from Book "
@@ -80,7 +80,7 @@ public class BookRepositoryImpl implements BookRepository {
     }
 
     @Override
-    public final int findIdByNameAndAuthor(final String name,
+    public int findIdByNameAndAuthor(final String name,
             final String author) {
         try {
             int id = jdbcTemplate.queryForObject("select id from Book "
@@ -94,7 +94,7 @@ public class BookRepositoryImpl implements BookRepository {
     }
 
     @Override
-    public final int update(final Book book) {
+    public int update(final Book book) {
         return jdbcTemplate.update("update Book " + "set name = ?, "
                 + "author = ?, page = ?, summary = ? " + "where id = ?",
                 new Object[] {book.getName(), book.getAuthor(),
@@ -103,7 +103,7 @@ public class BookRepositoryImpl implements BookRepository {
     }
 
     @Override
-    public final int deleteById(final int id) {
+    public int deleteById(final int id) {
         return jdbcTemplate.update("delete from Book where id = ?",
                 new Object[]{id});
 

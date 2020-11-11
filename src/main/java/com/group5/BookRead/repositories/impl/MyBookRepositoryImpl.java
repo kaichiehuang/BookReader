@@ -38,7 +38,7 @@ public class MyBookRepositoryImpl implements MyBookRepository {
     }
 
     @Override
-    public final int insert(final MyBook mybook) throws
+    public int insert(final MyBook mybook) throws
         SQLIntegrityConstraintViolationException {
         return jdbcTemplate.update("insert into MyBook (book_id, "
                 + "user_id, bookshelf_id, progress) " + "values(?, ?, ?, ?)",
@@ -48,7 +48,7 @@ public class MyBookRepositoryImpl implements MyBookRepository {
     }
 
     @Override
-    public final List<MyBook> findAllByUserId(final int id) {
+    public List<MyBook> findAllByUserId(final int id) {
         try {
             List<MyBook> myBookList = jdbcTemplate.query(
                     "select * from MyBook " + "where user_id = ?",
@@ -61,7 +61,7 @@ public class MyBookRepositoryImpl implements MyBookRepository {
     }
 
     @Override
-    public final List<MyBook> findAllByUserIdAndShelfId(
+    public List<MyBook> findAllByUserIdAndShelfId(
             final int userId, final int bookshelfId) {
         try {
             List<MyBook> myBookList = jdbcTemplate.query(
@@ -76,7 +76,7 @@ public class MyBookRepositoryImpl implements MyBookRepository {
     }
 
     @Override
-    public final List<MyBook> findAllByBookId(final int id) {
+    public List<MyBook> findAllByBookId(final int id) {
         try {
             List<MyBook> myBookList = jdbcTemplate.query(
                     "select * from MyBook " + "where book_id = ?",
@@ -89,7 +89,7 @@ public class MyBookRepositoryImpl implements MyBookRepository {
     }
 
     @Override
-    public final int findIdByAllIds(final int bookId,
+    public int findIdByAllIds(final int bookId,
             final int userId, final int bookshelfId) {
         try {
             int id = jdbcTemplate.queryForObject("select id from MyBook "
