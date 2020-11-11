@@ -125,6 +125,7 @@ public final class RegularBookService implements BookService {
      */
     public HashMap<String, List<Book>> getBooksOnBookshelves(final int userId) {
         List<Bookshelf> bookshelves = bookHelperService.getBookShelves(userId);
+        System.out.println(bookshelves.size());
         HashMap<String, List<Book>> map = new HashMap<>();
         for (Bookshelf bookshelf : bookshelves) {
             map.put(bookshelf.getName(),
