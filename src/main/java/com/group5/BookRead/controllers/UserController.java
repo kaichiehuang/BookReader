@@ -61,9 +61,9 @@ public class UserController {
     @PostMapping("/signup")
     public String signup(@RequestBody User newUser) throws Exception {
         if (userServiceSelector.createUser(newUser)) {
-            throw new Exception("Create new account failed");
+            return "Success";
         }
-        return "Success";
+        throw new Exception("Create new account failed");
     }
 
 

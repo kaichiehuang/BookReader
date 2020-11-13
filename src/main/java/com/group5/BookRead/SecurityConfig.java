@@ -31,12 +31,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        http.authorizeRequests().antMatchers("/css/**", "/js/**", "/images/**").permitAll();
         http.csrf().disable()
-                .authorizeRequests().antMatchers("/login", "/signup", "/").permitAll().
+                .authorizeRequests().antMatchers("/signup", "/", "/login").permitAll().
                 anyRequest().authenticated()
                 .and().sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+//                .and().formLogin().loginPage("/login").loginProcessingUrl("/login").defaultSuccessUrl("/").permitAll();
         http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
+
+
     }
 
     @Override
