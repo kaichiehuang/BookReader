@@ -8,7 +8,7 @@ public class MyBook {
     private int bookshelfId;
     private double progress = 0;
 
-    public MyBook() {}
+    public MyBook() { }
 
     public MyBook(
             final int id,

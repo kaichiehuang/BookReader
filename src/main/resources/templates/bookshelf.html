@@ -11,13 +11,13 @@
 <body>
     <div th:replace="fragments/header :: header"></div>
     <div class="container">
-        <div class="row" th:each="instance : ${bookshelfs}">
+        <div class="row bookshelf" th:each="instance : ${bookshelfs}">
             <div class="col-md-12 text-center">
-                <div class="bookshelf">
+                <div>
                     <h1 class="heading" th:text="${instance.key}"></h1>
                     <!-- TODO: use service here -->
                     <div th:each="book,iter : ${instance.value}">
-                        <div class="col-xs-4 col-md-2" id="book" th:attr="data-book-id=${book.id}">
+                        <div class="col-xs-4 col-md-2" id="book" th:attr="data-book-id=${book.id}" style="z-index: 5;">
                             <!-- TODO: book link goes here -->
                             <a href="#">
                                 <div class="book-holder">

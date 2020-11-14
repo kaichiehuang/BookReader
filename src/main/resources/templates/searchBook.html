@@ -31,19 +31,31 @@
         <tr th:if="${books.isEmpty()}">
             <td colspan="2"> No Books Available </td>
         </tr>
-        <tr th:each="book : ${books}">
+        <tr th:each="book : ${books}" id="bookRow">
             <td><img th:src="${book.getLink()}"></img></td>
-            <td><span th:text="${book.getTitle()}"> Title </span></td>
-            <td><span th:text="${book.getAuthors()}"> Author </span></td>
-            <td><span th:text="${book.getPage()}"> Pages </span></td>
-            <td><span th:text="${book.getDescription()}"> Description </span></td>
-            <td >Add Book</td>
+            <td><span th:text="${book.getTitle()}" id="title"> Title </span></td>
+            <td><span th:text="${book.getAuthors()}" id="author"> Author </span></td>
+            <td><span th:text="${book.getPage()}" id="pages"> Pages </span></td>
+            <td><span th:text="${book.getDescription()}" id="description"> Description </span></td>
+            <td>
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Add Book
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item bookshelfChoice">Read</a>
+                        <a class="dropdown-item bookshelfChoice">Reading</a>
+                        <a class="dropdown-item bookshelfChoice">Want To Read</a>
+                        <a class="dropdown-item bookshelfChoice">Favorite</a>
+                    </div>
+                </div>
+            </td>
+            
         </tr>
         </tbody>
     </table>
 
 </div>
-</body>
 <script src="/js/search.js"></script>
-
+</body>
 </html>

@@ -52,7 +52,8 @@ public class BookshelfServiceSelector {
     public Bookshelf getBookShelf(final int userId,
                                   final String bookshelfName) {
         BookshelfService bookshelfService = getService(bookshelfName);
-        return bookshelfService.findBookshelf(bookshelfName, userId);
+        Bookshelf shelf = bookshelfService.findBookshelf(bookshelfName, userId);
+        return shelf;
     }
 
     /**
