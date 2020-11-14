@@ -65,5 +65,15 @@ public class BookshelfServiceSelector {
         return getService("defualt").findBookshelves(userId);
     }
 
+    /**
+     *  cretae shelf
+     * @param bookshelf
+     * @param userId
+     * @return
+     */
+    public boolean create(final String bookshelf, final int userId) {
+        return getService(bookshelf).create(bookshelf, userId);
+    }
+
 
 }

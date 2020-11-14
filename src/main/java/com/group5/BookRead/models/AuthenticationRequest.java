@@ -8,26 +8,44 @@ public class AuthenticationRequest {
     public AuthenticationRequest() {
     }
 
-    public AuthenticationRequest(String username, String password) {
+    public AuthenticationRequest(final String username, final String password) {
         this.username = username;
         this.password = password;
     }
 
+    /**
+     * <p> Get username
+     * </p>
+     * @return username
+     * @since 1.0
+     */
     public String getUsername() {
-        System.out.println("in get user name: "+username);
         return username;
     }
-
-    public void setUsername(String username) {
+    /**
+     * <p> Set username
+     * </p>
+     * @param username
+     * @since 1.0
+     */
+    public void setUsername(final String username) {
         this.username = username;
     }
-
+    /**
+     * <p> Get password
+     * </p>
+     * @since 1.0
+     */
     public String getPassword() {
-        System.out.println("in get password: "+password);
         return password;
     }
-
-    public void setPassword(String password) {
+    /**
+     * <p> Set password
+     * </p>
+     * @param password
+     * @since 1.0
+     */
+    public void setPassword(final String password) {
         this.password = password;
     }
 }

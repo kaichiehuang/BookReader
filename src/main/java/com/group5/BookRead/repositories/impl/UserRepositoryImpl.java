@@ -28,7 +28,7 @@ public class UserRepositoryImpl implements UserRepository {
             User user = new User();
             user.setId(rs.getInt("id"));
             user.setPassword(rs.getString("password"));
-            user.setUsernme(rs.getString("username"));
+            user.setUsername(rs.getString("username"));
             return user;
         }
     }
@@ -39,10 +39,11 @@ public class UserRepositoryImpl implements UserRepository {
      */
     @Override
     public int insert(final User user) throws
+
         SQLIntegrityConstraintViolationException {
         return jdbcTemplate.update("insert into User (username, password) "
         + "values(?, ?)",
-            new Object[] {user.getUsernme(), user.getPassword()});
+            new Object[] {user.getUsername(), user.getPassword()});
     }
 
     /**  find all user
@@ -77,15 +78,12 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public User findByUsername(final String username) {
         try {
-            System.out.println("in findByUserName try");
             User user = jdbcTemplate.queryForObject(
                 "select * from User " + "where username = ?",
                 new Object[] {username},
                 new UserRowMapper());
-            System.out.println("afterquery");
             return user;
         } catch (EmptyResultDataAccessException e) {
-            System.out.println("in findByUserName catch");
             return null;
         } catch (Exception e) {
             throw e;
@@ -118,7 +116,7 @@ public class UserRepositoryImpl implements UserRepository {
         return jdbcTemplate.update("update User "
                 + "set username = ?, password = ? "
                 + "where id = ?",
-                new Object[] {user.getUsernme(), user.getPassword(),
+                new Object[] {user.getUsername(), user.getPassword(),
                         user.getId()});
     }
 
