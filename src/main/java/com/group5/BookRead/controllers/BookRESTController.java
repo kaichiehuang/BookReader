@@ -8,7 +8,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import com.group5.BookRead.models.Book;
 
@@ -30,12 +31,15 @@ public class BookRESTController extends BookController {
         @PathVariable final String dstShelf,
         final HttpServletResponse response) {
         try {
+            SecurityContext context = SecurityContextHolder.getContext();
+            int userId = Integer.parseInt(context.getAuthentication()
+                .getPrincipal().toString());
             int bookId = Integer.parseInt(json.get("bookId"));
             String srcShelf = json.get("srcShelf");
 
             Book book = bookServiceSelector.removeBook(bookId, srcShelf,
-                DUMMYID);
-            bookServiceSelector.addBookToShelf(book, dstShelf, DUMMYID);
+                userId);
+            bookServiceSelector.addBookToShelf(book, dstShelf, userId);
 
             response.setStatus(HttpServletResponse.SC_OK);
 
@@ -59,14 +63,14 @@ public class BookRESTController extends BookController {
     public String addBook(
         @RequestBody final Book book,
         @PathVariable final String dstShelf,
-        @RequestHeader("Authorization") final String auth,
         final HttpServletResponse response) {
         try {
-            //System.out.println(auth);
-            String[] splited = auth.split(" ");
+            SecurityContext context = SecurityContextHolder.getContext();
+            int userId = Integer.parseInt(context.getAuthentication()
+                .getPrincipal().toString());
 
             bookServiceSelector.addBookToShelf(book, dstShelf.toLowerCase(),
-                Integer.parseInt(splited[1]));
+                userId);
 
             response.setStatus(HttpServletResponse.SC_OK);
 

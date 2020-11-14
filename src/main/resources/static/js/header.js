@@ -25,12 +25,12 @@ $(function(){
         };
 
         $.ajax({
-            url: '/book/shelf/' + bookshelf,
+            url: '/book/shelf/' + bookshelf.toLowerCase(),
             type: 'POST',
             cache: false,
             contentType: 'application/json; charset=utf-8',
             data: JSON.stringify(data),
-            headers: {'Authorization': 'Bearer 3'},
+            headers: {'Authorization': 'Bearer ' + getCookie("jwt")},
             success: function(res) {
                 window.location.replace("/book/shelf");
             },

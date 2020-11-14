@@ -79,4 +79,12 @@ public class MyUserPrincipal implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+    /**
+     * check if account is enabled
+     * @return true or false
+     */
+    @Override
+    public String toString() {
+        return "" + user.getId();
+    }
 }

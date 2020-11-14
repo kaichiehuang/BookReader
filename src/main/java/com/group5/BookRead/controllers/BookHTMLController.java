@@ -5,6 +5,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+
 import java.util.Map;
 import java.util.List;
 
@@ -51,8 +54,12 @@ public class BookHTMLController extends BookController {
         required = true, defaultValue = "All") final String shelf,
         final Model model) {
 
+        SecurityContext context = SecurityContextHolder.getContext();
+        int userId = Integer.parseInt(context.getAuthentication()
+            .getPrincipal().toString());
+
         Map<String, List<Book>> bookshelfs =
-            bookServiceSelector.getBooksFromShelves(DUMMYID);
+            bookServiceSelector.getBooksFromShelves(userId);
         //System.out.println(bookshelfs);
         model.addAttribute("bookshelfs", bookshelfs);
         return "bookshelf";
