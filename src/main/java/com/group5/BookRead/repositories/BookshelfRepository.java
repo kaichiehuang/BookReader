@@ -20,4 +20,5 @@ public interface BookshelfRepository {
 
     Bookshelf findByBookshelfNameAndUsername(String shelfName, String username);
 
+    Bookshelf findByBookshelfNameAndUserId(String bookshelf, int user);
 }

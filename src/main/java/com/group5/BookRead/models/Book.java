@@ -12,7 +12,8 @@ public class Book {
         super();
     }
 
-    public Book(int id, String name, String author, int page, String summary) {
+    public Book(final int id, final String name, final String author,
+            final int page, final String summary) {
         super();
         this.id = id;
         this.name = name;
@@ -23,39 +24,84 @@ public class Book {
         }
     }
 
-    public final int getId() {
+    public Book(final String name, final String author,
+            final int page, final String summary) {
+        super();
+        this.name = name;
+        this.author = author;
+        this.page = page;
+        //System.out.println(page);
+        if (summary != null && summary != "") {
+            this.summary = summary;
+        }
+    }
+
+    /**  get book id
+     * @return id
+     */
+    public int getId() {
         return id;
     }
-    public final void setId(int id) {
+    /**  set book id
+     * @param id
+     */
+    public void setId(final int id) {
         this.id = id;
     }
-    public final String getName() {
+    /**  get book name
+     * @return name
+     */
+    public String getName() {
         return name;
     }
-    public final void setName(String name) {
+    /**  set book name
+     * @param name
+     */
+    public void setName(final String name) {
         this.name = name;
     }
-    public final String getAuthor() {
+    /**  get book author
+     * @return author
+     */
+    public String getAuthor() {
         return author;
     }
-    public final void setAuthor(String author) {
+    /**  set book author
+     * @param author
+     */
+    public void setAuthor(final String author) {
         this.author = author;
     }
-    public final int getPage() {
+    /**  get book total page
+     * @return page
+     */
+    public int getPage() {
         return page;
     }
-    public final void setPage(int page) {
+    /**  set book total page
+     * @param page
+     */
+    public void setPage(final int page) {
         this.page = page;
     }
-    public final String getSummary() {
+    /**  get book summary
+     * @return summary
+     */
+    public String getSummary() {
         return summary;
     }
-    public final void setSummary(String summary) {
+    /**  set book summary
+     * @param summary
+     */
+    public void setSummary(final String summary) {
         this.summary = summary;
     }
 
+    /** serialize book into to string
+     * @return string
+     */
     @Override
-    public final String toString() {
+    public String toString() {
         return "Book [id=" + id + ", name=" + name + ", author=" + author + ", "
                 + "page=" + page + ", summary=" + summary
                 + "]";

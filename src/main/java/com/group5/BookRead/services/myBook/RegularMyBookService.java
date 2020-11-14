@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import java.sql.SQLIntegrityConstraintViolationException;
 
 @Service(value = "myBook")
-public final class RegularMyBookService implements  MyBookService {
+public final class RegularMyBookService implements MyBookService {
 
 
     private MyBookRepository myBookRepository;
@@ -40,12 +40,12 @@ public final class RegularMyBookService implements  MyBookService {
         }
     }
 
-    public MyBook getMyBook(final String user,
-                            final String bookshelf,
-                            final int bookId) {
-        return myBookRepository.findByUsernameAndBookShelfnameAndBookId(
-                user,
-                bookshelf,
-                bookId);
-    }
+//    public MyBook getMyBook(final String user,
+//                            final String bookshelf,
+//                            final int bookId) {
+//        return myBookRepository.findByUserAndBookShelfAndBookId(
+//                user,
+//                bookshelf,
+//                bookId);
+//    }
 }

@@ -3,15 +3,11 @@ package com.group5.BookRead;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.group5.BookRead.services.bookAPI.GoogleAPI;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Iterator;
-
-import static org.assertj.core.api.Assertions.assertThat;
-
 
 public class TestGoogleBook {
 

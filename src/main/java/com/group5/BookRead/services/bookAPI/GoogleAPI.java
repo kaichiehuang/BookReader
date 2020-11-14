@@ -20,7 +20,7 @@ public class GoogleAPI implements BookAPI {
     }
 
     final String keywordsSEARCH = "https://www.googleapis.com/books/v1/volumes?"
-            + "q=%s&key=AIzaSyBS_bQYbKIUs7hBTGYpQFtpNJI8hcG76ww";
+            + "q=%s&key=AIzaSyBS_bQYbKIUs7hBTGYpQFtpNJI8hcG76ww&maxResults=20";
 
     /**
      *  search for books whoes titles match the search key

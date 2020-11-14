@@ -14,39 +14,55 @@ public class Bookshelf {
 
     }
 
-    public Bookshelf(int id, int userId, String name) {
+    public Bookshelf(final int id, final int userId, final String name) {
         super();
         this.id = id;
         this.userId = userId;
         this.name = name;
     }
 
-    public final int getId() {
+    /**  get bookshelf id
+     * @return id
+     */
+    public int getId() {
         return id;
     }
-
-    public final void setId(int id) {
+    /**  set bookshelf id
+     * @param id
+     */
+    public void setId(final int id) {
         this.id = id;
     }
-
-    public final int getUserId() {
+    /**  get bookshelf's user id
+     * @return userId
+     */
+    public int getUserId() {
         return userId;
     }
-
-    public final void setUserId(int userId) {
+    /**  set bookshelf's userId
+     * @param userId
+     */
+    public void setUserId(final int userId) {
         this.userId = userId;
     }
-
-    public final String getName() {
+    /** get bookshelf name
+     * @return name
+     */
+    public String getName() {
         return name;
     }
-
-    public final void setName(String name) {
+    /**  set bookshelf name
+     * @param name
+     */
+    public void setName(final String name) {
         this.name = name;
     }
 
+    /**  serialize bookshelf to string
+     * @return string
+     */
     @Override
-    public final String toString() {
+    public String toString() {
         return "Bookshelf [id=" + id + ", user_id=" + userId + ", "
                 + "name=" + name + "]";
     }
