@@ -11,7 +11,7 @@ import java.util.List;
 
 public class MyUserPrincipal implements UserDetails {
     private  User user;
-    String ROLE_PREFIX = "ROLE_";
+    public static final String ROLE_PREFIX = "ROLE_";
 
     public MyUserPrincipal(final User user) {
         this.user = user;
@@ -19,7 +19,10 @@ public class MyUserPrincipal implements UserDetails {
 
     public MyUserPrincipal() {
     }
-
+    /**
+     * get a users granted authorities
+     * @return list of granted authorities
+     */
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> list = new ArrayList<GrantedAuthority>();
@@ -28,34 +31,60 @@ public class MyUserPrincipal implements UserDetails {
 
         return list;
     }
-
+    /**
+     * Get password
+     * @return password
+     */
     @Override
     public String getPassword() {
         return user.getPassword();
     }
-
+    /**
+     * Get username
+     * @return username
+     */
     @Override
     public String getUsername() {
         return user.getUsername();
     }
-
+    /**
+     * check if account is non-expired
+     * @return true or false
+     */
     @Override
     public boolean isAccountNonExpired() {
         return true;
     }
-
+    /**
+     * check if account is non-locked
+     * @return true or false
+     */
     @Override
     public boolean isAccountNonLocked() {
         return true;
     }
-
+    /**
+     * check if credential is non-expired
+     * @return true or false
+     */
     @Override
     public boolean isCredentialsNonExpired() {
         return true;
     }
-
+    /**
+     * check if account is enabled
+     * @return true or false
+     */
     @Override
     public boolean isEnabled() {
         return true;
+    }
+    /**
+     * check if account is enabled
+     * @return true or false
+     */
+    @Override
+    public String toString() {
+        return "" + user.getId();
     }
 }

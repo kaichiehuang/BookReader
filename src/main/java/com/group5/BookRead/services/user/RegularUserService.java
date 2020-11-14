@@ -4,7 +4,6 @@ import com.group5.BookRead.models.User;
 import com.group5.BookRead.repositories.UserRepository;
 import com.group5.BookRead.services.BookshelfServiceSelector;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 

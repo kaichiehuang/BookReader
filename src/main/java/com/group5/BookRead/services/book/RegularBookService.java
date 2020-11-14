@@ -33,7 +33,7 @@ public final class RegularBookService implements BookService {
                        final String bookshelf,
                        final int userId) {
         Book book = getBook(bookId);
-        if (bookHelperService.remove(userId, bookId, bookshelf)) {
+        if (bookHelperService.remove(bookId, userId, bookshelf)) {
             return book;
         }
         return null;
@@ -87,11 +87,13 @@ public final class RegularBookService implements BookService {
     @Override
     public Book chooseBook(final Book book) {
         try {
-            if (bookRepository.insert(book) == 1) {
+            int res = bookRepository.insert(book);
+            if (res == 1) {
                 return bookRepository.findByNameAndAuthor(
                         book.getName(),
                         book.getAuthor());
             }
+
             return null;
         } catch (SQLIntegrityConstraintViolationException exception) {
             return null;
@@ -111,10 +113,13 @@ public final class RegularBookService implements BookService {
                 bookshelfName,
                 userId);
 
-        System.out.println(myBooks);
+       //System.out.println(myBooks);
         List<Book> books = new ArrayList<>();
         for (MyBook mybook : myBooks) {
-            books.add(bookRepository.findById(mybook.getBookId()));
+            Book b = bookRepository.findById(mybook.getBookId());
+            if (b != null) {
+                books.add(b);
+            }
         }
         return books;
     }
@@ -127,13 +132,24 @@ public final class RegularBookService implements BookService {
      */
     public HashMap<String, List<Book>> getBooksOnBookshelves(final int userId) {
         List<Bookshelf> bookshelves = bookHelperService.getBookShelves(userId);
-        System.out.println(bookshelves.size());
+        // System.out.println(bookshelves.size());
         HashMap<String, List<Book>> map = new HashMap<>();
         for (Bookshelf bookshelf : bookshelves) {
             map.put(bookshelf.getName(),
                     getBooks(bookshelf.getName(), userId));
         }
         return map;
+    }
+
+    /**
+     * Get book with same name and author
+     * @param name book name
+     * @param author book author
+     * @return book object
+     */
+    @Override
+    public Book getBookByNameAuthor(final String name, final String author) {
+        return bookRepository.findByNameAndAuthor(name, author);
     }
 }
 

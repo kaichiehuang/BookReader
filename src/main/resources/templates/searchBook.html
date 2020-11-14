@@ -3,14 +3,17 @@
 <head>
     <title>Search Book</title>
     <meta charset="UTF-8"/>
+    <link rel="stylesheet" th:href="@{/css/searchBook.css}" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <div th:replace="fragments/common :: include"></div>
     <div th:replace="fragments/header :: header-css"></div>
 </head>
 <body>
 <div th:replace="fragments/header :: header"></div>
-<div class = "search">
+    <div class = "search">
     <h1> Search </h1>
+
     <form class="form-inline my-2 my-lg-0" th:action="@{/search}" method="get">
         <input class="form-control mr-sm-2" name="term" type="text" id = "search_input" placeholder="Search" aria-label="Search">
         <button class="btn btn-outline-success my-2 my-sm-0" id= "searchButton" type="submit">Search</button>
@@ -24,26 +27,37 @@
             <th> Pages </th>
             <th> Description </th>
             <th> Action </th>
-
         </tr>
         </thead>
         <tbody>
         <tr th:if="${books.isEmpty()}">
             <td colspan="2"> No Books Available </td>
         </tr>
-        <tr th:each="book : ${books}">
+        <tr th:each="book : ${books}" id="bookRow">
             <td><img th:src="${book.getLink()}"></img></td>
-            <td><span th:text="${book.getTitle()}"> Title </span></td>
-            <td><span th:text="${book.getAuthors()}"> Author </span></td>
-            <td><span th:text="${book.getPage()}"> Pages </span></td>
-            <td><span th:text="${book.getDescription()}"> Description </span></td>
-            <td >Add Book</td>
+            <td><span th:text="${book.getTitle()}" id="title"> Title </span></td>
+            <td><span th:text="${book.getAuthors()}" id="author"> Author </span></td>
+            <td><span th:text="${book.getPage()}" id="pages"> Pages </span></td>
+            <td><span th:text="${book.getDescription()}" id="description"> Description </span></td>
+            <td>
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Add Book
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item bookshelfChoice">Read</a>
+                        <a class="dropdown-item bookshelfChoice">Reading</a>
+                        <a class="dropdown-item bookshelfChoice">Want To Read</a>
+                        <a class="dropdown-item bookshelfChoice">Favorites</a>
+                    </div>
+                </div>
+            </td>
+            
         </tr>
         </tbody>
     </table>
 
 </div>
-</body>
 <script src="/js/search.js"></script>
-
+</body>
 </html>

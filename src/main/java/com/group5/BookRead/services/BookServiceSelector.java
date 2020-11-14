@@ -41,10 +41,9 @@ public class BookServiceSelector {
                                final String bookshelf,
                                final int userId) {
         // check if book exists in database
-        Book curBook = bookService.getBook(book.getId());
-        if (curBook == null
-                || (curBook.getAuthor().equals(book.getAuthor())
-                    && curBook.getName().equals(book.getName()))) {
+        Book curBook = bookService.getBookByNameAuthor(book.getName(),
+            book.getAuthor());
+        if (curBook == null) {
             // the book does not exist
             curBook = bookService.chooseBook(book);
         }

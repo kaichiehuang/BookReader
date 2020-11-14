@@ -32,7 +32,7 @@ public class User {
     public final String getUsername() {
         return username;
     }
-    public final void setUsername(String usernme) {
+    public final void setUsername(final String usernme) {
         this.username = usernme;
     }
     /**  get passport

@@ -12,6 +12,7 @@ public interface BookService {
              int userId);
     Book chooseBook(Book book);
     Book getBook(int id);
+    Book getBookByNameAuthor(String name, String author);
     List<Book> getBooks(String bookshelfName, int userId);
     HashMap<String, List<Book>> getBooksOnBookshelves(int userId);
 }

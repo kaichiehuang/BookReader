@@ -31,9 +31,10 @@ public abstract class BookshelfService {
      * @return
      */
     public Bookshelf findBookshelf(final String bookshelf, final int user) {
-        return bookshelfRepository.findByBookshelfNameAndUserId(
-                bookshelf,
-                user);
+        Bookshelf shelf = bookshelfRepository.findByBookshelfNameAndUserId(
+            bookshelf,
+            user);
+        return shelf;
     }
 
     /**
