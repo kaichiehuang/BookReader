@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Search Book</title>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <div th:replace="fragments/common :: include"></div>
+    <div th:replace="fragments/header :: header-css"></div>
+</head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+<div class = "search">
+    <h1> Search </h1>
+    <form class="form-inline my-2 my-lg-0" th:action="@{/search}" method="get">
+        <input class="form-control mr-sm-2" name="term" type="text" id = "search_input" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-success my-2 my-sm-0" id= "searchButton" type="submit">Search</button>
+    </form>
+    <table>
+        <thead>
+        <tr>
+            <th> Book Cover </th>
+            <th> Title </th>
+            <th> Author </th>
+            <th> Pages </th>
+            <th> Description </th>
+            <th> Action </th>
+
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:if="${books.isEmpty()}">
+            <td colspan="2"> No Books Available </td>
+        </tr>
+        <tr th:each="book : ${books}" id="bookRow">
+            <td><img th:src="${book.getLink()}"></img></td>
+            <td><span th:text="${book.getTitle()}" id="title"> Title </span></td>
+            <td><span th:text="${book.getAuthors()}" id="author"> Author </span></td>
+            <td><span th:text="${book.getPage()}" id="pages"> Pages </span></td>
+            <td><span th:text="${book.getDescription()}" id="description"> Description </span></td>
+            <td>
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Add Book
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item bookshelfChoice">Read</a>
+                        <a class="dropdown-item bookshelfChoice">Reading</a>
+                        <a class="dropdown-item bookshelfChoice">Want To Read</a>
+                        <a class="dropdown-item bookshelfChoice">Favorite</a>
+                    </div>
+                </div>
+            </td>
+            
+        </tr>
+        </tbody>
+    </table>
+
+</div>
+<script src="/js/search.js"></script>
+</body>
+</html>

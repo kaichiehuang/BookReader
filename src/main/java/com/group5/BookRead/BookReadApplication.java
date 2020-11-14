@@ -12,8 +12,8 @@ public class BookReadApplication {
         SpringApplication.run(BookReadApplication.class, args);
     }
 
-	@Bean
-	public RestTemplate restTemplate() {
-		return new RestTemplate();
-	}
+    @Bean
+    public static RestTemplate restTemplate() {
+        return new RestTemplate();
+    }
 }

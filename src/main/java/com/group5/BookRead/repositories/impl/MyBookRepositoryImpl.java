@@ -17,6 +17,7 @@ import com.group5.BookRead.repositories.MyBookRepository;
 @Repository
 public class MyBookRepositoryImpl implements MyBookRepository {
 
+
     @Autowired
     JdbcTemplate jdbcTemplate;
 
@@ -78,7 +79,7 @@ public class MyBookRepositoryImpl implements MyBookRepository {
         try {
             List<MyBook> myBookList = jdbcTemplate.query(
                     "select * from MyBook " + "where user_id = ?"
-                            + "and bookshelf_id = ?",
+                            + " and bookshelf_id = ?",
                 new Object[] {userId, bookshelfId},
                 new MyBookRowMapper());
             return myBookList;
@@ -156,6 +157,8 @@ public class MyBookRepositoryImpl implements MyBookRepository {
      */
     @Override
     public MyBook findById(final int id) {
+        System.err.println("MyBookRepositoryImpl:159 - not implement");
+        System.exit(1);
         return null;
     }
 
@@ -168,6 +171,8 @@ public class MyBookRepositoryImpl implements MyBookRepository {
     @Override
     public MyBook findById(final int bookshelfId,
             final int userId, final int bookId) {
+        System.err.println("MyBookRepositoryImpl:172 - not implement");
+        System.exit(1);
         return null;
     }
 
@@ -181,7 +186,43 @@ public class MyBookRepositoryImpl implements MyBookRepository {
     public MyBook findByUsernameAndBookShelfnameAndBookId(
             final String username, final String bookshelfName,
             final String bookId) {
+        System.err.println("MyBookRepositoryImpl:185 - not implement");
+        System.exit(1);
         return null;
+    }
+
+    /**
+     * find book by username, bookshelf, and bookId
+     * @param username
+     * @param bookshelfName
+     * @param bookId
+     * @return MyBook object
+     */
+    @Override
+    public MyBook findByUsernameAndBookShelfnameAndBookId(
+            final String username,
+            final String bookshelfName,
+            final int bookId) {
+        System.err.println("MyBookRepositoryImpl:200 - not implement");
+        System.exit(1);
+        return null;
+    }
+
+    /**
+     * delete book by userId, bookshelf, and bookId
+     * @param userId
+     * @param shelfId
+     * @param bookId
+     * @return
+     */
+    @Override
+    public int deleteByUserIdAndBookshelfIdAndBookId(
+            final int userId,
+            final int shelfId,
+            final int bookId) {
+        return jdbcTemplate.update("delete from MyBook where user_id = ? "
+                        + "and book_id = ? and bookshelf_id = ?",
+                new Object[] {userId, bookId, shelfId});
     }
 
 }

@@ -24,6 +24,18 @@ public class Book {
         }
     }
 
+    public Book(final String name, final String author,
+            final int page, final String summary) {
+        super();
+        this.name = name;
+        this.author = author;
+        this.page = page;
+        //System.out.println(page);
+        if (summary != null && summary != "") {
+            this.summary = summary;
+        }
+    }
+
     /**  get book id
      * @return id
      */

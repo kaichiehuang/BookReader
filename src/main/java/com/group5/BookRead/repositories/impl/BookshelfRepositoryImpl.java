@@ -89,8 +89,9 @@ public class BookshelfRepositoryImpl implements BookshelfRepository {
      * @return id
      */
     @Override
-    public int findIdByNameAndUserId(final String name,
-            final int userId) {
+    public int findIdByNameAndUserId(final String name, final int userId) {
+        System.err.println("BookshelfRepositoryImpl:93 - not implement");
+        System.exit(1);
         return 0;
     }
 
@@ -129,7 +130,30 @@ public class BookshelfRepositoryImpl implements BookshelfRepository {
     @Override
     public Bookshelf findByBookshelfNameAndUsername(
             final String bookshelfName, final String username) {
+        System.err.println("BookshelfRepositoryImpl:132 - not implement");
+        System.exit(1);
         return null;
+    }
+
+    /**
+     *  find bookshelf
+     * @param bookshelf
+     * @param user
+     * @return
+     */
+    @Override
+    public Bookshelf findByBookshelfNameAndUserId(final String bookshelf,
+                                                  final int user) {
+        try {
+            Bookshelf shelf = jdbcTemplate.queryForObject("select * "
+                    + "from Bookshelf " + "where name = ? and user_id = ?",
+                new Object[] {bookshelf, user},
+                new BookshelfRowMapper());
+            return shelf;
+
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        }
     }
 
 }
