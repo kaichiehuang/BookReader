@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import java.sql.SQLIntegrityConstraintViolationException;
 
 @Service(value = "myBook")
-public final class RegularMyBookService implements  MyBookService {
+public final class RegularMyBookService implements MyBookService {
 
 
     private MyBookRepository myBookRepository;
