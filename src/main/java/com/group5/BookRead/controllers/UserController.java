@@ -3,9 +3,9 @@ package com.group5.BookRead.controllers;
 import com.group5.BookRead.models.AuthenticationRequest;
 import com.group5.BookRead.models.AuthenticationResponse;
 import com.group5.BookRead.models.User;
-import com.group5.BookRead.services.UserServiceSelector;
 import com.group5.BookRead.services.user.MyUserDetailsService;
 import com.group5.BookRead.services.user.MyUserPrincipal;
+import com.group5.BookRead.services.user.UserService;
 import com.group5.BookRead.util.JwtUtil;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +31,7 @@ public class UserController {
     private MyUserDetailsService userDetailsService;
 
     @Autowired
-    private UserServiceSelector userServiceSelector;
+    private UserService userService;
     /**
      * Returns a jwt token after user logs in
      * @param authenticationRequest
@@ -54,7 +54,7 @@ public class UserController {
         }
 
         final UserDetails userDetails = new MyUserPrincipal(
-                userServiceSelector.getUser(
+                userService.findByUsername(
                         authenticationRequest.getUsername()));
 
         final String jwt = jwtTokenUtil.generateToken(userDetails);
@@ -69,7 +69,7 @@ public class UserController {
      */
     @PostMapping("/signup")
     public String signup(@RequestBody final User newUser) throws Exception {
-        if (userServiceSelector.createUser(newUser)) {
+        if (userService.createUser(newUser) != null) {
             return "Success";
         }
         throw new Exception("Create new account failed");
