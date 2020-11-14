@@ -6,7 +6,6 @@ import com.group5.BookRead.models.User;
 import com.group5.BookRead.services.UserServiceSelector;
 import com.group5.BookRead.services.user.MyUserDetailsService;
 import com.group5.BookRead.services.user.MyUserPrincipal;
-import com.group5.BookRead.services.user.UserService;
 import com.group5.BookRead.util.JwtUtil;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +13,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -34,9 +32,15 @@ public class UserController {
 
     @Autowired
     private UserServiceSelector userServiceSelector;
-
+    /**
+     * Returns a jwt token after user logs in
+     * @param authenticationRequest
+     * @return jwt token
+     */
     @PostMapping("/login")
-    public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthenticationRequest authenticationRequest) throws Exception {
+    public ResponseEntity<?> createAuthenticationToken(
+            @RequestBody final AuthenticationRequest authenticationRequest)
+            throws Exception {
 
         try {
             authenticationManager.authenticate(
@@ -58,8 +62,13 @@ public class UserController {
         return ResponseEntity.ok(new AuthenticationResponse(jwt));
     }
 
+    /**
+     * Sign up
+     * @param newUser
+     * @return success message
+     */
     @PostMapping("/signup")
-    public String signup(@RequestBody User newUser) throws Exception {
+    public String signup(@RequestBody final User newUser) throws Exception {
         if (userServiceSelector.createUser(newUser)) {
             return "Success";
         }

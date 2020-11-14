@@ -158,7 +158,7 @@ public class MyBookRepositoryImpl implements MyBookRepository {
     @Override
     public MyBook findById(final int id) {
         System.err.println("MyBookRepositoryImpl:159 - not implement");
-        System.exit(10);
+        System.exit(1);
         return null;
     }
 
@@ -172,7 +172,7 @@ public class MyBookRepositoryImpl implements MyBookRepository {
     public MyBook findById(final int bookshelfId,
             final int userId, final int bookId) {
         System.err.println("MyBookRepositoryImpl:172 - not implement");
-        System.exit(10);
+        System.exit(1);
         return null;
     }
 
@@ -187,7 +187,7 @@ public class MyBookRepositoryImpl implements MyBookRepository {
             final String username, final String bookshelfName,
             final String bookId) {
         System.err.println("MyBookRepositoryImpl:185 - not implement");
-        System.exit(10);
+        System.exit(1);
         return null;
     }
 
@@ -205,14 +205,14 @@ public class MyBookRepositoryImpl implements MyBookRepository {
             final String bookshelfName,
             final int bookId) {
         System.err.println("MyBookRepositoryImpl:200 - not implement");
-        System.exit(10);
+        System.exit(1);
         return null;
     }
 
     /**
      * delete book by userId, bookshelf, and bookId
      * @param userId
-     * @param bookshelfName
+     * @param id
      * @param bookId
      * @return
      */
@@ -222,7 +222,7 @@ public class MyBookRepositoryImpl implements MyBookRepository {
             final int id,
             final int bookId) {
         System.err.println("MyBookRepositoryImpl:217 - not implement");
-        System.exit(10);
+        System.exit(1);
         return 0;
     }
 

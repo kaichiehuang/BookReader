@@ -38,7 +38,7 @@ public class UserRepositoryImpl implements UserRepository {
      * @return status code
      */
     @Override
-    public int insert(User user) throws
+    public int insert(final User user) throws
 
         SQLIntegrityConstraintViolationException {
         return jdbcTemplate.update("insert into User (username, password) "
@@ -59,7 +59,7 @@ public class UserRepositoryImpl implements UserRepository {
      * @return user
      */
     @Override
-    public User findById(int id) {
+    public User findById(final int id) {
         try {
             User user = jdbcTemplate.queryForObject(
                     "select * from User " + "where id = ?",
@@ -76,7 +76,7 @@ public class UserRepositoryImpl implements UserRepository {
      * @return user
      */
     @Override
-    public User findByUsername(String username) {
+    public User findByUsername(final String username) {
         try {
             User user = jdbcTemplate.queryForObject(
                 "select * from User " + "where username = ?",
@@ -95,7 +95,7 @@ public class UserRepositoryImpl implements UserRepository {
      * @return id
      */
     @Override
-    public int findIdByUsername(String username) {
+    public int findIdByUsername(final String username) {
         try {
             int id = jdbcTemplate.queryForObject("select id from User "
                     + "where username = ?",
@@ -112,7 +112,7 @@ public class UserRepositoryImpl implements UserRepository {
      * @return status code
      */
     @Override
-    public int update(User user) {
+    public int update(final User user) {
         return jdbcTemplate.update("update User "
                 + "set username = ?, password = ? "
                 + "where id = ?",
@@ -125,7 +125,7 @@ public class UserRepositoryImpl implements UserRepository {
      * @return status code
      */
     @Override
-    public int deleteById(int id) {
+    public int deleteById(final int id) {
         return jdbcTemplate.update("delete from User where id = ?",
                 new Object[] {id});
     }

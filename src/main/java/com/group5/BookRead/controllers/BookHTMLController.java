@@ -16,11 +16,9 @@ public class BookHTMLController extends BookController {
     // // @Autowired
     // private BookService bookshelfService;
     /**
-     * <p> get Book shelf items
+     * <p> get login page
      * </p>
-     * @param name query stirng for name
-     * @param model Thymyleaf model
-     * @return value to be outputed
+     * @return view to be output
      * @since 1.0
      */
     @GetMapping("/login")
@@ -28,13 +26,26 @@ public class BookHTMLController extends BookController {
         return "login";
     }
 
+    /**
+     * <p> logout
+     * </p>
+     * @return view to be output
+     * @since 1.0
+     */
     @GetMapping("/logout")
     public String logout() {
         return "login";
     }
 
 
-
+    /**
+     * <p> get Book shelf items
+     * </p>
+     * @param name query stirng for name
+     * @param model Thymyleaf model
+     * @return value to be outputed
+     * @since 1.0
+     */
     @GetMapping("/book/shelf")
     public String getBookBookshelf(@RequestParam(name = "shelf",
         required = true, defaultValue = "All") final String shelf,

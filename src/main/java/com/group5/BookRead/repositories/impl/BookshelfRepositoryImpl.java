@@ -92,7 +92,7 @@ public class BookshelfRepositoryImpl implements BookshelfRepository {
     @Override
     public int findIdByNameAndUserId(final String name, final int userId) {
         System.err.println("BookshelfRepositoryImpl:93 - not implement");
-        System.exit(10);
+        System.exit(1);
         return 0;
     }
 
@@ -129,10 +129,10 @@ public class BookshelfRepositoryImpl implements BookshelfRepository {
      * @return bookshelf
      */
     @Override
-    public Bookshelf findByBookshelfNameAndUsername (
-            final String bookshelfName, final String username){
+    public Bookshelf findByBookshelfNameAndUsername(
+            final String bookshelfName, final String username) {
         System.err.println("BookshelfRepositoryImpl:132 - not implement");
-        System.exit(10);
+        System.exit(1);
         return null;
     }
 
