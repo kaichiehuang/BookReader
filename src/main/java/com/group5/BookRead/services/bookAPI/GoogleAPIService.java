@@ -13,7 +13,8 @@ public class GoogleAPIService implements BookAPI {
     private BookAPIAdaptor bookAPIAdaptor;
     private RestTemplate restTemplate;
     @Autowired
-    public GoogleAPIService(final RestTemplate restTemplate, final BookAPIAdaptor bookAPIAdaptor) {
+    public GoogleAPIService(final RestTemplate restTemplate,
+                            final BookAPIAdaptor bookAPIAdaptor) {
         this.bookAPIAdaptor = bookAPIAdaptor;
         this.restTemplate = restTemplate;
     }
