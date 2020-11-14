@@ -14,6 +14,12 @@ public class Bookshelf {
 
     }
 
+    public Bookshelf(final int userId, final String name) {
+        super();
+        this.userId = userId;
+        this.name = name;
+    }
+
     public Bookshelf(final int id, final int userId, final String name) {
         super();
         this.id = id;

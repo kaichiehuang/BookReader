@@ -16,6 +16,29 @@ public class BookHTMLController extends BookController {
     // // @Autowired
     // private BookService bookshelfService;
     /**
+     * <p> get login page
+     * </p>
+     * @return view to be output
+     * @since 1.0
+     */
+    @GetMapping("/login")
+    public String getLoginPage() {
+        return "login";
+    }
+
+    /**
+     * <p> logout
+     * </p>
+     * @return view to be output
+     * @since 1.0
+     */
+    @GetMapping("/logout")
+    public String logout() {
+        return "login";
+    }
+
+
+    /**
      * <p> get Book shelf items
      * </p>
      * @param name query stirng for name

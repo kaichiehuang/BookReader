@@ -29,6 +29,8 @@ public class SearchBookController {
     @GetMapping("/search")
     public String search(@RequestParam("term") final String query,
                          final Model model) {
+//        SecurityContext context = SecurityContextHolder.getContext();
+//        context.getAuthentication().getPrincipal();
         List<BookFromAPI> foundBooks = externalBookAPI.searchBook(query);
         model.addAttribute("books", foundBooks);
         return "searchBook";
