@@ -1,6 +1,7 @@
 package com.group5.BookRead.services;
 
 import com.group5.BookRead.models.Book;
+import com.group5.BookRead.services.book.BookExistsOnTragetShelfException;
 import com.group5.BookRead.services.book.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -39,7 +40,8 @@ public class BookServiceSelector {
      */
     public Book addBookToShelf(final Book book,
                                final String bookshelf,
-                               final int userId) {
+                               final int userId)
+            throws BookExistsOnTragetShelfException {
         // check if book exists in database
         Book curBook = bookService.getBookByNameAuthor(book.getName(),
             book.getAuthor());
@@ -49,6 +51,7 @@ public class BookServiceSelector {
         }
 
         // The curBook is the current book
+        // now here, we actually need to check if the bookshelf is not favorites
         Book addedBook = bookService.addBookToShelf(curBook, bookshelf, userId);
         if (addedBook != null) {
             return addedBook;

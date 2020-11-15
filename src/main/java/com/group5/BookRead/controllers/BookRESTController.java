@@ -29,7 +29,7 @@ public class BookRESTController extends BookController {
     public String moveBookInBookeshelf(
         @RequestBody final Map<String, String> json,
         @PathVariable final String dstShelf,
-        final HttpServletResponse response) {
+        final HttpServletResponse response) throws Exception {
         try {
             SecurityContext context = SecurityContextHolder.getContext();
             int userId = Integer.parseInt(context.getAuthentication()
@@ -52,7 +52,7 @@ public class BookRESTController extends BookController {
     /**
      * <p> move book between shelf restful api
      * </p>
-     * @param json body object
+     * @param book object
      * @param dstShelf destination bookshelf
      * @param response response object
      * @return response message
@@ -60,10 +60,10 @@ public class BookRESTController extends BookController {
      */
     @PostMapping(value = "/book/shelf/{dstShelf}",
         consumes = "application/json", produces = "application/json")
-    public String addBook(
-        @RequestBody final Book book,
-        @PathVariable final String dstShelf,
-        final HttpServletResponse response) {
+    public String addBook (
+            @RequestBody final Book book,
+            @PathVariable final String dstShelf,
+            final HttpServletResponse response) throws Exception {
         try {
             SecurityContext context = SecurityContextHolder.getContext();
             int userId = Integer.parseInt(context.getAuthentication()

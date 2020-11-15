@@ -9,7 +9,7 @@ public interface BookService {
     Book remove(int bookId, String bookshelf, int userId);
     Book addBookToShelf(Book book,
              String bookshelfName,
-             int userId);
+             int userId) throws BookExistsOnTragetShelfException;
     Book chooseBook(Book book);
     Book getBook(int id);
     Book getBookByNameAuthor(String name, String author);
