@@ -93,6 +93,9 @@ $(()=>{
             success : function (response) {
                 $("#userExistsMsg")[0].style.display = "none";
                 console.log(response);
+                document.cookie = "jwt="+response["jwt"];
+                console.log(getCookie("jwt"));
+                window.location.replace("/");
             },
             error : function (jqXHR, exception) {
                 $("#userExistsMsg")[0].style.display = "block";
