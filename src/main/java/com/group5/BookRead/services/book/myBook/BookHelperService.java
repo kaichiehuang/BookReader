@@ -8,7 +8,7 @@ public interface BookHelperService {
     boolean remove(int bookId, int userId, String bookshelf);
     boolean addToShelf(MyBook book);
     List<MyBook> getMyBooks(String bookshelf, int userId);
-    MyBook getMyBook(String user, String bookshelf, int bookId);
+    MyBook getMyBook(int userid, int bookshelfId, int bookId);
     Bookshelf getShelf(String bookshelf, int userId);
     List<Bookshelf> getBookShelves(int userId);
 }

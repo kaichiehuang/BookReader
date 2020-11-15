@@ -22,14 +22,32 @@ public class BookshelfServiceSelector {
     @Qualifier("favorites")
     BookshelfService favoriteBookshelfService;
 
+    @Autowired
+    @Qualifier("recommend")
+    BookshelfService recommendBookshelfService;
+
+    @Autowired
+    @Qualifier("want-to-read")
+    BookshelfService wantToReadBookshelfService;
+
+    @Autowired
+    @Qualifier("myshelf")
+    BookshelfService regularBookshelfService;
+
 
     private BookshelfService getService(final String type) {
-        if (type.equals("read") || type.equals("default")) {
+        if (type.equals("read")) {
             return readBookshelfService;
         } else if (type.equals("reading")) {
             return readingBookshelfService;
+        } else if (type.equals("want-to-read")) {
+            return wantToReadBookshelfService;
+        } else if (type.equals("recommend")) {
+            return recommendBookshelfService;
+        } else if (type.equals("favorites")) {
+            return favoriteBookshelfService;
         }
-        return favoriteBookshelfService;
+        return regularBookshelfService;
     }
 
     /**  get the bookshelf of type (bookshelfName) for user
@@ -62,7 +80,7 @@ public class BookshelfServiceSelector {
      * @return
      */
     public List<Bookshelf> getBookShelves(final int userId) {
-        return getService("defualt").findBookshelves(userId);
+        return getService("myshelf").findBookshelves(userId);
     }
 
     /**

@@ -9,9 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.SQLIntegrityConstraintViolationException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 @Service(value = "book")
 public final class RegularBookService implements BookService {
@@ -59,11 +57,40 @@ public final class RegularBookService implements BookService {
     @Override
     public Book addBookToShelf(final Book book,
                     final String bookshelfName,
-                    final int userId) {
+                    final int userId)
+            throws BookExistsOnTragetShelfException {
 
         Bookshelf bookShelf = bookHelperService.getShelf(
                 bookshelfName,
                 userId);
+        MyBook existing = bookHelperService.getMyBook(
+                bookShelf.getId(),
+                userId,
+                book.getId());
+
+        if (existing != null) {
+            // exists
+            throw new BookExistsOnTragetShelfException(
+                    book.getName() + " exists on " + bookshelfName);
+        }
+
+        List<Bookshelf> shelves = bookHelperService.getBookShelves(userId);
+        for (Bookshelf shelf : shelves) {
+            if (!shelf.getName().equals(bookshelfName)) {
+                MyBook curBook = bookHelperService.getMyBook(
+                        userId,
+                        shelf.getId(),
+                        book.getId());
+                if (curBook != null
+                        && (shelf.getName().equals("favorites")
+                        || bookshelfName.equals("favorites"))) {
+                    throw new BookExistsOnTragetShelfException(
+                            book.getName() + " exists on " + shelf.getName());
+                }
+
+            }
+        }
+
 
         // Create a new myBook as we are changing the bookshelf
         MyBook myBook = new MyBook(

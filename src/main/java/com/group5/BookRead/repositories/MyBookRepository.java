@@ -14,7 +14,7 @@ public interface MyBookRepository {
 
     List<MyBook> findAllByBookId(int id);
 
-    int findIdByAllIds(int bookId, int userId, int bookshelfId);
+    MyBook findByAllIds(int bookId, int userId, int bookshelfId);
 
     int update(MyBook mybook);
 
