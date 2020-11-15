@@ -2,6 +2,9 @@ package com.group5.BookRead.services.bookshelf;
 import com.group5.BookRead.models.Bookshelf;
 import com.group5.BookRead.repositories.BookshelfRepository;
 
+import java.sql.SQLIntegrityConstraintViolationException;
+import java.util.List;
+
 public abstract class BookshelfService {
 
     private BookshelfRepository bookshelfRepository;
@@ -21,5 +24,42 @@ public abstract class BookshelfService {
                 user);
     }
 
+    /**
+     * Find the Bookshelf object based onthe type and the onwer
+     * @param bookshelf
+     * @param user
+     * @return
+     */
+    public Bookshelf findBookshelf(final String bookshelf, final int user) {
+        Bookshelf shelf = bookshelfRepository.findByBookshelfNameAndUserId(
+            bookshelf,
+            user);
+        return shelf;
+    }
+
+    /**
+     *  find all bookshelves of an given user
+     * @param userId
+     * @return a list of bookshelves
+     */
+    public List<Bookshelf> findBookshelves(final int userId) {
+        //System.out.println(bookshelfRepository.findAllByUserId(userId));
+        return bookshelfRepository.findAllByUserId(userId);
+    }
+
+    /**
+     *  create a new shelf
+     * @param bookshelf
+     * @param userId
+     * @return
+     */
+    public boolean create(final String bookshelf, final int userId) {
+        Bookshelf shelf = new Bookshelf(userId, bookshelf);
+        try {
+            return bookshelfRepository.insert(shelf) == 1;
+        } catch (SQLIntegrityConstraintViolationException exception) {
+            return false;
+        }
+    }
 }
 

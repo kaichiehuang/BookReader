@@ -7,7 +7,7 @@ $(function() {
             srcShelf = $(this).parents('.bookshelf').find('.heading').text();
             
         },
-        stack: ".bookshelf #book"
+        stack: ".bookshelf #book",
     });
 
     $(".bookshelf").droppable({ 
@@ -18,14 +18,13 @@ $(function() {
             // console.log(bookId); 
             // console.log(srcShelf);
             // console.log(dstShelf)
-
             $.ajax({
                 url: '/book/shelf/' + dstShelf,
                 type: 'PUT',
                 cache: false,
                 contentType: 'application/json; charset=utf-8',
                 data: JSON.stringify({srcShelf: srcShelf, bookId: bookId}),
-                headers: {'Authorization': 'Bearer '},
+                headers: {'Authorization': 'Bearer ' + getCookie("jwt")},
                 success: function(res) {
                     location.reload();
                 },

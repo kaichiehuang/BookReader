@@ -5,43 +5,45 @@
     <link rel="stylesheet" th:href="@{/css/bookshelf.css}" />
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <div th:replace="fragments/header :: header-css"></div>
     <div th:replace="fragments/common :: include"></div>
+    <div th:replace="fragments/header :: header-css"></div>
 </head>
 <body>
-    <div th:replace="fragments/header :: header"></div>;:;
-    <div class="container" th:each="instance : ${bookshelfs}">
-        <div class="row">
-            <div class="col-md-12 text-center bookshelf">
-                <h1 class="heading" th:text="${instance.key}"></h1>
-                <!-- TODO: use service here -->
-                <div th:each="book,iter : ${instance.value}">
-                    <div class="col-xs-4 col-md-2" id="book" th:attr="data-book-id=${book.id}">
-                        <!-- TODO: book link goes here -->
-                        <a href="#">
-                            <div class="book-holder">
-                                <div class="book-container">
-                                    <div class="book">
-                                        <div class="book-cover" >
-                                            <!-- TODO: book cover set background image-->
-                                            <div class="cover">
-                                                
-                                                <span class="book-title" th:text="${book.title}"></span>
-                                                <span class="book-writer" th:text="${book.author}"></span>
+    <div th:replace="fragments/header :: header"></div>
+    <div class="container">
+        <div class="row bookshelf" th:each="instance : ${bookshelfs}">
+            <div class="col-md-12 text-center">
+                <div>
+                    <h1 class="heading" th:text="${instance.key}"></h1>
+                    <!-- TODO: use service here -->
+                    <div th:each="book,iter : ${instance.value}">
+                        <div class="col-xs-4 col-md-2" id="book" th:attr="data-book-id=${book.id}" style="z-index: 5;">
+                            <!-- TODO: book link goes here -->
+                            <a href="#">
+                                <div class="book-holder">
+                                    <div class="book-container">
+                                        <div class="book">
+                                            <div class="book-cover" >
+                                                <!-- TODO: book cover set background image-->
+                                                <div class="cover">
+                                                    
+                                                    <span class="book-title" th:text="${book.name}"></span>
+                                                    <span class="book-writer" th:text="${book.author}"></span>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="book-spine">
-                                            <h1 th:text="${book.title}"></h1>
+                                            <div class="book-spine">
+                                                <h1 th:text="${book.name}"></h1>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        </a>
+                            </a>
+                        </div>
+                        <div class="col-xs-12 shelf" th:if="${(iter.index + 1) % 6 == 0}"></div>
                     </div>
-                    <div class="col-xs-12 shelf" th:if="${(iter.index + 1) % 6 == 0}"></div>
-                </div>
-                <div class="col-xs-12 shelf" th:unless="${#lists.size(instance.value) % 6 == 0}"></div>
-            </div>   
+                    <div class="col-xs-12 shelf" th:unless="${#lists.size(instance.value) % 6 == 0}"></div>
+                </div>   
+            </div>
         </div>
     </div>	
 

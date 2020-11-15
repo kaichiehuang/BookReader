@@ -11,128 +11,218 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import com.group5.BookRead.models.Bookshelf;
 import com.group5.BookRead.models.MyBook;
 import com.group5.BookRead.repositories.MyBookRepository;
-import com.group5.BookRead.repositories.impl.BookshelfRepositoryImpl.BookshelfRowMapper;
 
 @Repository
 public class MyBookRepositoryImpl implements MyBookRepository {
 
-	@Autowired
-	JdbcTemplate jdbcTemplate;
-	
-	class MyBookRowMapper implements RowMapper <MyBook> {
 
-		@Override
-		public MyBook mapRow(ResultSet rs, int rowNum) throws SQLException {
-			MyBook mb = new MyBook();
-			mb.setId(rs.getInt("id"));
-			mb.setBook_id(rs.getInt("book_id"));
-			mb.setBookshelf_id(rs.getInt("bookshelf_id"));
-			mb.setUser_id(rs.getInt("user_id"));
-			mb.setProgress(rs.getInt("progress"));
-			return mb;
-		}
-		
-	}
-	
-	@Override
-	public int insert(MyBook mybook) throws SQLIntegrityConstraintViolationException {
-		return jdbcTemplate.update("insert into MyBook (book_id, user_id, bookshelf_id, progress) " + "values(?, ?, ?, ?)",
-			new Object[] {
-				mybook.getBook_id(), mybook.getUser_id(), mybook.getBookshelf_id(), mybook.getProgress()
-			});
-	}
+    @Autowired
+    JdbcTemplate jdbcTemplate;
 
-	@Override
-	public List<MyBook> findAllByUserId(int id) {
-		try {
-			List<MyBook> myBookList = jdbcTemplate.query("select * from MyBook "+"where user_id = ?", 
-				new Object[] {
-					id
-				}, 
-				new MyBookRowMapper());
-			return myBookList;
-					
-		} catch (Exception e) {
-			return null;
-		}
-	}
+    class MyBookRowMapper implements RowMapper<MyBook> {
 
-	@Override
-	public List<MyBook> findAllByUserIdAndShelfId(int user_id, int bookshelf_id) {
-		try {
-			List<MyBook> myBookList = jdbcTemplate.query("select * from MyBook "+"where user_id = ? and bookshelf_id = ?", 
-				new Object[] {
-					user_id, bookshelf_id
-				}, 
-				new MyBookRowMapper());
-			return myBookList;
-					
-		} catch (Exception e) {
-			return null;
-		}
-	}
+        @Override
+        public MyBook mapRow(final ResultSet rs, final int rowNum)
+                throws SQLException {
+            MyBook mb = new MyBook();
+            mb.setId(rs.getInt("id"));
+            mb.setBookId(rs.getInt("book_id"));
+            mb.setBookshelfId(rs.getInt("bookshelf_id"));
+            mb.setUserId(rs.getInt("user_id"));
+            mb.setProgress(rs.getInt("progress"));
+            return mb;
+        }
 
-	@Override
-	public List<MyBook> findAllByBookId(int id) {
-		try {
-			List<MyBook> myBookList = jdbcTemplate.query("select * from MyBook "+"where book_id = ?", 
-				new Object[] {
-					id
-				}, 
-				new MyBookRowMapper());
-			return myBookList;
-					
-		} catch (Exception e) {
-			return null;
-		}
-	}
+    }
 
-	@Override
-	public int findIdByAllIds(int book_id, int user_id, int bookshelf_id) {
-		try {
-			int id = jdbcTemplate.queryForObject("select id from MyBook "+"where book_id = ? and user_id = ? and bookshelf_id = ?",
-				new Object[] {
-					book_id, user_id, bookshelf_id	
-				}, 
-				int.class);
-			return id;
-					
-		} catch (EmptyResultDataAccessException e) {
-			return -1;
-		}
-	}
+    /**  insert mybook
+     * @param mybook
+     * @return status code
+     */
+    @Override
+    public int insert(final MyBook mybook) throws
+        SQLIntegrityConstraintViolationException {
+        return jdbcTemplate.update("insert into MyBook (book_id, "
+                + "user_id, bookshelf_id, progress) " + "values(?, ?, ?, ?)",
+            new Object[] {mybook.getBookId(), mybook.getUserId(),
+                    mybook.getBookshelfId(), mybook.getProgress()
+                });
+    }
 
-	@Override
-	public int update(MyBook mb) {
-		return jdbcTemplate.update("update MyBook "+"set book_id = ?, user_id = ?, bookshelf_id = ?, progress = ? "+"where id = ?", 
-			new Object[] {	
-				mb.getBook_id(), mb.getUser_id(), mb.getBookshelf_id(), mb.getProgress(), mb.getId()
-			});
-	}
+    /**  find all mybook of a user by userId
+     * @param id
+     * @return mybookList
+     */
+    @Override
+    public List<MyBook> findAllByUserId(final int id) {
+        try {
+            List<MyBook> myBookList = jdbcTemplate.query(
+                    "select * from MyBook " + "where user_id = ?",
+                new Object[] {id},
+                new MyBookRowMapper());
+            return myBookList;
+        } catch (Exception e) {
+            return null;
+        }
+    }
 
-	@Override
-	public int deleteById(int id) {
-		return jdbcTemplate.update("delete from MyBook where id = ?", new Object[] {
-				id	
-			});
-	}
+    /**  find all mybook by userId and bookshelfId
+     * @param userId
+     * @param bookshelfId
+     * @return mybookList
+     */
+    @Override
+    public List<MyBook> findAllByUserIdAndShelfId(
+            final int userId, final int bookshelfId) {
+        try {
+            List<MyBook> myBookList = jdbcTemplate.query(
+                    "select * from MyBook " + "where user_id = ?"
+                            + " and bookshelf_id = ?",
+                new Object[] {userId, bookshelfId},
+                new MyBookRowMapper());
+            return myBookList;
+        } catch (Exception e) {
+            return null;
+        }
+    }
 
-	@Override
-	public MyBook findById(int id) {
-		return null;
-	}
+    /**  find all mybook by mybook id
+     * @param id
+     * @return mybookList
+     */
+    @Override
+    public List<MyBook> findAllByBookId(final int id) {
+        try {
+            List<MyBook> myBookList = jdbcTemplate.query(
+                    "select * from MyBook " + "where book_id = ?",
+                new Object[] {id},
+                new MyBookRowMapper());
+            return myBookList;
+        } catch (Exception e) {
+            return null;
+        }
+    }
 
-	@Override
-	public MyBook findById(int bookshelf_id, int user_id, int book_id) {
-		return null;
-	}
+    /**  find mybook id by other ids (bookId, userId, bookshelfId)
+     * @param bookId
+     * @param userId
+     * @param bookshelfId
+     * @return id
+     */
+    @Override
+    public MyBook findByAllIds(final int bookId,
+            final int userId, final int bookshelfId) {
+        try {
+            MyBook book = jdbcTemplate.queryForObject("select * from MyBook "
+                    + "where book_id = ? and user_id = ? and bookshelf_id = ?",
+                new Object[] {bookId, userId,
+                    bookshelfId}, new MyBookRowMapper());
+            return book;
 
-	@Override
-	public MyBook findByUsernameAndBookShelfnameAndBookId(String username, String bookshelfName, int bookId) {
-		return null;
-	}
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        }
+    }
+
+    /**  update mybook
+     * @param mybook
+     * @return status code
+     */
+    @Override
+    public int update(final MyBook mb) {
+        return jdbcTemplate.update("update MyBook " + "set book_id = ?,"
+                + "user_id = ?, bookshelf_id = ?, progress = ? "
+                + "where id = ?",
+            new Object[] {
+                    mb.getBookId(), mb.getUserId(),
+                    mb.getBookshelfId(), mb.getProgress(), mb.getId()
+            });
+    }
+
+    /**  delete mybook by id
+     * @param id
+     * @return status code
+     */
+    @Override
+    public int deleteById(final int id) {
+        return jdbcTemplate.update("delete from MyBook where id = ?",
+                new Object[] {id});
+    }
+
+    /**  find mybook by id
+     * @param id
+     * @return mybook
+     */
+    @Override
+    public MyBook findById(final int id) {
+        System.err.println("MyBookRepositoryImpl:159 - not implement");
+        System.exit(1);
+        return null;
+    }
+
+    /**  find mybook by all other ids
+     * @param bookshelfId
+     * @param userId
+     * @param bookId
+     * @return mybook
+     */
+    @Override
+    public MyBook findById(final int bookshelfId,
+            final int userId, final int bookId) {
+        System.err.println("MyBookRepositoryImpl:172 - not implement");
+        System.exit(1);
+        return null;
+    }
+
+    /**  find mybook by username, shelfName, and bookId
+     * @param username
+     * @param bookshelfName
+     * @param bookId
+     * @return mybook
+     */
+    @Override
+    public MyBook findByUsernameAndBookShelfnameAndBookId(
+            final String username, final String bookshelfName,
+            final String bookId) {
+        System.err.println("MyBookRepositoryImpl:185 - not implement");
+        System.exit(1);
+        return null;
+    }
+
+    /**
+     * find book by username, bookshelf, and bookId
+     * @param username
+     * @param bookshelfName
+     * @param bookId
+     * @return MyBook object
+     */
+    @Override
+    public MyBook findByUsernameAndBookShelfnameAndBookId(
+            final String username,
+            final String bookshelfName,
+            final int bookId) {
+        System.err.println("MyBookRepositoryImpl:200 - not implement");
+        System.exit(1);
+        return null;
+    }
+
+    /**
+     * delete book by userId, bookshelf, and bookId
+     * @param userId
+     * @param shelfId
+     * @param bookId
+     * @return
+     */
+    @Override
+    public int deleteByUserIdAndBookshelfIdAndBookId(
+            final int userId,
+            final int shelfId,
+            final int bookId) {
+        return jdbcTemplate.update("delete from MyBook where user_id = ? "
+                        + "and book_id = ? and bookshelf_id = ?",
+                new Object[] {userId, bookId, shelfId});
+    }
 
 }
