@@ -65,17 +65,12 @@ public class UserController {
     /**
      * Sign up
      * @param newUser
-     * @return success message
+     * @return jwt token
      */
-//    @PostMapping("/signup")
-//    public String signup(@RequestBody final User newUser) throws Exception {
-//        if (userServiceSelector.createUser(newUser)) {
-//            return "Success";
-//        }
-//        throw new Exception("Create new account failed");
-//    }
+
     @PostMapping("/signup")
-    public ResponseEntity<?> signup(@RequestBody final User newUser) throws Exception {
+    public ResponseEntity<?> signup(@RequestBody final User newUser)
+            throws Exception {
         if (userServiceSelector.createUser(newUser)) {
             final UserDetails userDetails = new MyUserPrincipal(
                     userServiceSelector.getUser(
