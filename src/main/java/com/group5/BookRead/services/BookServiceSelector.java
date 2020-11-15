@@ -79,4 +79,13 @@ public class BookServiceSelector {
         return bookService.getBooks(bookshelfType, userId);
     }
 
+    /**
+     *  get book
+     * @param bookId
+     * @return
+     */
+    public Book getBook(final int bookId) {
+        return bookService.getBook(bookId);
+    }
+
 }

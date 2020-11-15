@@ -37,9 +37,9 @@ public class BookRESTController extends BookController {
             int bookId = Integer.parseInt(json.get("bookId"));
             String srcShelf = json.get("srcShelf");
 
-            Book book = bookServiceSelector.removeBook(bookId, srcShelf,
-                userId);
-            bookServiceSelector.addBookToShelf(book, dstShelf, userId);
+            Book bookFromDb = bookServiceSelector.getBook(bookId);
+            bookServiceSelector.addBookToShelf(bookFromDb, dstShelf, userId);
+            bookServiceSelector.removeBook(bookId, srcShelf, userId);
 
             response.setStatus(HttpServletResponse.SC_OK);
 
