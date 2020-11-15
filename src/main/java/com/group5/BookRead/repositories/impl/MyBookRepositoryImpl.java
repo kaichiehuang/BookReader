@@ -112,17 +112,17 @@ public class MyBookRepositoryImpl implements MyBookRepository {
      * @return id
      */
     @Override
-    public int findIdByAllIds(final int bookId,
+    public MyBook findByAllIds(final int bookId,
             final int userId, final int bookshelfId) {
         try {
-            int id = jdbcTemplate.queryForObject("select id from MyBook "
+            MyBook book = jdbcTemplate.queryForObject("select * from MyBook "
                     + "where book_id = ? and user_id = ? and bookshelf_id = ?",
                 new Object[] {bookId, userId,
-                    bookshelfId}, int.class);
-            return id;
+                    bookshelfId}, new MyBookRowMapper());
+            return book;
 
         } catch (EmptyResultDataAccessException e) {
-            return -1;
+            return null;
         }
     }
 
