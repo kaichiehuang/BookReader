@@ -60,7 +60,7 @@ public class BookRESTController extends BookController {
      */
     @PostMapping(value = "/book/shelf/{dstShelf}",
         consumes = "application/json", produces = "application/json")
-    public String addBook (
+    public String addBook(
             @RequestBody final Book book,
             @PathVariable final String dstShelf,
             final HttpServletResponse response) throws Exception {

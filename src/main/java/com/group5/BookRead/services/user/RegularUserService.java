@@ -31,7 +31,8 @@ public class RegularUserService implements UserService {
      */
     @Override
     public User createUser(final User user) {
-        String[] bookshelves = new String[] {"favorites", "recommended", "reading", "read", "want to read"};
+        String[] bookshelves = new String[] {"favorites", "recommended", 
+            "reading", "read", "want to read"};
         try {
             userRepository.insert(user);
             User storedUser = userRepository.findByUsername(user.getUsername());
