@@ -28,26 +28,38 @@ public class UserRepositoryImpl implements UserRepository {
             User user = new User();
             user.setId(rs.getInt("id"));
             user.setPassword(rs.getString("password"));
-            user.setUsernme(rs.getString("username"));
+            user.setUsername(rs.getString("username"));
             return user;
         }
     }
 
+    /**  insert user
+     * @param user
+     * @return status code
+     */
     @Override
-    public final int insert(final User user) throws
+    public int insert(final User user) throws
+
         SQLIntegrityConstraintViolationException {
         return jdbcTemplate.update("insert into User (username, password) "
         + "values(?, ?)",
-            new Object[] {user.getUsernme(), user.getPassword()});
+            new Object[] {user.getUsername(), user.getPassword()});
     }
 
+    /**  find all user
+     * @return userList
+     */
     @Override
-    public final List<User> findAll() {
+    public List<User> findAll() {
         return jdbcTemplate.query("select * from User", new UserRowMapper());
     }
 
+    /**  find user by id
+     * @param id
+     * @return user
+     */
     @Override
-    public final User findById(final int id) {
+    public User findById(final int id) {
         try {
             User user = jdbcTemplate.queryForObject(
                     "select * from User " + "where id = ?",
@@ -59,8 +71,12 @@ public class UserRepositoryImpl implements UserRepository {
         }
     }
 
+    /**  find user by username
+     * @param username
+     * @return user
+     */
     @Override
-    public final User findByUsername(final String username) {
+    public User findByUsername(final String username) {
         try {
             User user = jdbcTemplate.queryForObject(
                 "select * from User " + "where username = ?",
@@ -69,11 +85,17 @@ public class UserRepositoryImpl implements UserRepository {
             return user;
         } catch (EmptyResultDataAccessException e) {
             return null;
+        } catch (Exception e) {
+            throw e;
         }
     }
 
+    /**  find user id by username
+     * @param username
+     * @return id
+     */
     @Override
-    public final int findIdByUsername(final String username) {
+    public int findIdByUsername(final String username) {
         try {
             int id = jdbcTemplate.queryForObject("select id from User "
                     + "where username = ?",
@@ -85,17 +107,25 @@ public class UserRepositoryImpl implements UserRepository {
         }
     }
 
+    /**  update user
+     * @param user
+     * @return status code
+     */
     @Override
-    public final int update(final User user) {
+    public int update(final User user) {
         return jdbcTemplate.update("update User "
                 + "set username = ?, password = ? "
                 + "where id = ?",
-                new Object[] {user.getUsernme(), user.getPassword(),
+                new Object[] {user.getUsername(), user.getPassword(),
                         user.getId()});
     }
 
+    /**  delete user by id
+     * @param id
+     * @return status code
+     */
     @Override
-    public final int deleteById(final int id) {
+    public int deleteById(final int id) {
         return jdbcTemplate.update("delete from User where id = ?",
                 new Object[] {id});
     }

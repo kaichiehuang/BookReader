@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 import com.group5.BookRead.models.Book;
 import com.group5.BookRead.repositories.BookRepository;
 
+
 @Repository
 public class BookRepositoryImpl implements BookRepository {
 
@@ -35,8 +36,12 @@ public class BookRepositoryImpl implements BookRepository {
 
     }
 
+    /**  insert book
+     * @param book
+     * @return status code
+     */
     @Override
-    public final int insert(final Book book) {
+    public int insert(final Book book) {
         return jdbcTemplate.update("insert into Book (name, author, "
                 + "page, summary) " + "values(?, ?, ?, ?)",
                 new Object[] {
@@ -45,13 +50,20 @@ public class BookRepositoryImpl implements BookRepository {
                 });
     }
 
+    /**  find all books
+     * @return bookList
+     */
     @Override
-    public final List<Book> findAll() {
+    public List<Book> findAll() {
         return jdbcTemplate.query("select * from Book", new BookRowMapper());
     }
 
+    /**  find book by book id
+     * @param id
+     * @return book
+     */
     @Override
-    public final Book findById(final int id) {
+    public Book findById(final int id) {
         try {
             Book book = jdbcTemplate.queryForObject("select * from Book "
                     + "where id = ?",
@@ -64,8 +76,13 @@ public class BookRepositoryImpl implements BookRepository {
         }
     }
 
+    /**  find book by book name and author
+     * @param name
+     * @param author
+     * @return book
+     */
     @Override
-    public final Book findByNameAndAuthor(final String name,
+    public Book findByNameAndAuthor(final String name,
             final String author) {
         try {
             Book book = jdbcTemplate.queryForObject("select * from Book "
@@ -79,8 +96,13 @@ public class BookRepositoryImpl implements BookRepository {
         }
     }
 
+    /** find book id by book name and author
+     * @param name
+     * @param author
+     * @return id
+     */
     @Override
-    public final int findIdByNameAndAuthor(final String name,
+    public int findIdByNameAndAuthor(final String name,
             final String author) {
         try {
             int id = jdbcTemplate.queryForObject("select id from Book "
@@ -93,8 +115,12 @@ public class BookRepositoryImpl implements BookRepository {
         }
     }
 
+    /**  update book fields
+     * @param book
+     * @return status code
+     */
     @Override
-    public final int update(final Book book) {
+    public int update(final Book book) {
         return jdbcTemplate.update("update Book " + "set name = ?, "
                 + "author = ?, page = ?, summary = ? " + "where id = ?",
                 new Object[] {book.getName(), book.getAuthor(),
@@ -102,8 +128,12 @@ public class BookRepositoryImpl implements BookRepository {
 
     }
 
+    /**  delete book by book id
+     * @param id
+     * @return status code
+     */
     @Override
-    public final int deleteById(final int id) {
+    public int deleteById(final int id) {
         return jdbcTemplate.update("delete from Book where id = ?",
                 new Object[]{id});
 

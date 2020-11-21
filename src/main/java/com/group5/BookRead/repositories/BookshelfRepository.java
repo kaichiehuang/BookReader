@@ -3,9 +3,7 @@ package com.group5.BookRead.repositories;
 import com.group5.BookRead.models.Bookshelf;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
-import org.springframework.stereotype.Repository;
 
-@Repository
 public interface BookshelfRepository {
 
     int insert(Bookshelf shelf) throws SQLIntegrityConstraintViolationException;
@@ -22,4 +20,5 @@ public interface BookshelfRepository {
 
     Bookshelf findByBookshelfNameAndUsername(String shelfName, String username);
 
+    Bookshelf findByBookshelfNameAndUserId(String bookshelf, int user);
 }

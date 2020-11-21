@@ -18,7 +18,7 @@
     border-left: 20px solid transparent;
     border-right: 20px solid transparent;
 	top: -15px;
-	z-index: -1;
+	z-index: 3;
 }
 /*Example adding pseudo element to give shelf depth*/
 .shelf:after {
@@ -60,7 +60,7 @@ body{
 	box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
 	margin-top:40px;
 	padding-bottom:20px;
-	z-index: 0;
+	z-index: 0 !important;
 }
 .book-holder {
     width: 160px;
@@ -94,7 +94,8 @@ body{
     -ms-transform-origin: 125px 0;
     transform-origin: 125px 0;
 	border-radius: 0 10px 10px 0;
-	z-index: 100;
+    z-index: 5;
+    position: relative;
 }
 .book:after {
     content: "";
