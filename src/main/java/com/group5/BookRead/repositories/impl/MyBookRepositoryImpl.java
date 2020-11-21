@@ -137,4 +137,10 @@ public class MyBookRepositoryImpl implements MyBookRepository {
         return null;
     }
 
+    @Override
+    public MyBook findByUserAndBookShelfAndBookId(String userid, String shelfName, String bookId) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
 }
