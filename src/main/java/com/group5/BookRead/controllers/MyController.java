@@ -6,6 +6,7 @@ import com.group5.BookRead.models.Timeline;
 import com.group5.BookRead.models.User;
 import com.group5.BookRead.services.BookServiceSelector;
 import com.group5.BookRead.services.comment.CommentService;
+import com.group5.BookRead.services.timeline.TimelineService;
 import com.group5.BookRead.services.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContext;
@@ -31,6 +32,9 @@ public class MyController {
     @Autowired
     UserService userService;
 
+    @Autowired
+    TimelineService timelineService;
+
     /**
      * populate viewBook page woth book ionfo and comments
      * @param bookId
@@ -52,6 +56,28 @@ public class MyController {
             return "{\"msg\":\"failure\"}";
         }
     }
+
+    /**
+     *  get all activities to post on timeline
+     * @param model
+     * @param response
+     * @return
+     */
+    @GetMapping("/timeline")
+    public String bookPage(
+                           final Model model,
+                           final HttpServletResponse response) {
+        try {
+            List<Timeline> timelines = timelineService.getTimelines();
+            model.addAttribute("timelines", timelines);
+            return "timeline";
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            return "{\"msg\":\"failure\"}";
+        }
+    }
+
 
 
     /**
@@ -84,7 +110,9 @@ public class MyController {
                     savedComment.getText(),
                     savedComment.getRating());
 
-            new Timeline(userId, content, "review");
+            Timeline timeline = new Timeline(userId, content, "review");
+            timelineService.store(timeline);
+
             response.setStatus(HttpServletResponse.SC_CREATED);
             return "{\"msg\":\"success\"}";
         } catch (Exception  e) {
