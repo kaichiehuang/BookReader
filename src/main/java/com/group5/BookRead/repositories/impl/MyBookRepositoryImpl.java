@@ -225,4 +225,10 @@ public class MyBookRepositoryImpl implements MyBookRepository {
                 new Object[] {userId, bookId, shelfId});
     }
 
+    @Override
+    public MyBook findByUserAndBookShelfAndBookId(String userid, String shelfName, String bookId) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
 }

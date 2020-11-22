@@ -69,8 +69,8 @@ public final class RegularBookHelperService implements BookHelperService {
 
 
     @Override
-    public MyBook getMyBook(final int bookshelfId,
-                            final int userId,
+    public MyBook getMyBook(final int userId,
+                            final int bookshelfId,
                             final int bookId) {
         return myBookRepository.findByAllIds(bookId, userId, bookshelfId);
     }
