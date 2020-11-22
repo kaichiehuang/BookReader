@@ -127,7 +127,7 @@ public class MyBookRepositoryImpl implements MyBookRepository {
     }
 
     /**  update mybook
-     * @param mybook
+     * @param mb
      * @return status code
      */
     @Override
@@ -223,6 +223,20 @@ public class MyBookRepositoryImpl implements MyBookRepository {
         return jdbcTemplate.update("delete from MyBook where user_id = ? "
                         + "and book_id = ? and bookshelf_id = ?",
                 new Object[] {userId, bookId, shelfId});
+    }
+
+    /**
+     * find book
+     * @param userid
+     * @param shelfName
+     * @param bookId
+     * @return
+     */
+    @Override
+    public MyBook findByUserAndBookShelfAndBookId(final String userid,
+                                                  final String shelfName,
+                                                  final String bookId) {
+        return null;
     }
 
 }

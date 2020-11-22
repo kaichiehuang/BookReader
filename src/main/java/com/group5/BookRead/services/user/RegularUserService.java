@@ -45,6 +45,21 @@ public class RegularUserService implements UserService {
         }
     }
 
+    /**
+     *  find by user id
+     * @param userId
+     * @return
+     * @throws UsernameNotFoundException
+     */
+    @Override
+    public User findByUserId(final int userId) throws UsernameNotFoundException {
+        User user = userRepository.findById(userId);
+        if (user == null) {
+            throw new UsernameNotFoundException("" + userId);
+        }
+        return user;
+    }
+
 
     /**
      * get user by username

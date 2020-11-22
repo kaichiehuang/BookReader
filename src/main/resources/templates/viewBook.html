@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>View Book</title>
+    <meta charset="UTF-8"/>
+<!--     <link rel="stylesheet" th:href="@{/css/searchBook.css}" /> -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <div th:replace="fragments/common :: include"></div>
+    <div th:replace="fragments/header :: header-css"></div>
+</head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+    <h1> ${book.title} </h1>
+    <img th:src="${book.getLink()}"></img>
+    <span th:text="${book.getAuthors()}" id="author"> Author </span>
+    <span th:text="${book.getPage()}" id="pages"> Pages </span>
+    <p th:text="${book.getDescription()}" id="description"> Description </p>
+
+    <div class = "comments" th:each = "comment: ${comments}">
+        <div class="comment-header">
+            <span th:text="${comment.userId}" id="user"></span>
+            <span th:text="${comment.timestamp}" id = "timestamp"></span>
+        </div>
+        <div class="rating">
+            <p th:text="${comment.rating}">Rating</p>
+        </div>
+        <div class="comment-text">
+            <p th:text="${comment.text}" id ="text"></p>
+        </div>
+    </div>
+<form th:action="@{/book/review}" th:object = "${review}" method="post">
+  <div class="form-group">
+    <label for="commentTextArea">Review</label>
+    <input type ="text" class="form-control" th:field ="*{commentInput}" rows="3"></input>
+    <button class="btn btn-outline-success my-2 my-sm-0" id= "commentSubmit" type="submit">Review</button>
+  </div>
+</form>
+</body>
+</html>
