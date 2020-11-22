@@ -26,6 +26,8 @@ public class TrackProgressController {
     @Autowired
     BookServiceSelector bookServiceSelector;
 
+    public static final double PROGRESS_PERCENTAGE = 100.0;
+
     /**
      * get current progress of mybook
      * @param json param object
@@ -84,8 +86,8 @@ public class TrackProgressController {
             // get total page and current progress
             Book bookFromDb = bookServiceSelector.getBook(bookId);
             int totalPage = bookFromDb.getPage();
-            double percent = 100.0;
-            double curProgress = curPage * percent / totalPage;
+
+            double curProgress = curPage * PROGRESS_PERCENTAGE / totalPage;
 
             // update progress
 //            bookHelperService.updateProgress(
