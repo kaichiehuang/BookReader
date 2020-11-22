@@ -15,14 +15,15 @@ import org.springframework.web.bind.annotation.RestController;
 import com.group5.BookRead.models.Book;
 import com.group5.BookRead.models.MyBook;
 import com.group5.BookRead.services.BookServiceSelector;
-import com.group5.BookRead.services.book.myBook.BookHelperService;
+import com.group5.BookRead.services.book.BookService;
 
 
 @RestController
 public class TrackProgressController {
 
     @Autowired
-    BookHelperService bookHelperService;
+    BookService bookService;
+
     @Autowired
     BookServiceSelector bookServiceSelector;
 
@@ -47,12 +48,12 @@ public class TrackProgressController {
             String bookshelf = json.get("bookshelf");
 
             // get total page and previous progress
-            int bookshelfId = bookHelperService.getShelf(
+            int bookshelfId = bookService.getShelf(
                     bookshelf, userId).getId();
 
-            MyBook mbook = bookHelperService.getMyBook(
+            MyBook mbook = bookService.getMyBook(
                     userId, bookshelfId, bookId);
-            double progress = bookHelperService.getMyBook(
+            double progress = bookService.getMyBook(
                     userId, bookshelfId, bookId).getProgress();
 
             response.setStatus(HttpServletResponse.SC_OK);
@@ -87,15 +88,15 @@ public class TrackProgressController {
             Book bookFromDb = bookServiceSelector.getBook(bookId);
             int totalPage = bookFromDb.getPage();
 
-            double curProgress = curPage * PROGRESS_PERCENTAGE / totalPage;
+            double curProgress = PROGRESS_PERCENTAGE * curPage / totalPage;
 
             // update progress
-//            bookHelperService.updateProgress(
+//            bookService.updateProgress(
 //                    userId, bookId, curProgress);
 
             // manage shelves
             // srcShelf = want to read, reading, or read
-//            String srcShelf = bookHelperService.getReadingShelf(
+//            String srcShelf = bookService.getReadingShelf(
 //                    userId, bookId);
 //            String dstShelf = srcShelf;
 //            if (curProgress != 100) {

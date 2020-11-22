@@ -16,8 +16,6 @@ import com.group5.BookRead.models.Book;
 @Controller
 public class BookHTMLController extends BookController {
 
-    // // @Autowired
-    // private BookService bookshelfService;
     /**
      * <p> get login page
      * </p>

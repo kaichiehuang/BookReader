@@ -1,40 +1,38 @@
-package com.group5.BookRead.services.book;
+package com.group5.BookRead.services.book.BookDecorator;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import java.sql.SQLIntegrityConstraintViolationException;
+import com.group5.BookRead.services.book.BookExistsOnTragetShelfException;
+import org.springframework.stereotype.Component;
 
 import com.group5.BookRead.models.Book;
 import com.group5.BookRead.models.Bookshelf;
 import com.group5.BookRead.models.MyBook;
 import com.group5.BookRead.repositories.BookRepository;
-import com.group5.BookRead.services.book.myBook.BookHelperService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import java.sql.SQLIntegrityConstraintViolationException;
+import com.group5.BookRead.services.book.BookService;
 
 import java.util.List;
 import java.util.HashMap;
 import java.util.ArrayList;
 
-@Service(value = "book")
-public final class RegularBookService implements BookService {
+@Component
+public final class ConcreteBookServiceDecorator extends BookServiceDecorator {
 
     private BookRepository bookRepository;
-    private BookHelperService bookHelperService;
 
 
     @Autowired
-    public RegularBookService(final BookRepository bookRepository,
-                              final BookHelperService bookHelperService) {
+    public ConcreteBookServiceDecorator(final BookRepository bookRepository, 
+        final BookService service) {
+        super(service);
         this.bookRepository = bookRepository;
-        this.bookHelperService = bookHelperService;
     }
 
-
-    @Override
     public Book remove(final int bookId,
                        final String bookshelf,
                        final int userId) {
         Book book = getBook(bookId);
-        if (bookHelperService.remove(bookId, userId, bookshelf)) {
+        if (super.remove(bookId, userId, bookshelf)) {
             return book;
         }
         return null;
@@ -45,7 +43,6 @@ public final class RegularBookService implements BookService {
      * @param id
      * @return
      */
-    @Override
     public Book getBook(final int id) {
         return bookRepository.findById(id);
     }
@@ -57,16 +54,15 @@ public final class RegularBookService implements BookService {
      * @param userId
      * @return
      */
-    @Override
     public Book addBookToShelf(final Book book,
                     final String bookshelfName,
                     final int userId)
             throws BookExistsOnTragetShelfException {
 
-        Bookshelf bookShelf = bookHelperService.getShelf(
+        Bookshelf bookShelf = super.getShelf(
                 bookshelfName,
                 userId);
-        MyBook existing = bookHelperService.getMyBook(
+        MyBook existing = super.getMyBook(
                 bookShelf.getId(),
                 userId,
                 book.getId());
@@ -77,10 +73,10 @@ public final class RegularBookService implements BookService {
                     book.getName() + " exists on " + bookshelfName);
         }
 
-        List<Bookshelf> shelves = bookHelperService.getBookShelves(userId);
+        List<Bookshelf> shelves = super.getBookShelves(userId);
         for (Bookshelf shelf : shelves) {
             if (!shelf.getName().equals(bookshelfName)) {
-                MyBook curBook = bookHelperService.getMyBook(
+                MyBook curBook = super.getMyBook(
                         userId,
                         shelf.getId(),
                         book.getId());
@@ -103,7 +99,7 @@ public final class RegularBookService implements BookService {
                 0);
 
         // add myBook object to db
-        if (bookHelperService.addToShelf(myBook)) {
+        if (super.addToShelf(myBook)) {
             return book;
         }
         return null;
@@ -114,7 +110,6 @@ public final class RegularBookService implements BookService {
      * @param book
      * @return
      */
-    @Override
     public Book chooseBook(final Book book) {
         try {
             int res = bookRepository.insert(book);
@@ -137,9 +132,8 @@ public final class RegularBookService implements BookService {
      * @param userId
      * @return
      */
-    @Override
     public List<Book> getBooks(final String bookshelfName, final int userId) {
-        List<MyBook> myBooks = bookHelperService.getMyBooks(
+        List<MyBook> myBooks = super.getMyBooks(
                 bookshelfName,
                 userId);
 
@@ -161,7 +155,7 @@ public final class RegularBookService implements BookService {
      * @return
      */
     public HashMap<String, List<Book>> getBooksOnBookshelves(final int userId) {
-        List<Bookshelf> bookshelves = bookHelperService.getBookShelves(userId);
+        List<Bookshelf> bookshelves = super.getBookShelves(userId);
         // System.out.println(bookshelves.size());
         HashMap<String, List<Book>> map = new HashMap<>();
         for (Bookshelf bookshelf : bookshelves) {
@@ -177,7 +171,6 @@ public final class RegularBookService implements BookService {
      * @param author book author
      * @return book object
      */
-    @Override
     public Book getBookByNameAuthor(final String name, final String author) {
         return bookRepository.findByNameAndAuthor(name, author);
     }

@@ -1,29 +1,31 @@
-package com.group5.BookRead.services.book.myBook;
+package com.group5.BookRead.services.book;
 
 
 import com.group5.BookRead.models.Bookshelf;
 import com.group5.BookRead.models.MyBook;
 import com.group5.BookRead.repositories.MyBookRepository;
 import com.group5.BookRead.services.BookshelfServiceSelector;
+
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 
-@Component
-public final class RegularBookHelperService implements BookHelperService {
+@Service(value = "book")
+public final class ConcreteBookService implements BookService {
 
     private MyBookRepository myBookRepository;
     private BookshelfServiceSelector bookshelfServiceSelector;
 
     @Autowired
-    public RegularBookHelperService(final MyBookRepository mybookRepository,
+    public ConcreteBookService(final MyBookRepository mybookRepository,
                     final  BookshelfServiceSelector bookshelfServiceSelector) {
         this.myBookRepository = mybookRepository;
         this.bookshelfServiceSelector = bookshelfServiceSelector;
     }
 
-
+    @Override
     public Bookshelf getShelf(final String bookshelf, final int userId) {
         return bookshelfServiceSelector.getBookShelf(userId, bookshelf);
     }
@@ -50,6 +52,11 @@ public final class RegularBookHelperService implements BookHelperService {
         }
     }
 
+    @Override
+    public List<Bookshelf> getBookShelves(final int userId) {
+        return bookshelfServiceSelector.getBookShelves(userId);
+    }
+
     /**
      *  Heleper methods for Book service
      * @param bookshelfName
@@ -73,11 +80,6 @@ public final class RegularBookHelperService implements BookHelperService {
                             final int bookshelfId,
                             final int bookId) {
         return myBookRepository.findByAllIds(bookId, userId, bookshelfId);
-    }
-
-    @Override
-    public List<Bookshelf> getBookShelves(final int userId) {
-        return bookshelfServiceSelector.getBookShelves(userId);
     }
 
 
