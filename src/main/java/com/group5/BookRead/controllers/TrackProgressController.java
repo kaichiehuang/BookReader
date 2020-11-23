@@ -89,24 +89,24 @@ public class TrackProgressController {
 
             double curProgress = curPage * PROGRESS_PERCENTAGE / totalPage;
 
-            // update progress
-//            bookHelperService.updateProgress(
-//                    userId, bookId, curProgress);
-
             // manage shelves
             // srcShelf = want to read, reading, or read
-//            String srcShelf = bookHelperService.getReadingShelf(
-//                    userId, bookId);
-//            String dstShelf = srcShelf;
-//            if (curProgress != 100) {
-//                dstShelf = "reading";
-//            }
-//            else if (curProgress == 100 ) {
-//                dstShelf = "read";
-//            }
-//            bookServiceSelector.addBookToShelf(
-//                    bookFromDb, dstShelf, userId);
-//            bookServiceSelector.removeBook(bookId, srcShelf, userId);
+           String srcShelf = bookHelperService.getReadingShelf(
+                   userId, bookId).getName();
+           String dstShelf = srcShelf;
+           if (curProgress != 100) {
+               dstShelf = "reading";
+           }
+           else if (curProgress >= 100 ) {
+               dstShelf = "read";
+           }
+           bookServiceSelector.removeBook(bookId, srcShelf, userId);
+           bookServiceSelector.addBookToShelf(
+                   bookFromDb, dstShelf, userId);
+           
+            // update progress
+            bookHelperService.updateProgress(
+                userId, bookId, curProgress);
 
             response.setStatus(HttpServletResponse.SC_OK);
 
