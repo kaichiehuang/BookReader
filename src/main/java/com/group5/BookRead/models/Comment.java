@@ -8,7 +8,7 @@ public class Comment {
     private int userId;
     private int bookId;
     private int rating = 0;
-    private String text;
+    private String content;
     private Timestamp timestamp;
 
     public Comment(final int userId,
@@ -18,15 +18,20 @@ public class Comment {
         this.userId = userId;
         this.bookId = bookId;
         this.rating = rating;
-        this.text = text;
+        this.content = text;
     }
 
-    public Comment(int id, int userId, int bookId, int rating, String text, Timestamp timestamp) {
+    public Comment(final int id,
+                   final int userId,
+                   final int bookId,
+                   final int rating,
+                   final String text,
+                   final Timestamp timestamp) {
         this.id = id;
         this.userId = userId;
         this.bookId = bookId;
         this.rating = rating;
-        this.text = text;
+        this.content = text;
         this.timestamp = timestamp;
     }
 
@@ -68,7 +73,7 @@ public class Comment {
      * @return
      */
     public String getText() {
-        return text;
+        return content;
     }
 
     /**
@@ -79,5 +84,15 @@ public class Comment {
         return timestamp;
     }
 
-
+    @Override
+    public String toString() {
+        return "Comment{" +
+                "id=" + id +
+                ", userId=" + userId +
+                ", bookId=" + bookId +
+                ", rating=" + rating +
+                ", content='" + content + '\'' +
+                ", timestamp=" + timestamp +
+                '}';
+    }
 }

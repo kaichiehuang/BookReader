@@ -8,6 +8,8 @@ import java.util.List;
 public interface BookRepository {
     int insert(Book book) throws SQLIntegrityConstraintViolationException;
 
+    Book save(Book book) throws SQLIntegrityConstraintViolationException;
+
     List<Book> findAll();
 
     Book findById(int id);
@@ -19,6 +21,8 @@ public interface BookRepository {
     int update(Book book);
 
     int deleteById(int id);
+
+    Book findByIdentifier(String identifier);
 
 
 }

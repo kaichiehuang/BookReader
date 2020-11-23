@@ -22,8 +22,8 @@ public class TimelineRepositoryImpl implements TimelineRepository {
                 throws SQLException {
 
             int id = rs.getInt("id");
-            Timestamp time = rs.getTimestamp("timestamp");
-            int userId = rs.getInt("userId");
+            Timestamp time = rs.getTimestamp("created_time");
+            int userId = rs.getInt("user_id");
             String type = rs.getString("type");
             String content = rs.getString("content");
 
@@ -43,8 +43,8 @@ public class TimelineRepositoryImpl implements TimelineRepository {
     public Timeline insert(final Timeline timeline)
             throws SQLIntegrityConstraintViolationException {
         return jdbcTemplate.queryForObject(
-                "insert into Timeline(userId, content, type) "
-                        + "values(?, ?, ?) returning *",
+                "insert into Timeline(user_id, content, type) "
+                        + "values(?, ?, ?)",
                 new Object[] {
                         timeline.getUserId(),
                         timeline.getContent(),

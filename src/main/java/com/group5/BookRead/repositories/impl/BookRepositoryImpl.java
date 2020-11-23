@@ -2,6 +2,7 @@ package com.group5.BookRead.repositories.impl;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,11 +27,12 @@ public class BookRepositoryImpl implements BookRepository {
         public Book mapRow(final ResultSet rs, final int rowNum)
                 throws SQLException {
             Book book = new Book();
+            book.setBookIdentifier(rs.getString("book_identifier"));
             book.setId(rs.getInt("id"));
-            book.setName(rs.getString("name"));
+            book.setTitle(rs.getString("name"));
             book.setAuthor(rs.getString("author"));
             book.setPage(rs.getInt("page"));
-            book.setSummary(rs.getString("summary"));
+            book.setDescription(rs.getString("summary"));
             return book;
         }
 
@@ -43,11 +45,34 @@ public class BookRepositoryImpl implements BookRepository {
     @Override
     public int insert(final Book book) {
         return jdbcTemplate.update("insert into Book (name, author, "
-                + "page, summary) " + "values(?, ?, ?, ?)",
+                        + "page, summary,book_identifier, link) "
+                        + "values(?, ?, ?, ?, ?,?)",
                 new Object[] {
-                        book.getName(), book.getAuthor(),
-                        book.getPage(), book.getSummary()
-                });
+                        book.getTitle(), book.getAuthor(),
+                        book.getPage(), book.getDescription(),
+                        book.getBookIdentifier(),
+                        book.getLink()}
+                        );
+    }
+
+    /**
+     *  store object
+     * @param book
+     * @return
+     * @throws SQLIntegrityConstraintViolationException
+     */
+    @Override
+    public Book save(final Book book) throws
+            SQLIntegrityConstraintViolationException {
+        return jdbcTemplate.queryForObject("insert into Book (name, author, "
+                        + "page, summary,book_identifier, link) "
+                        + "values(?, ?, ?, ?, ?,?)",
+                new Object[] {
+                        book.getTitle(), book.getAuthor(),
+                        book.getPage(), book.getDescription(),
+                        book.getBookIdentifier(),
+                        book.getLink()
+                }, new BookRowMapper());
     }
 
     /**  find all books
@@ -123,8 +148,8 @@ public class BookRepositoryImpl implements BookRepository {
     public int update(final Book book) {
         return jdbcTemplate.update("update Book " + "set name = ?, "
                 + "author = ?, page = ?, summary = ? " + "where id = ?",
-                new Object[] {book.getName(), book.getAuthor(),
-                        book.getPage(), book.getSummary(), book.getId()});
+                new Object[] {book.getTitle(), book.getAuthor(),
+                        book.getPage(), book.getDescription(), book.getId()});
 
     }
 
@@ -137,6 +162,25 @@ public class BookRepositoryImpl implements BookRepository {
         return jdbcTemplate.update("delete from Book where id = ?",
                 new Object[]{id});
 
+    }
+
+    /**
+     * find by identifier
+     * @param identifier
+     * @return
+     */
+    @Override
+    public Book findByIdentifier(final String identifier) {
+
+        try {
+            Book book = jdbcTemplate.queryForObject("select * from Book "
+                            + "where book_identifier = ? or  id = ?",
+                    new Object[] {identifier, identifier},
+                    new BookRowMapper());
+            return book;
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        }
     }
 
 

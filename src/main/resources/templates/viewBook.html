@@ -6,35 +6,89 @@
 <!--     <link rel="stylesheet" th:href="@{/css/searchBook.css}" /> -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link th:rel="stylesheet" th:href="@{/webjars/font-awesome/5.11.2/css/all.css} "/>
+    <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.css/bootstrap.min.css} "/>
+    <link th:rel="stylesheet" th:href="@{/assets/bootstrapless-star-rating/star-rating.css} "/>
     <div th:replace="fragments/common :: include"></div>
     <div th:replace="fragments/header :: header-css"></div>
 </head>
 <body>
 <div th:replace="fragments/header :: header"></div>
-    <h1> ${book.title} </h1>
+<div class = "container">
+    <h1 id= "bookTitle" th:text= "${book.getTitle()}"></h1>
     <img th:src="${book.getLink()}"></img>
-    <span th:text="${book.getAuthors()}" id="author"> Author </span>
+    <span th:text="${book.getAuthor()}" id="author"> Author </span>
     <span th:text="${book.getPage()}" id="pages"> Pages </span>
     <p th:text="${book.getDescription()}" id="description"> Description </p>
-
-    <div class = "comments" th:each = "comment: ${comments}">
-        <div class="comment-header">
-            <span th:text="${comment.userId}" id="user"></span>
-            <span th:text="${comment.timestamp}" id = "timestamp"></span>
-        </div>
-        <div class="rating">
-            <p th:text="${comment.rating}">Rating</p>
-        </div>
-        <div class="comment-text">
-            <p th:text="${comment.text}" id ="text"></p>
+    <div th:if="${comments !=null and comments.size() != 0}">
+        <div class = "comments" th:each = "comment: ${comments}">
+            <div class="comment-header">
+                <span th:text="${comment.getUserId()}" id="user"></span>
+                <span th:text="${comment.getTimestamp()}" id = "timestamp"></span>
+            </div>
+            <div class="rating">
+                <p th:text="${comment.getRating()}">Rating</p>
+                <div class="mt-5">Rating: <strong th:text="${comment.getRating()}"></strong></div>
+            </div>
+            <div class="comment-text">
+                <p th:text="${comment.getText()}" id ="text"></p>
+            </div>
         </div>
     </div>
-<form th:action="@{/book/review}" th:object = "${review}" method="post">
-  <div class="form-group">
-    <label for="commentTextArea">Review</label>
-    <input type ="text" class="form-control" th:field ="*{commentInput}" rows="3"></input>
-    <button class="btn btn-outline-success my-2 my-sm-0" id= "commentSubmit" type="submit">Review</button>
-  </div>
-</form>
+    <div th:if="${comments == null || comments.size() == 0}">
+        <p> No comments </p>
+    </div>
+<!--     <form th:action="@{/book/review}" th:object = "${review}" method="post" class="mt-5"> -->
+<!--    <form class="mt-5" id="commentForm">-->
+      <div class="form-group">
+<!--             <input value="0" type="hidden" class="rating" data-glyphicon="0" th:field="*{stars}"> -->
+            <label for = "ratingInput"> Rating scale from 1-5</label>
+            <input type ="text" class="form-control" id = "ratingInput" rows="1">
+<!--             <input type ="text" class="form-control" id = "commentInput" th:field ="*{commentInput}" rows="3"> -->
+            <label for = "commentInput"> Review </label>
+            <input type ="text" class="form-control" id = "commentInput" rows="3">
+            <button class="btn btn-outline-success my-2 my-sm-0" id= "commentSubmit" onclick= "review()">Review</button>
+          <script>
+              function review() {
+
+                  console.log("submitting")
+                  var bookIdentifier = "[[${book.getBookIdentifier()}]]"
+                  var bookTitle = "[[${book.getTitle()}]]"
+                  var bookCover = "[[${book.getLink()}]]"
+                  var bookAuthor = "[[${book.getAuthor()}]]"
+                  var bookPage = "[[${book.getPage()}]]"
+                  var bookDescription = "[[${book.getDescription()}]]"
+
+                  let rating = document.getElementById("ratingInput").value
+                  let review = document.getElementById("commentInput").value
+
+                  console.log(bookAuthor, bookIdentifier, bookTitle, rating, review)
+                  $.ajax({
+                      url: '/books/' + bookIdentifier + "/review",
+                      type: "POST",
+                      contentType: 'application/json; charset=utf-8',
+                      data: JSON.stringify({rating: rating, review: review, title: bookTitle,
+                          page: bookPage, author: bookAuthor, link: bookCover, description: bookDescription}),
+                      headers: {'Authorization': 'Bearer ' + getCookie("jwt")},
+                      success: function(res) {
+//                 location.reload();
+                          console.log('success')
+                      },
+                      error: (xhr, resp, text) => console.log(xhr),
+                  });
+              }
+
+
+          </script>
+      </div>
+<!--    </form>-->
+
+</div>
+<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+<script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+<script th:src="@{/assets/bootstrapless-star-rating/star-rating.min.js}"></script>
+
+<!--<script src="/js/viewBook.js"></script>-->
 </body>
 </html>

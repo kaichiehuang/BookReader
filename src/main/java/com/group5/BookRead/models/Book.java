@@ -7,6 +7,13 @@ public class Book {
     private String author;
     private int page;
     private String summary = "No available summary";
+    private String bookIdentifier;
+    private String link;
+//        this.page = page;
+//        this.authors = authors;
+//        this.title = title;
+//        this.description = description;
+//        this.link = link;
 
     public Book() {
         super();
@@ -36,6 +43,55 @@ public class Book {
         }
     }
 
+    public Book(final String name, final String author,
+                final int page,
+                final String summary,
+                final String bookIdentifier,
+                final String link) {
+
+        this.name = name;
+        this.author = author;
+        this.page = page;
+        //System.out.println(page);
+        if (summary != null && summary != "") {
+            this.summary = summary;
+        }
+        this.bookIdentifier = bookIdentifier;
+        this.link = link;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public String getBookIdentifier() {
+        return bookIdentifier;
+    }
+
+    /**
+     *
+     * @param bookIdentifier
+     */
+    public void setBookIdentifier(final String bookIdentifier) {
+        this.bookIdentifier = bookIdentifier;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public String getLink() {
+        return link;
+    }
+
+    /**
+     * set link
+     * @param link
+     */
+    public void setLink(final String link) {
+        this.link = link;
+    }
+
     /**  get book id
      * @return id
      */
@@ -51,13 +107,13 @@ public class Book {
     /**  get book name
      * @return name
      */
-    public String getName() {
+    public String getTitle() {
         return name;
     }
     /**  set book name
      * @param name
      */
-    public void setName(final String name) {
+    public void setTitle(final String name) {
         this.name = name;
     }
     /**  get book author
@@ -87,13 +143,13 @@ public class Book {
     /**  get book summary
      * @return summary
      */
-    public String getSummary() {
+    public String getDescription() {
         return summary;
     }
     /**  set book summary
      * @param summary
      */
-    public void setSummary(final String summary) {
+    public void setDescription(final String summary) {
         this.summary = summary;
     }
 

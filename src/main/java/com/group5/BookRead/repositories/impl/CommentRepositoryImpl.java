@@ -1,13 +1,12 @@
 package com.group5.BookRead.repositories.impl;
-import com.group5.BookRead.models.Bookshelf;
 import com.group5.BookRead.models.Comment;
-import com.group5.BookRead.models.MyBook;
 import com.group5.BookRead.repositories.CommentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -29,11 +28,17 @@ public class CommentRepositoryImpl implements CommentRepository {
 
             int id = rs.getInt("id");
             int rating = rs.getInt("rating");
-            String text = rs.getString("text");
-            Timestamp time = rs.getTimestamp("timestamp");
-            int userId = rs.getInt("userId");
-            int bookId = rs.getInt("bookId");
-            Comment comment = new Comment(id, userId, bookId, rating, text, time);
+            String text = rs.getString("content");
+            Timestamp time = rs.getTimestamp("time_created");
+            int userId = rs.getInt("user_id");
+            int bookId = rs.getInt("book_id");
+            Comment comment = new Comment(
+                    id,
+                    userId,
+                    bookId,
+                    rating,
+                    text,
+                    time);
             return comment;
         }
 
@@ -47,15 +52,26 @@ public class CommentRepositoryImpl implements CommentRepository {
      * @throws SQLIntegrityConstraintViolationException
      */
     @Override
-    public Comment insert(final Comment comment) throws SQLIntegrityConstraintViolationException {
-        return jdbcTemplate.queryForObject(
-                "insert into Comment(userId, bookId, rating, text) "
-                        + "values(?, ?, ?, ?) returning *",
+    @Transactional
+    public Comment insert(final Comment comment)
+            throws SQLIntegrityConstraintViolationException {
+        System.out.println(comment);
+        jdbcTemplate.update(
+                "insert into Comment(user_id, book_id, rating, content) "
+                        + "values(?, ?, ?, ?)",
                 new Object[] {
                         comment.getUserId(),
                         comment.getBookId(),
                         comment.getRating(),
-                        comment.getText()}, new CommentRowMapper());
+                        comment.getText()});
+
+//        int id = jdbcTemplate.queryForObject("slect");
+        return jdbcTemplate.queryForObject("select * from Comment "
+                        + "where user_id = ? and book_id = ?",
+                        new Object[] {
+                                comment.getUserId(),
+                                comment.getBookId()},
+                new CommentRowMapper());
     }
 
     /**
