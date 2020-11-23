@@ -32,7 +32,7 @@ public interface MyBookRepository {
                                                    int bookId);
     int deleteByUserIdAndBookshelfIdAndBookId(int userId, int id, int bookId);
 
-    MyBook findByUserAndBookShelfAndBookId(String userid, String shelfName, 
-        String bookId);
+    // MyBook findByUserAndBookShelfAndBookId(String userid, String shelfName,
+    //     String bookId);
 
 }
