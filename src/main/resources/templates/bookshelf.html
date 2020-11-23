@@ -5,12 +5,13 @@
     <link rel="stylesheet" th:href="@{/css/bookshelf.css}" />
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <div th:replace="fragments/common :: include"></div>
+    <div th:replace="fragments/common :: css"></div>
     <div th:replace="fragments/header :: header-css"></div>
 </head>
 <body>
     <div th:replace="fragments/header :: header"></div>
     <div class="container">
+        <a href="#" title="Header" data-toggle="popover" data-placement="top" data-content="Content">TopTopTop</a>
         <div class="row bookshelf" th:each="instance : ${bookshelfs}">
             <div class="col-md-12 text-center">
                 <div>
@@ -19,10 +20,10 @@
                     <div th:each="book,iter : ${instance.value}">
                         <div class="col-xs-4 col-md-2" id="book" th:attr="data-book-id=${book.id}" style="z-index: 5;">
                             <!-- TODO: book link goes here -->
-                            <a href="#">
+                            <a href="#" title="Header" data-toggle="popover" data-placement="top" data-content="Content">
                                 <div class="book-holder">
                                     <div class="book-container">
-                                        <div class="book">
+                                        <div class="book" >
                                             <div class="book-cover" >
                                                 <!-- TODO: book cover set background image-->
                                                 <div class="cover">
@@ -45,8 +46,9 @@
                 </div>   
             </div>
         </div>
-    </div>	
+    </div>
 
+    <div th:replace="fragments/common :: js"></div>
     <script src="/js/bookshelf.js"></script>
 </body>
 </html>

@@ -1,5 +1,10 @@
 $(function() {
     let srcShelf;
+
+    $('[data-toggle="popover"]').popover({
+        container: 'body'
+    });
+
     $(".bookshelf #book").draggable({
         revert: "invalid",
         start: function (event, ui) {

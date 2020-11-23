@@ -2,10 +2,6 @@
     <head>
         <div th:fragment="header-css">
             <link href="/css/navbar.css" rel="stylesheet">
-            <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-            <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
-
-            <script src="/js/header.js"></script>
         </div>
     </head>
 
@@ -89,6 +85,9 @@
                 </div>
             </nav>
         </div>
+
+        <div th:replace="fragments/common :: js"></div>
+        <script src="/js/header.js"></script>
     </body>
 </html>
 
