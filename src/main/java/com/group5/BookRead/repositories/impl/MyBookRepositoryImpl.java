@@ -252,8 +252,16 @@ public class MyBookRepositoryImpl implements MyBookRepository {
                 new Object[] {userId, bookId, shelfId});
     }
 
+    /**
+     * find by username and booshelf and bookid
+     * @param userId
+     * @param shelfName
+     * @param bookId
+     * @return
+     */
     @Override
-    public MyBook findByUserAndBookShelfAndBookId(String userid, String shelfName, String bookId) {
+    public MyBook findByUserAndBookShelfAndBookId(final String userid, 
+        final String shelfName, final String bookId) {
         // TODO Auto-generated method stub
         return null;
     }

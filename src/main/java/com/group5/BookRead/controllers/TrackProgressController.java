@@ -91,18 +91,17 @@ public class TrackProgressController {
 
             // manage shelves
             // srcShelf = want to read, reading, or read
-           String srcShelf = bookHelperService.getReadingShelf(
-                   userId, bookId).getName();
-           String dstShelf = srcShelf;
-           if (curProgress != 100) {
-               dstShelf = "reading";
-           }
-           else if (curProgress >= 100 ) {
-               dstShelf = "read";
-           }
-           bookServiceSelector.removeBook(bookId, srcShelf, userId);
-           bookServiceSelector.addBookToShelf(
-                   bookFromDb, dstShelf, userId);
+            String srcShelf = bookHelperService.getReadingShelf(
+                    userId, bookId).getName();
+            String dstShelf = srcShelf;
+            if (curProgress != PROGRESS_PERCENTAGE) {
+                dstShelf = "reading";
+            } else if (curProgress >= PROGRESS_PERCENTAGE) {
+                dstShelf = "read";
+            }
+            bookServiceSelector.removeBook(bookId, srcShelf, userId);
+            bookServiceSelector.addBookToShelf(
+                    bookFromDb, dstShelf, userId);
            
             // update progress
             bookHelperService.updateProgress(

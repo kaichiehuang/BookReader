@@ -98,7 +98,7 @@ public final class RegularBookHelperService implements BookHelperService {
 
     // need to move in decorator
     @Override
-    public double updateProgress (final int userId, 
+    public double updateProgress(final int userId, 
         final int bookId, final double progress){
 
         List<MyBook> mybooks = this.getMyBooks(userId, bookId);
