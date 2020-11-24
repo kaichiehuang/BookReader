@@ -170,12 +170,12 @@ public class BookRepositoryImpl implements BookRepository {
      * @return
      */
     @Override
-    public Book findByIdentifier(final String identifier) {
+    public Book findByIdentifier(final String book_identifier) {
 
         try {
             Book book = jdbcTemplate.queryForObject("select * from Book "
-                            + "where book_identifier = ? or  id = ?",
-                    new Object[] {identifier, identifier},
+                            + "where book_identifier = ?",
+                    new Object[] {book_identifier},
                     new BookRowMapper());
             return book;
         } catch (EmptyResultDataAccessException e) {

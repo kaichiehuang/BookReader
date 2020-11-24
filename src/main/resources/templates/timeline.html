@@ -11,16 +11,15 @@
 </head>
 <body>
 <div th:replace="fragments/header :: header"></div>
-    <div class = "timeline" th:each="message:${timeline}">
+    <div class = "timeline" th:each="timeline :${timelines}">
         <h1> Timeline </h1>
         <div class="timeline-header">
-            <span  th:text="${message.getUserId()}>User</span>
-            <span  th:text="${message.getTimestamp()}>Timestamp</span>
+            <span th:text="${timeline.getUserId()}">User</span>
+            <span th:text="${timeline.getTimestamp()}">Timestamp</span>
         </div>
         <div class = "timeline-post">
-            <p th:text="${message.getText()}">text</p>
+            <p th:text="${timeline.getContent()}">text</p>
         </div>
-
     </div>
 </body>
 </html>

@@ -16,7 +16,7 @@ public class RegularTimelineService implements TimelineService {
     TimelineRepository timelineRepository;
 
     /**
-     * store a tomeline
+     * store a timeline
      * @param timeline
      * @return
      */
