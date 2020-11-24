@@ -28,19 +28,27 @@ $(function() {
                 bookOnSelf[i].getElementsByClassName("c100")[0].classList.add("p"+progress);
                 bookOnSelf[i].getElementsByClassName("popover_content_wrapper")[0].getElementsByTagName("span")[0].innerHTML = ''+progress+'%';
                 bookOnSelf[i].getElementsByClassName("popover_content_wrapper")[0].getElementsByTagName("h3")[0].innerHTML = ''+readPages+' out of '+bookPage+' pages read';
+                $(bookOnSelf[i].getElementsByTagName("a")[0]).popover({
+                    container: 'body',
+                    html : true,
+                    content: function() {
+                        return $(bookOnSelf[i].getElementsByClassName("popover_content_wrapper")[0]).html();
+                    },
+                    sanitize: false,
+                });
             },
             error: (xhr, resp, text) => console.log(xhr),
         });
     }
 
-    $('[data-toggle="popover"]').popover({
-        container: 'body',
-        html : true,
-        content: function() {
-            return $('#popover_content_wrapper').html();
-        },
-        sanitize: false,
-    });
+    // $('[data-toggle="popover"]').popover({
+    //     container: 'body',
+    //     html : true,
+    //     content: function() {
+    //         return $('#popover_content_wrapper').html();
+    //     },
+    //     sanitize: false,
+    // });
 
     $(".bookshelf #book").draggable({
         revert: "invalid",
