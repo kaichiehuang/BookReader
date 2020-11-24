@@ -132,4 +132,22 @@ public final class RegularBookHelperService implements BookHelperService {
         System.out.println("book not in want to read, reading or read");
         return null;
     }
+
+    /**
+     * move book from srcShelf to dstShelf with progress maintained
+     * @param srcShelf
+     * @param dstShelf
+     * @param userId
+     * @param bookId
+     * @return void
+     */
+    @Override
+    public void moveBook(final String srcShelf, final String dstShelf, 
+        final int userId, final int bookId){
+        Bookshelf srcSh = this.getShelf(srcShelf, userId);
+        Bookshelf dstSh = this.getShelf(dstShelf, userId);
+        MyBook mbook = this.getMyBook(userId, srcSh.getId(), bookId);
+        mbook.setBookshelfId(dstSh.getId());
+        myBookRepository.update(mbook);
+    }
 }

@@ -16,4 +16,6 @@ public interface BookHelperService {
         int bookId, double progress);
 
     Bookshelf getReadingShelf(int userId, int bookId);
+
+    void moveBook(String srcShelf, String dstShelf, int userId, int bookId);
 }

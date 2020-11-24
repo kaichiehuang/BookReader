@@ -5,9 +5,9 @@ $(function() {
     let bookOnSelf = document.getElementsByClassName("bookOnSelf");
     for (let i = 0; i < bookOnSelf.length; i++) {
 
-        console.log(bookOnSelf[i].getAttribute("data-book-page"));
-        console.log(bookOnSelf[i].getAttribute("data-book-id"));
-        console.log(bookOnSelf[i].parentElement.parentElement.getElementsByClassName("heading")[0].innerHTML);
+        // console.log(bookOnSelf[i].getAttribute("data-book-page"));
+        // console.log(bookOnSelf[i].getAttribute("data-book-id"));
+        // console.log(bookOnSelf[i].parentElement.parentElement.getElementsByClassName("heading")[0].innerHTML);
         let bookPage = parseInt(bookOnSelf[i].getAttribute("data-book-page"), 10);
         let bookId = parseInt(bookOnSelf[i].getAttribute("data-book-id"), 10);
         let shelfName = bookOnSelf[i].parentElement.parentElement.getElementsByClassName("heading")[0].innerHTML;
@@ -41,15 +41,30 @@ $(function() {
         });
     }
 
-    // $('[data-toggle="popover"]').popover({
-    //     container: 'body',
-    //     html : true,
-    //     content: function() {
-    //         return $('#popover_content_wrapper').html();
-    //     },
-    //     sanitize: false,
-    // });
+    $("body").on("click", "#update-page", function() {
+        let pageNum = $('.popover-body').find('#page-input').val();
+        console.log(pageNum);
+        let bookId = $(this).attr("data-book-id");
+        console.log(bookId);
+        //update progress
+        $.ajax({
+            url: '/book/progress',
+            type: 'POST',
+            cache: false,
+            contentType: 'application/json; charset=utf-8',
+            headers: {'Authorization': 'Bearer ' + getCookie("jwt")},
+            data: JSON.stringify({curPage: pageNum, bookId: bookId}),
+            success: function(res) {
+                location.reload();
+            },
+            error: (xhr, resp, text) => console.log(xhr),
+        });
+    });
 
+    $(".book-a").click(function(e){
+        e.preventDefault();
+    })
+    
     $(".bookshelf #book").draggable({
         revert: "invalid",
         start: function (event, ui) {

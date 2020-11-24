@@ -223,6 +223,14 @@ body{
     text-align: center !important;
 }
 
-.pop-fade {
-    transition: opacity .15s linear;
+.fade {
+    opacity: 1 !important;
+}
+
+.popover>.arrow, .popover>.arrow:after {
+    border-style: none !important;
+}
+
+.popover .arrow::after, .popover .arrow::before {
+    border-style: solid !important;
 }
