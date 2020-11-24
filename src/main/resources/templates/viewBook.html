@@ -16,18 +16,15 @@
 <div th:replace="fragments/header :: header"></div>
 <div class = "container">
     <h1 id= "bookTitle" th:text= "${book.getTitle()}"></h1>
-    <img th:src="${book.getLink()}"></img>
+    <img th:src= "${book.getLink()}" id = "link"></img>
     <span th:text="${book.getAuthor()}" id="author"> Author </span>
     <span th:text="${book.getPage()}" id="pages"> Pages </span>
-    <p th:text="${book.getDescription()}" id="description"> Description </p>
+    <p th:utext="${book.getDescription()}" id="description"> Description </p>
     <div th:if="${comments !=null and comments.size() != 0}">
         <div class = "comments" th:each = "comment: ${comments}">
-            <div class="comment-header">
-                <span th:text="${comment.getUserId()}" id="user"></span>
+                <span th:text="${comment.getUsername()}" id="user"></span>
                 <span th:text="${comment.getTimestamp()}" id = "timestamp"></span>
-            </div>
             <div class="rating">
-                <p th:text="${comment.getRating()}">Rating</p>
                 <div class="mt-5">Rating: <strong th:text="${comment.getRating()}"></strong></div>
             </div>
             <div class="comment-content">
@@ -35,6 +32,11 @@
             </div>
         </div>
     </div>
+    <script>
+        // decoding here
+        var elem = document.createElement('textarea')
+        var elem = document.createElement('textarea')
+    </script>
     <div th:if="${comments == null || comments.size() == 0}">
         <p> No comments </p>
     </div>
@@ -43,7 +45,7 @@
       <div class="form-group">
 <!--             <input value="0" type="hidden" class="rating" data-glyphicon="0" th:field="*{stars}"> -->
             <label for = "ratingInput"> Rating scale from 1-5</label>
-            <input type ="text" class="form-control" id = "ratingInput" rows="1">
+            <input type ="text" class="form-control" id = "ratingInput">
 <!--             <input type ="text" class="form-control" id = "commentInput" th:field ="*{commentInput}" rows="3"> -->
             <label for = "commentInput"> Review </label>
             <input type ="text" class="form-control" id = "commentInput" rows="3">
