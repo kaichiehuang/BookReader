@@ -1,6 +1,5 @@
 package com.group5.BookRead.repositories.impl;
 
-import com.group5.BookRead.models.Book;
 import com.group5.BookRead.models.Timeline;
 import com.group5.BookRead.repositories.TimelineRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +23,7 @@ public class TimelineRepositoryImpl implements TimelineRepository {
                 throws SQLException {
 
             int id = rs.getInt("id");
-            Timestamp time = rs.getTimestamp("created_time");
+            Timestamp time = rs.getTimestamp("time_created");
             int userId = rs.getInt("user_id");
             String type = rs.getString("type");
             String content = rs.getString("content");
@@ -42,7 +41,8 @@ public class TimelineRepositoryImpl implements TimelineRepository {
      * @throws SQLIntegrityConstraintViolationException
      */
     @Override
-    public int insert(final Timeline timeline) throws SQLIntegrityConstraintViolationException {
+    public int insert(final Timeline timeline)
+            throws SQLIntegrityConstraintViolationException {
         return jdbcTemplate.update("insert into Timeline(user_id, content, type) "
                         + "values(?, ?, ?)",
                 new Object[] {

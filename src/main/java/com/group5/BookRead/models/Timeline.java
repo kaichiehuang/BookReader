@@ -29,6 +29,19 @@ public class Timeline {
     }
 
     /**
+     * tostring
+     * @return
+     */
+    @Override
+    public String toString() {
+        return "{" + "id=" + id
+                + ", userId=" + userId
+                + ", content='" + content + '\''
+                + ", type='" + type + '\''
+                + ", timestamp=" + timestamp + '}';
+    }
+
+    /**
      * get the id of activity
      * @return
      */

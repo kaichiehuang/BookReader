@@ -88,6 +88,7 @@ public class MyController {
                            final HttpServletResponse response) {
         try {
             List<Timeline> timelines = timelineService.getTimelines();
+            System.out.println(timelines);
             model.addAttribute("timelines", timelines);
             return "timeline";
         } catch (Exception e) {
