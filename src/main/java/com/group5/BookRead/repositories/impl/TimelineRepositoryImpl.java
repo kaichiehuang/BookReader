@@ -8,7 +8,12 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import java.sql.*;
+
+import java.sql.ResultSet;
+
+import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
+import java.sql.Timestamp;
 import java.util.List;
 
 @Repository
@@ -43,7 +48,8 @@ public class TimelineRepositoryImpl implements TimelineRepository {
     @Override
     public int insert(final Timeline timeline)
             throws SQLIntegrityConstraintViolationException {
-        return jdbcTemplate.update("insert into Timeline(user_id, content, type) "
+        return jdbcTemplate.update(
+                "insert into Timeline(user_id, content, type) "
                         + "values(?, ?, ?)",
                 new Object[] {
                         timeline.getUserId(),
@@ -60,7 +66,8 @@ public class TimelineRepositoryImpl implements TimelineRepository {
     @Override
     public Timeline findById(final int id) {
         try {
-            Timeline timeline = jdbcTemplate.queryForObject("select * from Timeline "
+            Timeline timeline = jdbcTemplate.queryForObject(
+                    "select * from Timeline "
                             + "where id = ?",
                     new Object[] {id},
                     new TimelineRowMapper());

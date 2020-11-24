@@ -2,10 +2,12 @@ package com.group5.BookRead.services.comment;
 
 import com.group5.BookRead.models.Comment;
 import com.group5.BookRead.repositories.CommentRepository;
+import com.group5.BookRead.services.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.SQLIntegrityConstraintViolationException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -15,18 +17,38 @@ public class RegularCommentService implements CommentService {
     @Autowired
     CommentRepository commentRepository;
 
+    @Autowired
+    UserService userService;
+
     /**
      * get comments on the book
      * @param bookId
      * @return
      */
     @Override
-    public List<Comment> getComments(final int bookId) throws Exception {
-        List<Comment> comments = commentRepository.getCommentsByBookId(bookId);
+    public List<ResponseComment> getComments(final int bookId)
+            throws Exception {
+        List<Comment> comments =
+                commentRepository.getCommentsByBookId(bookId);
         if (comments == null) {
             throw new Exception("can not load comments");
         }
-        return comments;
+
+        List<ResponseComment> res = new ArrayList<>();
+        for (Comment comment : comments) {
+            String username = userService.findByUserId(comment.getUserId())
+                    .getUsername();
+            res.add(new ResponseComment(
+                    comment.getId(),
+                    comment.getUserId(),
+                    comment.getBookId(),
+                    comment.getRating(),
+                    comment.getContent(),
+                    comment.getTimestamp(),
+                    username
+            ));
+        }
+        return res;
     }
 
     /**

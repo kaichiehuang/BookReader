@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface CommentService {
 
-    List<Comment> getComments(int bookId) throws Exception;
+    List<ResponseComment> getComments(int bookId) throws Exception;
     Comment save(Comment comment)
             throws SQLIntegrityConstraintViolationException;
     Comment getComment(int userId, int bookId);

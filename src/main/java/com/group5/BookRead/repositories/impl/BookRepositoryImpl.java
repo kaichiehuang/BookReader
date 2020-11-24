@@ -2,7 +2,6 @@ package com.group5.BookRead.repositories.impl;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +32,7 @@ public class BookRepositoryImpl implements BookRepository {
             book.setAuthor(rs.getString("author"));
             book.setPage(rs.getInt("page"));
             book.setDescription(rs.getString("summary"));
+            book.setLink(rs.getString("link"));
             return book;
         }
 
@@ -170,12 +170,12 @@ public class BookRepositoryImpl implements BookRepository {
      * @return
      */
     @Override
-    public Book findByIdentifier(final String book_identifier) {
+    public Book findByIdentifier(final String identifier) {
 
         try {
             Book book = jdbcTemplate.queryForObject("select * from Book "
                             + "where book_identifier = ?",
-                    new Object[] {book_identifier},
+                    new Object[] {identifier},
                     new BookRowMapper());
             return book;
         } catch (EmptyResultDataAccessException e) {

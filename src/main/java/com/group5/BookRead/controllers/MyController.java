@@ -8,15 +8,22 @@ import com.group5.BookRead.services.BookServiceSelector;
 import com.group5.BookRead.services.bookAPI.BookAPI;
 import com.group5.BookRead.services.bookAPI.BookFromAPI;
 import com.group5.BookRead.services.comment.CommentService;
+import com.group5.BookRead.services.comment.ResponseComment;
+import com.group5.BookRead.services.timeline.ResponseTimeline;
 import com.group5.BookRead.services.timeline.TimelineService;
 import com.group5.BookRead.services.user.UserService;
+import org.apache.commons.lang.StringEscapeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.PathVariable;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
@@ -58,15 +65,17 @@ public class MyController {
             //
             Book book = bookServiceSelector.getBook(identifier);
             if (book != null) {
-                List<Comment> comments = commentService.getComments(
+                List<ResponseComment> comments = commentService.getComments(
                         book.getId());
+                System.out.println("viewing book: " + book);
                 model.addAttribute("book", book);
                 model.addAttribute("comments", comments);
             } else {
                 BookFromAPI bookFromAPI = bookAPI.getBook(identifier);
                 System.out.println(bookFromAPI);
                 model.addAttribute("book", bookFromAPI);
-                model.addAttribute("comments", new ArrayList<Comment>());
+                model.addAttribute("comments",
+                        new ArrayList<ResponseComment>());
             }
 
             return "viewBook";
@@ -87,7 +96,7 @@ public class MyController {
                            final Model model,
                            final HttpServletResponse response) {
         try {
-            List<Timeline> timelines = timelineService.getTimelines();
+            List<ResponseTimeline> timelines = timelineService.getTimelines();
             System.out.println(timelines);
             model.addAttribute("timelines", timelines);
             return "timeline";
@@ -106,7 +115,7 @@ public class MyController {
      * @param bookId
      * @param response
      */
-    @PostMapping (value = "/books/{bookId}/review",
+    @PostMapping(value = "/books/{bookId}/review",
             consumes = "application/json",
             produces = "application/json")
 
@@ -131,10 +140,21 @@ public class MyController {
                 String title = (String) body.get("title");
                 String author = (String) body.get("author");
                 String description = (String) body.get("description");
-                int page = Integer.parseInt((String) body.get("page"));
-                String link = (String) body.get("link");
 
-                Book newBook = new Book(title, author,
+                int page = Integer.parseInt((String) body.get("page"));
+                String link = body.get("link").toString();
+                System.out.println(description);
+                System.out.println(link);
+
+                link = StringEscapeUtils.unescapeHtml(link);
+                description = StringEscapeUtils.unescapeHtml(description);
+                System.out.println(link);
+                System.out.println(description);
+
+
+                Book newBook = new Book(
+                        title,
+                        author,
                         page,
                         description,
                         bookId,

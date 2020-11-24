@@ -84,15 +84,20 @@ public class Comment {
         return timestamp;
     }
 
+    /**
+     *  to string
+     * @return
+     */
     @Override
     public String toString() {
-        return "Comment{" +
-                "id=" + id +
-                ", userId=" + userId +
-                ", bookId=" + bookId +
-                ", rating=" + rating +
-                ", content='" + content + '\'' +
-                ", timestamp=" + timestamp +
-                '}';
+        return "Comment{"
+                + "id=" + id
+                + ", userId=" + userId
+                + ", bookId=" + bookId
+                + ", rating=" + rating
+                + ", content='" + content + '\''
+                + ", timestamp=" + timestamp
+                + '}';
     }
 }
+
