@@ -3,7 +3,7 @@ package com.group5.BookRead.models;
 public class Book {
 
     private int id;
-    private String name;
+    private String title;
     private String author;
     private int page;
     private String summary = "No available summary";
@@ -19,11 +19,11 @@ public class Book {
         super();
     }
 
-    public Book(final int id, final String name, final String author,
+    public Book(final int id, final String title, final String author,
             final int page, final String summary) {
         super();
         this.id = id;
-        this.name = name;
+        this.title = title;
         this.author = author;
         this.page = page;
         if (summary != null && summary != "") {
@@ -31,10 +31,10 @@ public class Book {
         }
     }
 
-    public Book(final String name, final String author,
+    public Book(final String title, final String author,
             final int page, final String summary) {
         super();
-        this.name = name;
+        this.title = title;
         this.author = author;
         this.page = page;
         //System.out.println(page);
@@ -43,13 +43,13 @@ public class Book {
         }
     }
 
-    public Book(final String name, final String author,
+    public Book(final String title, final String author,
                 final int page,
                 final String summary,
                 final String bookIdentifier,
                 final String link) {
 
-        this.name = name;
+        this.title = title;
         this.author = author;
         this.page = page;
         //System.out.println(page);
@@ -104,17 +104,17 @@ public class Book {
     public void setId(final int id) {
         this.id = id;
     }
-    /**  get book name
-     * @return name
+    /**  get book title
+     * @return title
      */
     public String getTitle() {
-        return name;
+        return title;
     }
-    /**  set book name
-     * @param name
+    /**  set book title
+     * @param title
      */
-    public void setTitle(final String name) {
-        this.name = name;
+    public void setTitle(final String title) {
+        this.title = title;
     }
     /**  get book author
      * @return author
@@ -158,7 +158,8 @@ public class Book {
      */
     @Override
     public String toString() {
-        return "Book [id=" + id + ", name=" + name + ", author=" + author + ", "
+        return "Book [id=" + id + ", title=" + title + ", author="
+                + author + ","
                 + "page=" + page + ", summary=" + summary
                 + "]";
     }

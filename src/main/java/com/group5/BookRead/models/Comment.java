@@ -72,7 +72,7 @@ public class Comment {
      * get the text of the review
      * @return
      */
-    public String getText() {
+    public String getContent() {
         return content;
     }
 

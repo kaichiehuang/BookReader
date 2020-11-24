@@ -32,15 +32,15 @@ $(function() {
             });
         } 
     });
-    $(".bookshelf #book").on("click", function() {
-        let bookId = ui.draggable.attr("data-book-id")
-        $.ajax({
-            type: "GET",
-            dataType: "json",
-            url: "/book?id="+bookId,
-            error: function(e){
-                alert("Submit failed"+e);
-            }
-        })
-    })
+//     $(".bookshelf #book").on("click", function() {
+//         let bookId = ui.draggable.attr("data-book-id")
+//         $.ajax({
+//             type: "GET",
+//             dataType: "json",
+//             url: "/book?id="+bookId,
+//             error: function(e){
+//                 alert("Submit failed"+e);
+//             }
+//         })
+//     })
 });

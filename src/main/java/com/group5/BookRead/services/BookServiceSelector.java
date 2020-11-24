@@ -47,6 +47,7 @@ public class BookServiceSelector {
             book.getAuthor());
         if (curBook == null) {
             // the book does not exist
+//            System.out.println(" in service selec"book);
             curBook = bookService.chooseBook(book);
         }
 

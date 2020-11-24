@@ -1,8 +1,10 @@
 package com.group5.BookRead.repositories.impl;
 
+import com.group5.BookRead.models.Book;
 import com.group5.BookRead.models.Timeline;
 import com.group5.BookRead.repositories.TimelineRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -30,26 +32,42 @@ public class TimelineRepositoryImpl implements TimelineRepository {
             Timeline timeline = new Timeline(id, userId, content, type, time);
             return timeline;
         }
-
     }
 
+
     /**
-     *  store the timeline
+     * insert timeline
      * @param timeline
      * @return
      * @throws SQLIntegrityConstraintViolationException
      */
     @Override
-    public Timeline insert(final Timeline timeline)
-            throws SQLIntegrityConstraintViolationException {
-        return jdbcTemplate.queryForObject(
-                "insert into Timeline(user_id, content, type) "
+    public int insert(final Timeline timeline) throws SQLIntegrityConstraintViolationException {
+        return jdbcTemplate.update("insert into Timeline(user_id, content, type) "
                         + "values(?, ?, ?)",
                 new Object[] {
                         timeline.getUserId(),
                         timeline.getContent(),
-                        timeline.getType()},
-                new TimelineRowMapper());
+                        timeline.getType()}
+            );
+    }
+
+    /**
+     * Find timeline by ID
+     * @param id
+     * @return
+     */
+    @Override
+    public Timeline findById(final int id) {
+        try {
+            Timeline timeline = jdbcTemplate.queryForObject("select * from Timeline "
+                            + "where id = ?",
+                    new Object[] {id},
+                    new TimelineRowMapper());
+            return timeline;
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        }
     }
 
     /**
@@ -64,6 +82,28 @@ public class TimelineRepositoryImpl implements TimelineRepository {
                     new Object[] {},
                     new TimelineRowMapper());
             return timelines;
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    /**
+     * find timeline
+     * @param content
+     * @param type
+     * @param userId
+     * @return
+     */
+    @Override
+    public Timeline findByAll(final String content,
+                              final String type,
+                              final int userId) {
+        try {
+            return jdbcTemplate.queryForObject(
+                    "select * from Timeline "
+                            + "where user_id = ? and type = ? and content = ? ",
+                    new Object[] {userId, type, content},
+                    new TimelineRowMapper());
         } catch (Exception e) {
             return null;
         }

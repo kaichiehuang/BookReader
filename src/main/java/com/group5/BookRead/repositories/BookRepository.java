@@ -8,7 +8,7 @@ import java.util.List;
 public interface BookRepository {
     int insert(Book book) throws SQLIntegrityConstraintViolationException;
 
-    Book save(Book book) throws SQLIntegrityConstraintViolationException;
+//    Book save(Book book) throws SQLIntegrityConstraintViolationException;
 
     List<Book> findAll();
 

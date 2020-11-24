@@ -30,8 +30,8 @@
                 <p th:text="${comment.getRating()}">Rating</p>
                 <div class="mt-5">Rating: <strong th:text="${comment.getRating()}"></strong></div>
             </div>
-            <div class="comment-text">
-                <p th:text="${comment.getText()}" id ="text"></p>
+            <div class="comment-content">
+                <p th:text="${comment.getContent()}" id ="text"></p>
             </div>
         </div>
     </div>
@@ -71,8 +71,10 @@
                           page: bookPage, author: bookAuthor, link: bookCover, description: bookDescription}),
                       headers: {'Authorization': 'Bearer ' + getCookie("jwt")},
                       success: function(res) {
-//                 location.reload();
-                          console.log('success')
+                         console.log(res);
+                         window.location.reload()
+//                          window.location.replace("/books/" + bookIdentifier + "/review");
+                         console.log('success')
                       },
                       error: (xhr, resp, text) => console.log(xhr),
                   });

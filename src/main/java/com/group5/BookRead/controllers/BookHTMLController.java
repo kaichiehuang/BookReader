@@ -50,13 +50,15 @@ public class BookHTMLController extends BookController {
      * @since 1.0
      */
     @GetMapping("/book/shelf")
-    public String getBookBookshelf(@RequestParam(name = "shelf",
-        required = true, defaultValue = "All") final String shelf,
+    public String getBookBookshelf(
+//            @RequestParam(name = "shelf",
+//        required = true, defaultValue = "All") final String shelf,
         final Model model) {
 
         SecurityContext context = SecurityContextHolder.getContext();
         int userId = Integer.parseInt(context.getAuthentication()
             .getPrincipal().toString());
+
 
         Map<String, List<Book>> bookshelfs =
             bookServiceSelector.getBooksFromShelves(userId);

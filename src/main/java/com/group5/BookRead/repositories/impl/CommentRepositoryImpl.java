@@ -6,11 +6,10 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.SQLIntegrityConstraintViolationException;
+
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -44,36 +43,6 @@ public class CommentRepositoryImpl implements CommentRepository {
 
     }
 
-
-    /**
-     * create a new comment
-     * @param comment
-     * @return
-     * @throws SQLIntegrityConstraintViolationException
-     */
-    @Override
-    @Transactional
-    public Comment insert(final Comment comment)
-            throws SQLIntegrityConstraintViolationException {
-        System.out.println(comment);
-        jdbcTemplate.update(
-                "insert into Comment(user_id, book_id, rating, content) "
-                        + "values(?, ?, ?, ?)",
-                new Object[] {
-                        comment.getUserId(),
-                        comment.getBookId(),
-                        comment.getRating(),
-                        comment.getText()});
-
-//        int id = jdbcTemplate.queryForObject("slect");
-        return jdbcTemplate.queryForObject("select * from Comment "
-                        + "where user_id = ? and book_id = ?",
-                        new Object[] {
-                                comment.getUserId(),
-                                comment.getBookId()},
-                new CommentRowMapper());
-    }
-
     /**
      * query for all comments
      * @param bookId
@@ -105,8 +74,43 @@ public class CommentRepositoryImpl implements CommentRepository {
             throws EmptyResultDataAccessException {
         return jdbcTemplate.queryForObject("select * "
                         + "from Comment "
-                        + "where userId = ? and bookId = ?",
+                        + "where user_id = ? and book_id = ?",
                         new Object[] {userId, bookId},
                         new CommentRowMapper());
+    }
+    /**
+     * insert comment
+     * @param comment
+     * @return
+     */
+    @Override
+    public int insert(final Comment comment) {
+        return jdbcTemplate.update(
+                "insert into Comment(user_id, book_id, rating, content) "
+                        + "values(?, ?, ?, ?)",
+                new Object[] {
+                        comment.getUserId(),
+                        comment.getBookId(),
+                        comment.getRating(),
+                        comment.getContent(),
+                });
+    };
+    /**
+     * Find comment by ID
+     * @param id
+     * @return
+     */
+    @Override
+    public Comment findById(final int id) {
+        try {
+            Comment comment = jdbcTemplate.queryForObject(
+                    "select * from Comment "
+                            + "where id = ?",
+                    new Object[]{id},
+                    new CommentRowMapper());
+            return comment;
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        }
     }
 }

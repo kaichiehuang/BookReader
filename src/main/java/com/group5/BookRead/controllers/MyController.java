@@ -108,13 +108,16 @@ public class MyController {
     @PostMapping (value = "/books/{bookId}/review",
             consumes = "application/json",
             produces = "application/json")
-    public String writeReview(@RequestBody final Map<String, Object> body,
-                              @PathVariable final String bookId,
-                              final HttpServletResponse response) {
+
+    public @ResponseBody Response writeReview(
+            @RequestBody final Map<String, Object> body,
+            @PathVariable final String bookId,
+            final HttpServletResponse response) {
         SecurityContext context = SecurityContextHolder.getContext();
         int userId = Integer.parseInt(context.getAuthentication()
                 .getPrincipal().toString());
 
+        Response res = new Response();
 
         try {
             String str = (String) body.get("rating");
@@ -162,18 +165,20 @@ public class MyController {
                             + "score:%d",
                     user.getUsername(),
                     book.getTitle(),
-                    savedComment.getText(),
+                    savedComment.getContent(),
                     savedComment.getRating());
 
             Timeline timeline = new Timeline(userId, content, "review");
             timelineService.store(timeline);
 
             response.setStatus(HttpServletResponse.SC_CREATED);
-            return "{\"msg\":\"success\"}";
+
+            res.success = true;
+            return res;
         } catch (Exception  e) {
             e.printStackTrace();
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            return "{\"msg\":\"failure\"}";
+            return res;
         }
 
     }

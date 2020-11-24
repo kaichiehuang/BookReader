@@ -33,7 +33,8 @@ public final class RegularBookService implements BookService {
     @Override
     public Book save(final Book book)
             throws SQLIntegrityConstraintViolationException {
-        return bookRepository.save(book);
+        bookRepository.insert(book);
+        return bookRepository.findByIdentifier(book.getBookIdentifier());
     }
 
     @Override

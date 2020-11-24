@@ -29,7 +29,7 @@ public class BookRepositoryImpl implements BookRepository {
             Book book = new Book();
             book.setBookIdentifier(rs.getString("book_identifier"));
             book.setId(rs.getInt("id"));
-            book.setTitle(rs.getString("name"));
+            book.setTitle(rs.getString("title"));
             book.setAuthor(rs.getString("author"));
             book.setPage(rs.getInt("page"));
             book.setDescription(rs.getString("summary"));
@@ -44,7 +44,7 @@ public class BookRepositoryImpl implements BookRepository {
      */
     @Override
     public int insert(final Book book) {
-        return jdbcTemplate.update("insert into Book (name, author, "
+        return jdbcTemplate.update("insert into Book (title, author, "
                         + "page, summary,book_identifier, link) "
                         + "values(?, ?, ?, ?, ?,?)",
                 new Object[] {
@@ -55,25 +55,25 @@ public class BookRepositoryImpl implements BookRepository {
                         );
     }
 
-    /**
-     *  store object
-     * @param book
-     * @return
-     * @throws SQLIntegrityConstraintViolationException
-     */
-    @Override
-    public Book save(final Book book) throws
-            SQLIntegrityConstraintViolationException {
-        return jdbcTemplate.queryForObject("insert into Book (name, author, "
-                        + "page, summary,book_identifier, link) "
-                        + "values(?, ?, ?, ?, ?,?)",
-                new Object[] {
-                        book.getTitle(), book.getAuthor(),
-                        book.getPage(), book.getDescription(),
-                        book.getBookIdentifier(),
-                        book.getLink()
-                }, new BookRowMapper());
-    }
+//    /**
+//     *  store object
+//     * @param book
+//     * @return
+//     * @throws SQLIntegrityConstraintViolationException
+//     */
+//    @Override
+//    public Book save(final Book book) throws
+//            SQLIntegrityConstraintViolationException {
+//        return jdbcTemplate.queryForObject("insert into Book (title, author, "
+//                        + "page, summary,book_identifier, link) "
+//                        + "values(?, ?, ?, ?, ?,?)",
+//                new Object[] {
+//                        book.getTitle(), book.getAuthor(),
+//                        book.getPage(), book.getDescription(),
+//                        book.getBookIdentifier(),
+//                        book.getLink()
+//                }, new BookRowMapper());
+//    }
 
     /**  find all books
      * @return bookList
@@ -111,7 +111,7 @@ public class BookRepositoryImpl implements BookRepository {
             final String author) {
         try {
             Book book = jdbcTemplate.queryForObject("select * from Book "
-                    + "where name = ? and author = ?",
+                    + "where title = ? and author = ?",
                 new Object[] {name, author},
                 new BookRowMapper());
             return book;
@@ -131,7 +131,7 @@ public class BookRepositoryImpl implements BookRepository {
             final String author) {
         try {
             int id = jdbcTemplate.queryForObject("select id from Book "
-                    + "where name = ? and author = ?",
+                    + "where title = ? and author = ?",
                     new Object[] {name, author}, int.class);
             return id;
 
@@ -146,7 +146,7 @@ public class BookRepositoryImpl implements BookRepository {
      */
     @Override
     public int update(final Book book) {
-        return jdbcTemplate.update("update Book " + "set name = ?, "
+        return jdbcTemplate.update("update Book " + "set title = ?, "
                 + "author = ?, page = ?, summary = ? " + "where id = ?",
                 new Object[] {book.getTitle(), book.getAuthor(),
                         book.getPage(), book.getDescription(), book.getId()});

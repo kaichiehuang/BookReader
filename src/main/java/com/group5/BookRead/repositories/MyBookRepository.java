@@ -24,12 +24,10 @@ public interface MyBookRepository {
 
     MyBook findById(int bookshelfId, int userId, int bookId);
 
+
     MyBook findByUsernameAndBookShelfNameAndBookId(
         String username, String shelfName, String bookId);
 
     int deleteByUserIdAndBookshelfIdAndBookId(int userId, int id, int bookId);
-
-    // MyBook findByUserAndBookShelfAndBookId(String userid, String shelfName,
-    //     String bookId);
 
 }

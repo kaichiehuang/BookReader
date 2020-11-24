@@ -23,7 +23,13 @@ public class RegularTimelineService implements TimelineService {
     @Override
     public Timeline store(final Timeline timeline)
             throws SQLIntegrityConstraintViolationException {
-        return timelineRepository.insert(timeline);
+        if (timelineRepository.insert(timeline) == 1) {
+            return timelineRepository.findByAll(
+                    timeline.getContent(),
+                    timeline.getType(),
+                    timeline.getUserId());
+        }
+        return null;
     }
 
     /**

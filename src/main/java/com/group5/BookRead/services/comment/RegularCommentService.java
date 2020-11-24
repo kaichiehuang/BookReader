@@ -35,8 +35,13 @@ public class RegularCommentService implements CommentService {
      * @return
      */
     @Override
-    public Comment save(final Comment comment) throws SQLIntegrityConstraintViolationException {
-        return commentRepository.insert(comment);
+    public Comment save(final Comment comment)
+            throws SQLIntegrityConstraintViolationException {
+
+        commentRepository.insert(comment);
+        return commentRepository.getCommentByUserIdAndBookId(
+                comment.getUserId(),
+                comment.getBookId());
     }
 
     /**

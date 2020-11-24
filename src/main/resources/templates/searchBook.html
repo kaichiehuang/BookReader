@@ -35,8 +35,8 @@
             <td colspan="2"> No Books Available </td>
         </tr>
         <tr th:each="book : ${books}" id="bookRow">
-            <td><img th:src="${book.getLink()}"></img></td>
-            <td><span th:text="${book.getTitle()}" id="title"> Title </span></td>
+            <td><img id = "link" th:src="${book.getLink()}"></img></td>
+            <td><span th:text="${book.getTitle()}" id="title" th:class="${book.getBookIdentifier()}"> Title </span></td>
             <td><span th:text="${book.getAuthor()}" id="author"> Author </span></td>
             <td><span th:text="${book.getPage()}" id="pages"> Pages </span></td>
             <td><span th:text="${book.getDescription()}" id="description"> Description </span></td>

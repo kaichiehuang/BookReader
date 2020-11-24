@@ -11,5 +11,8 @@ public interface CommentService {
     Comment save(Comment comment)
             throws SQLIntegrityConstraintViolationException;
     Comment getComment(int userId, int bookId);
-    
+
+//    int insert(Comment comment);
+//
+//    Comment findById(int id);
 }
