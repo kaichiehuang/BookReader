@@ -11,4 +11,9 @@ public interface BookHelperService {
     MyBook getMyBook(int userId, int bookshelfId, int bookId);
     Bookshelf getShelf(String bookshelf, int userId);
     List<Bookshelf> getBookShelves(int userId);
+    List<MyBook> getMyBooks(int userId, int bookId);
+    double updateProgress(int userId, 
+        int bookId, double progress);
+
+    Bookshelf getReadingShelf(int userId, int bookId);
 }
