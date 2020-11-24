@@ -57,6 +57,9 @@
 <!--                   <form th:action="@{/book}" method="get"> -->
 <!--                       <button class="btn btn-outline-success my-2 my-sm-0" id= "moreInfoBtn" type="submit">More Info</button> -->
 <!--                   </form> -->
+                <script th:inline = "javascript">
+                    let bookIdentifier = [[${book.getBookIdentifier()}]]
+                </script>
                 <a th:href="@{/book(id=${book.getBookIdentifier()})}" button class="btn btn-outline-success my-2 my-sm-0" id= "moreInfoBtn"> More Info</a>
             </td>
         </tr>

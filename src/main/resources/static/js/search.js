@@ -6,10 +6,12 @@ $(function(){
         let author = $(this).closest("#bookRow").find("#author").text();
         let pages = $(this).closest("#bookRow").find("#pages").text();
         let description = $(this).closest("#bookRow").find("#description").text();
+        let id = $(this).closest()
         console.log(title);
         console.log(author);
         console.log(pages);
         console.log(description);
+        console.log(bookIdentifier)
 
         let data = {
             name: title,

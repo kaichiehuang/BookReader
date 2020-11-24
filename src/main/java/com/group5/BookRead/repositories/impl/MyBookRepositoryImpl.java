@@ -176,37 +176,37 @@ public class MyBookRepositoryImpl implements MyBookRepository {
         return null;
     }
 
-    /**  find mybook by username, shelfName, and bookId
-     * @param username
-     * @param bookshelfName
-     * @param bookId
-     * @return mybook
-     */
-    @Override
-    public MyBook findByUsernameAndBookShelfnameAndBookId(
-            final String username, final String bookshelfName,
-            final String bookId) {
-        System.err.println("MyBookRepositoryImpl:185 - not implement");
-        System.exit(1);
-        return null;
-    }
+//    /**  find mybook by username, shelfName, and bookId
+//     * @param username
+//     * @param bookshelfName
+//     * @param bookId
+//     * @return mybook
+//     */
+//    @Override
+//    public MyBook findByUsernameAndBookShelfnameAndBookId(
+//            final String username, final String bookshelfName,
+//            final String bookId) {
+//        System.err.println("MyBookRepositoryImpl:185 - not implement");
+//        System.exit(1);
+//        return null;
+//    }
 
-    /**
-     * find book by username, bookshelf, and bookId
-     * @param username
-     * @param bookshelfName
-     * @param bookId
-     * @return MyBook object
-     */
-    @Override
-    public MyBook findByUsernameAndBookShelfnameAndBookId(
-            final String username,
-            final String bookshelfName,
-            final int bookId) {
-        System.err.println("MyBookRepositoryImpl:200 - not implement");
-        System.exit(1);
-        return null;
-    }
+//    /**
+//     * find book by username, bookshelf, and bookId
+//     * @param username
+//     * @param bookshelfName
+//     * @param bookId
+//     * @return MyBook object
+//     */
+//    @Override
+//    public MyBook findByUsernameAndBookShelfnameAndBookId(
+//            final String username,
+//            final String bookshelfName,
+//            final int bookId) {
+//        System.err.println("MyBookRepositoryImpl:200 - not implement");
+//        System.exit(1);
+//        return null;
+//    }
 
     /**
      * delete book by userId, bookshelf, and bookId
