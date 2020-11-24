@@ -45,7 +45,9 @@ public class TrackProgressController {
                 .getPrincipal().toString());
             int bookId = Integer.parseInt(json.get("bookId"));
             String bookshelf = json.get("bookshelf");
-
+            System.out.println(userId);
+            System.out.println(bookId);
+            System.out.println(bookshelf);
             // get total page and previous progress
             int bookshelfId = bookHelperService.getShelf(
                     bookshelf, userId).getId();
