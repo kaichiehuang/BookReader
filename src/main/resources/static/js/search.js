@@ -1,4 +1,5 @@
-$(function (){
+$(function(){
+
     $(".bookshelfChoice").unbind('click').bind('click', function (event) {
         let bookshelf = $(this).text();
 

@@ -222,3 +222,7 @@ body{
 .popover {
     text-align: center !important;
 }
+
+.pop-fade {
+    transition: opacity .15s linear;
+}
