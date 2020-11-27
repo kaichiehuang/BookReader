@@ -74,30 +74,39 @@ public final class RegularBookService implements BookService {
                 bookShelf.getId(),
                 userId,
                 book.getId());
-
+            
+        // check if there are duplicates in same shelf
         if (existing != null) {
             // exists
             throw new BookExistsOnTragetShelfException(
                     book.getName() + " exists on " + bookshelfName);
         }
 
-        List<Bookshelf> shelves = bookHelperService.getBookShelves(userId);
-        for (Bookshelf shelf : shelves) {
-            if (!shelf.getName().equals(bookshelfName)) {
-                MyBook curBook = bookHelperService.getMyBook(
-                        userId,
-                        shelf.getId(),
-                        book.getId());
-                if (curBook != null
-                        && (shelf.getName().equals("favorites")
-                        || bookshelfName.equals("favorites"))) {
-                    throw new BookExistsOnTragetShelfException(
-                            book.getName() + " exists on " + shelf.getName());
+        //TODO: please refactor by using bookshelf subclasses
+        // used for mutual excluse want to read, reading, and read bookshelf
+        // i.e. only one can be in these three shelves
+        if (bookshelfName.equals("want to read") 
+            || bookshelfName.equals("read") 
+            || bookshelfName.equals("reading")){
+            List<Bookshelf> shelves = bookHelperService.getBookShelves(userId);
+        
+            for (Bookshelf shelf : shelves) {
+                if (shelf.getName().equals("want to read") 
+                    || shelf.getName().equals("read") 
+                    || shelf.getName().equals("reading")) {
+                    MyBook curBook = bookHelperService.getMyBook(
+                            userId,
+                            shelf.getId(),
+                            book.getId());
+                    
+                    if (curBook != null) {
+                        throw new BookExistsOnTragetShelfException(
+                                book.getName() + " exists on " 
+                                + shelf.getName());
+                    }
                 }
-
             }
         }
-
 
         // Create a new myBook as we are changing the bookshelf
         MyBook myBook = new MyBook(

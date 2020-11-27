@@ -14,6 +14,8 @@ public interface MyBookRepository {
 
     List<MyBook> findAllByBookId(int id);
 
+    List<MyBook> findAllMybooks(int userId, int bookshelfId);
+
     MyBook findByAllIds(int bookId, int userId, int bookshelfId);
 
     int update(MyBook mybook);
@@ -32,5 +34,6 @@ public interface MyBookRepository {
                                                    int bookId);
     int deleteByUserIdAndBookshelfIdAndBookId(int userId, int id, int bookId);
 
-
+    MyBook findByUserAndBookShelfAndBookId(String userid, String shelfName, 
+        String bookId);
 }

@@ -37,10 +37,11 @@ public class BookRESTController extends BookController {
             int bookId = Integer.parseInt(json.get("bookId"));
             String srcShelf = json.get("srcShelf");
 
-            Book bookFromDb = bookServiceSelector.getBook(bookId);
-            bookServiceSelector.addBookToShelf(bookFromDb, dstShelf, userId);
-            bookServiceSelector.removeBook(bookId, srcShelf, userId);
-
+            // Book bookFromDb = bookServiceSelector.getBook(bookId);
+            // bookServiceSelector.removeBook(bookId, srcShelf, userId);
+            // bookServiceSelector.addBookToShelf(bookFromDb, dstShelf, userId);
+            
+            bookHelperService.moveBook(srcShelf, dstShelf, userId, bookId);
             response.setStatus(HttpServletResponse.SC_OK);
 
             return "{\"msg\":\"success\"}";

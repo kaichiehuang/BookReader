@@ -1,4 +1,5 @@
 $(function(){
+
     $(".bookshelfChoice").unbind('click').bind('click', function (event) {
         let bookshelf = $(this).text();
 
@@ -31,4 +32,4 @@ $(function(){
             error: (xhr, resp, text) => console.log(xhr),
         });
     });
-})
+});

@@ -88,6 +88,26 @@ public class MyBookRepositoryImpl implements MyBookRepository {
         }
     }
 
+    /**  find all mybooks by userId and bookId
+     * @param userId
+     * @param bookId
+     * @return mybookList
+     */
+    @Override
+    public List<MyBook> findAllMybooks(
+            final int userId, final int bookId) {
+        try {
+            List<MyBook> myBookList = jdbcTemplate.query(
+                    "select * from MyBook " + "where user_id = ?"
+                            + " and book_id = ?",
+                new Object[] {userId, bookId},
+                new MyBookRowMapper());
+            return myBookList;
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
     /**  find all mybook by mybook id
      * @param id
      * @return mybookList
@@ -132,13 +152,20 @@ public class MyBookRepositoryImpl implements MyBookRepository {
      */
     @Override
     public int update(final MyBook mb) {
-        return jdbcTemplate.update("update MyBook " + "set book_id = ?,"
+        try{
+            return jdbcTemplate.update("update MyBook " + "set book_id = ?,"
                 + "user_id = ?, bookshelf_id = ?, progress = ? "
                 + "where id = ?",
             new Object[] {
                     mb.getBookId(), mb.getUserId(),
                     mb.getBookshelfId(), mb.getProgress(), mb.getId()
             });
+        } catch (Exception e){
+            System.out.println(e);
+            System.exit(1);
+            return 0;
+        }
+        
     }
 
     /**  delete mybook by id
@@ -223,6 +250,20 @@ public class MyBookRepositoryImpl implements MyBookRepository {
         return jdbcTemplate.update("delete from MyBook where user_id = ? "
                         + "and book_id = ? and bookshelf_id = ?",
                 new Object[] {userId, bookId, shelfId});
+    }
+
+    /**
+     * find by username and booshelf and bookid
+     * @param userId
+     * @param shelfName
+     * @param bookId
+     * @return
+     */
+    @Override
+    public MyBook findByUserAndBookShelfAndBookId(final String userid, 
+        final String shelfName, final String bookId) {
+        // TODO Auto-generated method stub
+        return null;
     }
 
 }

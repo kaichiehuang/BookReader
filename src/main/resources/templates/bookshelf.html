@@ -3,9 +3,10 @@
 <head>
     <title>Bookshelf</title>
     <link rel="stylesheet" th:href="@{/css/bookshelf.css}" />
+    <link rel="stylesheet" th:href="@{/css/circle.css}" />
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <div th:replace="fragments/common :: include"></div>
+    <div th:replace="fragments/common :: css"></div>
     <div th:replace="fragments/header :: header-css"></div>
 </head>
 <body>
@@ -15,14 +16,33 @@
             <div class="col-md-12 text-center">
                 <div>
                     <h1 class="heading" th:text="${instance.key}"></h1>
-                    <!-- TODO: use service here -->
                     <div th:each="book,iter : ${instance.value}">
-                        <div class="col-xs-4 col-md-2" id="book" th:attr="data-book-id=${book.id}" style="z-index: 5;">
+                        <div class="bookOnSelf col-xs-4 col-md-2" id="book" th:attr="data-book-id=${book.id}, data-book-page=${book.page}" style="z-index: 5;">
                             <!-- TODO: book link goes here -->
-                            <a href="#">
-                                <div class="book-holder">
+
+                            <!-- Content inside popovers -->
+                            <div class="popover_content_wrapper"  id="popover_content_wrapper" style="display: none;">
+                                <div class="c100 small green">
+                                    <span>12%</span>
+                                    <div class="slice">
+                                        <div class="bar"></div>
+                                        <div class="fill"></div>
+                                    </div>
+                                </div>
+                                <h3>20 out of 40 pages read</h3>
+                                <div class="input-group mb-3">
+                                    <input type="text" class="form-control" id="page-input" placeholder="Enter new page" aria-describedby="basic-addon2">
+                                    <div class="input-group-append">
+                                        <button class="btn btn-primary" type="button" id="update-page" th:attr="data-book-id=${book.id}">Update</button>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <a data-toggle="popover" data-placement="top" style="display:inline-block" class="book-a">
+                                <div class="book-holder" >
                                     <div class="book-container">
-                                        <div class="book">
+                                        <div class="book" >
                                             <div class="book-cover" >
                                                 <!-- TODO: book cover set background image-->
                                                 <div class="cover">
@@ -45,8 +65,9 @@
                 </div>   
             </div>
         </div>
-    </div>	
+    </div>
 
+    <div th:replace="fragments/common :: js"></div>
     <script src="/js/bookshelf.js"></script>
 </body>
 </html>
