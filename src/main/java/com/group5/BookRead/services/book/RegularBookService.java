@@ -4,6 +4,7 @@ import com.group5.BookRead.models.Book;
 import com.group5.BookRead.models.Bookshelf;
 import com.group5.BookRead.models.MyBook;
 import com.group5.BookRead.repositories.BookRepository;
+import com.group5.BookRead.services.book.excludedBook.ExcludedBookService;
 import com.group5.BookRead.services.book.myBook.BookHelperService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,7 @@ public final class RegularBookService implements BookService {
 
     private BookRepository bookRepository;
     private BookHelperService bookHelperService;
+    private ExcludedBookService excludedBookService;
 
 
     @Autowired
@@ -180,6 +182,28 @@ public final class RegularBookService implements BookService {
     @Override
     public Book getBookByNameAuthor(final String name, final String author) {
         return bookRepository.findByNameAndAuthor(name, author);
+    }
+
+
+    /**
+     * Get excluded book list of the user
+     * @param userId
+     * @return excluded book list
+     */
+    @Override
+    public List<Integer> getExcludedBooks(final int userId) {
+        return excludedBookService.getExcludedBooks(userId);
+    }
+
+
+    /**
+     * Add book to user's excluded list
+     * @param bookId
+     * @param userId
+     */
+    @Override
+    public void addToExcluded(final int bookId, final int userId) {
+        excludedBookService.addToExcluded(bookId, userId);
     }
 }
 

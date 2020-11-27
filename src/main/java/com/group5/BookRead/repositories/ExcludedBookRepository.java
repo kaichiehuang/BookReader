@@ -11,6 +11,8 @@ public interface ExcludedBookRepository {
 
     List<ExcludedBook> findAll();
 
+    List<ExcludedBook> findExcludedByUserId(int userId);
+
     ExcludedBook findById(int id);
 
     int findIdByOtherIds(int bookId, int userId);

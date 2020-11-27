@@ -40,7 +40,7 @@ public class ExcludeBookController extends BookController {
             int bookId = Integer.parseInt(json.get("bookId"));
 
             // add to excluded
-//            bookServiceSelector.addToExcluded(bookId, userId);
+            bookServiceSelector.addToExcluded(bookId, userId);
             bookServiceSelector.removeBook(bookId, "recommended", userId);
 
             response.setStatus(HttpServletResponse.SC_OK);

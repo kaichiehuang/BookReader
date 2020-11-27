@@ -88,4 +88,21 @@ public class BookServiceSelector {
         return bookService.getBook(bookId);
     }
 
+    /**
+     *  get excluded books
+     * @param userId
+     * @return
+     */
+    public List<Integer> getExcludedBooks(final int userId) {
+        return bookService.getExcludedBooks(userId);
+    }
+
+    /**
+     *  add to user's excluded book list
+     * @param bookId
+     * @param userId
+     */
+    public void addToExcluded(final int bookId, final int userId) {
+        bookService.addToExcluded(bookId, userId);
+    }
 }

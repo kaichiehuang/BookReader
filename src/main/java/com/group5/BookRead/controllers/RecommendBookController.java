@@ -1,5 +1,6 @@
 package com.group5.BookRead.controllers;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
@@ -52,13 +53,13 @@ public class RecommendBookController extends BookController {
 //            }
 
             // validate excluded book
-//            List<Integer> excludedList = bookServiceSelector
-//            .getExcludedBooks(userId);
-//            if (excludedList.contains(bookId)) {
-//                response.setStatus(HttpServletResponse.SC_NOT_ACCEPTABLE);
-//                return "{\"msg\":\"Cannot recommend this book
-//            because the other user has excluded it\"}";
-//            }
+            List<Integer> excludedList = bookServiceSelector
+                    .getExcludedBooks(userId);
+            if (excludedList.contains(bookId)) {
+                response.setStatus(HttpServletResponse.SC_NOT_ACCEPTABLE);
+                return "{\"msg\":\"Cannot recommend this book"
+                    + "because the other user has excluded it\"}";
+            }
 
             // add to recommended
             int friendId = userService.findByUsername(username).getId();

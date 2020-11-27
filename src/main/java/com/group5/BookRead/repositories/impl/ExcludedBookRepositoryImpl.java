@@ -103,4 +103,22 @@ public class ExcludedBookRepositoryImpl implements ExcludedBookRepository {
                 new Object[]{id});
     }
 
+    /**  find excluded book list by userId
+     * @param userId
+     * @return excluded book list
+     */
+    @Override
+    public List<ExcludedBook> findExcludedByUserId(final int userId) {
+        try {
+            List<ExcludedBook> result = jdbcTemplate.query(
+                    "select * from ExcludedBook "
+                    + "where user_id = ?",
+                    new Object[] {userId}, new ExcludedBookRowMapper());
+            return result;
+
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        }
+    }
+
 }
