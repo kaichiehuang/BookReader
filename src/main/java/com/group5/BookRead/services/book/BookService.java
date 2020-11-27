@@ -17,4 +17,5 @@ public interface BookService {
     HashMap<String, List<Book>> getBooksOnBookshelves(int userId);
     List<Integer> getExcludedBooks(int userId);
     void addToExcluded(int bookId, int userId);
+
 }

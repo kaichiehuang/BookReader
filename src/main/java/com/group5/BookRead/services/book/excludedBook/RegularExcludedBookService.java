@@ -2,6 +2,7 @@ package com.group5.BookRead.services.book.excludedBook;
 
 import com.group5.BookRead.models.ExcludedBook;
 import com.group5.BookRead.repositories.ExcludedBookRepository;
+import com.group5.BookRead.repositories.UserRepository;
 
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
@@ -15,11 +16,14 @@ import org.springframework.stereotype.Component;
 public final class RegularExcludedBookService implements ExcludedBookService {
 
     private ExcludedBookRepository excludedBookRepository;
+    private UserRepository userRepository;
 
     @Autowired
     public RegularExcludedBookService(
-            final ExcludedBookRepository excludedBookRepository) {
+            final ExcludedBookRepository excludedBookRepository,
+            final UserRepository userRepository) {
         this.excludedBookRepository = excludedBookRepository;
+        this.userRepository = userRepository;
     }
 
     @Override
@@ -38,11 +42,15 @@ public final class RegularExcludedBookService implements ExcludedBookService {
 
     @Override
     public void addToExcluded(final int bookId, final int userId) {
+        int id = excludedBookRepository.findIdByOtherIds(bookId, userId);
+        if (id != -1) {
+            return;
+        }
         ExcludedBook book = new ExcludedBook(0, userId, bookId);
         try {
             excludedBookRepository.insert(book);
         } catch (SQLIntegrityConstraintViolationException e) {
-            System.out.println(e);
+            System.out.println("exception: " + e);
         }
     }
 

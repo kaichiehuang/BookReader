@@ -25,9 +25,11 @@ public final class RegularBookService implements BookService {
 
     @Autowired
     public RegularBookService(final BookRepository bookRepository,
-                              final BookHelperService bookHelperService) {
+                              final BookHelperService bookHelperService,
+                              final ExcludedBookService excludedBookService) {
         this.bookRepository = bookRepository;
         this.bookHelperService = bookHelperService;
+        this.excludedBookService = excludedBookService;
     }
 
 

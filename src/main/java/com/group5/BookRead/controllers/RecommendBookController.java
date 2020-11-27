@@ -44,6 +44,7 @@ public class RecommendBookController extends BookController {
                 .getPrincipal().toString());
             int bookId = Integer.parseInt(json.get("bookId"));
 
+            System.out.println("username: " + username);
             // validate friendship
 //            List<String> friendList = userService.findFriends(userId);
 //            if (!friendList.contains(username)) {
@@ -53,8 +54,9 @@ public class RecommendBookController extends BookController {
 //            }
 
             // validate excluded book
+            int friendId = userService.findByUsername(username).getId();
             List<Integer> excludedList = bookServiceSelector
-                    .getExcludedBooks(userId);
+                    .getExcludedBooks(friendId);
             if (excludedList.contains(bookId)) {
                 response.setStatus(HttpServletResponse.SC_NOT_ACCEPTABLE);
                 return "{\"msg\":\"Cannot recommend this book"
@@ -62,8 +64,9 @@ public class RecommendBookController extends BookController {
             }
 
             // add to recommended
-            int friendId = userService.findByUsername(username).getId();
             Book book = bookServiceSelector.getBook(bookId);
+            System.out.println(book.toString());
+            System.out.println(friendId);
             bookServiceSelector.addBookToShelf(book, "recommended", friendId);
 
             response.setStatus(HttpServletResponse.SC_OK);
