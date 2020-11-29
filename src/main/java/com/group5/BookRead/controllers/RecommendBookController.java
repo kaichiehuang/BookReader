@@ -43,11 +43,11 @@ public class RecommendBookController extends BookController {
             int userId = Integer.parseInt(context.getAuthentication()
                 .getPrincipal().toString());
             int bookId = Integer.parseInt(json.get("bookId"));
-            
-            System.out.println("userId: "+userId);
-            System.out.println("bookId: "+userId);
 
-            System.out.println("username: " + username);
+//            System.out.println("userId: "+userId);
+//            System.out.println("bookId: "+userId);
+//            System.out.println("username: " + username);
+
             // validate friendship
 //            List<String> friendList = userService.findFriends(userId);
 //            if (!friendList.contains(username)) {
@@ -58,7 +58,7 @@ public class RecommendBookController extends BookController {
 
             // validate excluded book
             int friendId = userService.findByUsername(username).getId();
-            System.out.println("friendId: " + friendId);
+//            System.out.println("friendId: " + friendId);
             List<Integer> excludedList = bookServiceSelector
                     .getExcludedBooks(friendId);
             if (excludedList.contains(bookId)) {
@@ -67,14 +67,21 @@ public class RecommendBookController extends BookController {
                     + "because the other user has excluded it\"}";
             }
 
+            // check if recommended before
+            List<Book> books = bookServiceSelector.getBooks(
+                    "recommended", friendId);
+            for (Book book: books) {
+                if (bookId == book.getId()) {
+                    response.setStatus(HttpServletResponse.SC_OK);
+                    return "{\"msg\":\"success\"}";
+                }
+            }
+
             // add to recommended
             Book book = bookServiceSelector.getBook(bookId);
-//            System.out.println(book.toString());
-//            System.out.println(friendId);
             bookServiceSelector.addBookToShelf(book, "recommended", friendId);
 
             response.setStatus(HttpServletResponse.SC_OK);
-
             return "{\"msg\":\"success\"}";
         } catch (Exception e) {
             throw e;

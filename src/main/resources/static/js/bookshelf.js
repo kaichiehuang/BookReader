@@ -29,7 +29,8 @@ $(function() {
                 bookOnSelf[i].getElementsByClassName("popover_content_wrapper")[0].getElementsByTagName("span")[0].innerHTML = ''+progress+'%';
                 bookOnSelf[i].getElementsByClassName("popover_content_wrapper")[0].getElementsByTagName("h3")[0].innerHTML = ''+readPages+' out of '+bookPage+' pages read';
                 $(bookOnSelf[i].getElementsByTagName("a")[0]).popover({
-                    container: 'body',
+                    toggle: 'click hover',
+                	container: 'body',
                     html : true,
                     content: function() {
                         return $(bookOnSelf[i].getElementsByClassName("popover_content_wrapper")[0]).html();
@@ -64,8 +65,6 @@ $(function() {
     $("body").on("click", "#recommend-book", function() {
         let friendName = $('.popover-body').find('#recomendee-input').val();
         let bookId = $(this).attr("data-book-id");
-//        console.log("friendname: "+friendName);
-//        console.log(bookId);
         $.ajax({
             url: '/book/'+friendName,
             type: 'POST',
@@ -74,7 +73,6 @@ $(function() {
             headers: {'Authorization': 'Bearer ' + getCookie("jwt")},
             data: JSON.stringify({bookId: bookId}),
             success: function(res) {
-//            	console.log(res);
             	if (res.msg == "success") {
             		location.reload();
                 	alert("Recommendation Success")
@@ -100,7 +98,6 @@ $(function() {
             data: JSON.stringify({bookId: bookId}),
             success: function(res) {
             	location.reload();
-                alert("Excluding Book Success")
             },
             error: (xhr, resp, text) => console.log(xhr),
         });

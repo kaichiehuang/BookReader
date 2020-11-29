@@ -45,9 +45,7 @@ public class TrackProgressController {
                 .getPrincipal().toString());
             int bookId = Integer.parseInt(json.get("bookId"));
             String bookshelf = json.get("bookshelf");
-            // System.out.println(userId);
-            // System.out.println(bookId);
-            // System.out.println(bookshelf);
+
             // get total page and previous progress
             int bookshelfId = bookHelperService.getShelf(
                     bookshelf, userId).getId();
@@ -99,18 +97,18 @@ public class TrackProgressController {
             // TODO: double check if book can only in favorite bookshelf or not
             // only favorite bookshelf contains the book
             // not doing auto moving
-            if (srcShelf != null){
+            if (srcShelf != null) {
                 String dstShelf = srcShelf;
-                if (curProgress <= 0){
+                if (curProgress <= 0) {
                     dstShelf = "want to read";
                 } else if (curProgress >= PROGRESS_PERCENTAGE) {
                     dstShelf = "read";
                 } else {
                     dstShelf = "reading";
-                } 
+                }
                 bookHelperService.moveBook(srcShelf, dstShelf, userId, bookId);
             }
-            
+
             // update progress
             bookHelperService.updateProgress(
                 userId, bookId, curProgress);

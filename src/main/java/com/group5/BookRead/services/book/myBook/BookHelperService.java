@@ -12,7 +12,7 @@ public interface BookHelperService {
     Bookshelf getShelf(String bookshelf, int userId);
     List<Bookshelf> getBookShelves(int userId);
     List<MyBook> getMyBooks(int userId, int bookId);
-    double updateProgress(int userId, 
+    double updateProgress(int userId,
         int bookId, double progress);
 
     Bookshelf getReadingShelf(int userId, int bookId);

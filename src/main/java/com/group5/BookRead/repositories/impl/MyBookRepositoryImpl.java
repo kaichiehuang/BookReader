@@ -152,7 +152,7 @@ public class MyBookRepositoryImpl implements MyBookRepository {
      */
     @Override
     public int update(final MyBook mb) {
-        try{
+        try {
             return jdbcTemplate.update("update MyBook " + "set book_id = ?,"
                 + "user_id = ?, bookshelf_id = ?, progress = ? "
                 + "where id = ?",
@@ -160,12 +160,12 @@ public class MyBookRepositoryImpl implements MyBookRepository {
                     mb.getBookId(), mb.getUserId(),
                     mb.getBookshelfId(), mb.getProgress(), mb.getId()
             });
-        } catch (Exception e){
+        } catch (Exception e) {
             System.out.println(e);
             System.exit(1);
             return 0;
         }
-        
+
     }
 
     /**  delete mybook by id
@@ -260,7 +260,7 @@ public class MyBookRepositoryImpl implements MyBookRepository {
      * @return
      */
     @Override
-    public MyBook findByUserAndBookShelfAndBookId(final String userid, 
+    public MyBook findByUserAndBookShelfAndBookId(final String userid,
         final String shelfName, final String bookId) {
         // TODO Auto-generated method stub
         return null;

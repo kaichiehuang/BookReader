@@ -40,7 +40,7 @@ public class BookRESTController extends BookController {
             // Book bookFromDb = bookServiceSelector.getBook(bookId);
             // bookServiceSelector.removeBook(bookId, srcShelf, userId);
             // bookServiceSelector.addBookToShelf(bookFromDb, dstShelf, userId);
-            
+
             bookHelperService.moveBook(srcShelf, dstShelf, userId, bookId);
             response.setStatus(HttpServletResponse.SC_OK);
 

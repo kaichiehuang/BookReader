@@ -98,34 +98,34 @@ public final class RegularBookHelperService implements BookHelperService {
 
     // need to move in decorator
     @Override
-    public double updateProgress(final int userId, 
-        final int bookId, final double progress){
+    public double updateProgress(final int userId,
+        final int bookId, final double progress) {
 
         List<MyBook> mybooks = this.getMyBooks(userId, bookId);
-        for (MyBook b : mybooks){
+        for (MyBook b : mybooks) {
             b.setProgress(progress);
             myBookRepository.update(b);
         }
         return progress;
     }
-    
+
     /**
      * get currect bookshelf that the book located in current user
-     * only return: want to read, reading, and read used for automatical 
+     * only return: want to read, reading, and read used for automatical
      * moving bookshelf
      * @param bookId
      * @param userId
      * @return bookshelf
      */
     @Override
-    public Bookshelf getReadingShelf(final int userId, final int bookId){
+    public Bookshelf getReadingShelf(final int userId, final int bookId) {
         List<MyBook> mybooks = this.getMyBooks(userId, bookId);
-        for (MyBook b : mybooks){
+        for (MyBook b : mybooks) {
             Bookshelf shelf = bookshelfRepo.findById(b.getBookshelfId());
             String name = shelf.getName();
-            if (name.equals("want to read") 
+            if (name.equals("want to read")
                 || name.equals("reading")
-                || name.equals("read")){
+                || name.equals("read")) {
                 return shelf;
             }
         }
@@ -142,8 +142,8 @@ public final class RegularBookHelperService implements BookHelperService {
      * @return void
      */
     @Override
-    public void moveBook(final String srcShelf, final String dstShelf, 
-        final int userId, final int bookId){
+    public void moveBook(final String srcShelf, final String dstShelf,
+        final int userId, final int bookId) {
         Bookshelf srcSh = this.getShelf(srcShelf, userId);
         Bookshelf dstSh = this.getShelf(dstShelf, userId);
         MyBook mbook = this.getMyBook(userId, srcSh.getId(), bookId);
