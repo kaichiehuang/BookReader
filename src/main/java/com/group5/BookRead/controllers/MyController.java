@@ -1,9 +1,10 @@
 package com.group5.BookRead.controllers;
 
-import com.group5.BookRead.models.Book;
-import com.group5.BookRead.models.Comment;
 import com.group5.BookRead.models.Timeline;
+import com.group5.BookRead.models.TimelineComment;
+import com.group5.BookRead.models.Book;
 import com.group5.BookRead.models.User;
+import com.group5.BookRead.models.Comment;
 import com.group5.BookRead.services.BookServiceSelector;
 import com.group5.BookRead.services.bookAPI.BookAPI;
 import com.group5.BookRead.services.bookAPI.BookFromAPI;
@@ -11,6 +12,7 @@ import com.group5.BookRead.services.comment.CommentService;
 import com.group5.BookRead.services.comment.ResponseComment;
 import com.group5.BookRead.services.timeline.ResponseTimeline;
 import com.group5.BookRead.services.timeline.TimelineService;
+import com.group5.BookRead.services.timelineComment.TimelineCommentService;
 import com.group5.BookRead.services.user.UserService;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
@@ -48,12 +51,28 @@ public class MyController {
     @Autowired
     TimelineService timelineService;
 
-    /**
-     * populate viewBook page woth book ionfo and comments
-     * @param identifier
-     * @param model
-     * @return
-     */
+    @Autowired
+    TimelineCommentService timelineCommentService;
+
+
+//    /**
+//     *
+//     */
+//    @GetMapping("/timeline/comments)  // get comments
+//    public String bookPage(@RequestParam("id") final String identifier,
+//                           final Model model,
+//                           final HttpServletResponse response) {
+//    }
+
+
+
+
+        /**
+         * populate viewBook page woth book ionfo and comments
+         * @param identifier
+         * @param model
+         * @return
+         */
     @GetMapping("/book")
     public String bookPage(@RequestParam("id") final String identifier,
                          final Model model,
@@ -97,7 +116,7 @@ public class MyController {
                            final HttpServletResponse response) {
         try {
             List<ResponseTimeline> timelines = timelineService.getTimelines();
-            System.out.println(timelines);
+            System.out.printf("acquired timelines: %s\n", timelines);
             model.addAttribute("timelines", timelines);
             return "timeline";
         } catch (Exception e) {
@@ -107,7 +126,121 @@ public class MyController {
         }
     }
 
+    /**
+     * adding a like
+     */
+    @PostMapping(value = "/timeline/{postId}/like",
+            consumes = "application/json",
+            produces = "application/json")
+    public @ResponseBody Response like(
+            @PathVariable final String postId,
+            final HttpServletResponse response) {
+        Response res = new Response();
+        try {
+            int[] arr = getIds(postId);
+            int userId = arr[0];
+            int timelineId = arr[1];
 
+            System.out.printf("userId: %d timelineId: %d\n",
+                    userId, timelineId);
+
+            TimelineComment saved = timelineCommentService.save(
+                    new TimelineComment(
+                            "", "like", userId, timelineId));
+            System.out.printf("SAVED TimelineComment:  %s\n", saved);
+            res.setSuccess(true);
+            res.setMsg(saved.toString());
+            response.setStatus(HttpServletResponse.SC_CREATED);
+            return res;
+        } catch (Exception e) {
+            res.setMsg(e.getMessage());
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            return res;
+        }
+    }
+
+    private int[] getIds(final String id) throws Exception {
+        try {
+            SecurityContext context = SecurityContextHolder.getContext();
+            int userId = Integer.parseInt(context.getAuthentication()
+                    .getPrincipal().toString());
+            int parsedId = Integer.parseInt(id);
+            return new int[]{userId, parsedId};
+        } catch (Exception e) {
+            throw new Exception("userid or timelineid is wrong formatted");
+        }
+    }
+
+    /**
+     * removing an like
+     */
+    @PutMapping(value = "/timeline/{postId}/unlike",
+            consumes = "application/json",
+            produces = "application/json")
+
+    public @ResponseBody Response unlike(
+            @PathVariable final String postId,
+            final HttpServletResponse response) {
+
+
+        Response res = new Response();
+        try {
+
+            int[] arr = getIds(postId);
+
+            int userId = arr[0];
+            int timelineId = arr[1];
+            System.out.printf("userId: %d timelineId: %d\n",
+                    userId, timelineId);
+
+            timelineCommentService.removeById(
+                    userId, timelineId, "like");
+
+            res.setSuccess(true);
+            response.setStatus(HttpServletResponse.SC_CREATED);
+            return res;
+        } catch (Exception e) {
+            res.setMsg(e.getMessage());
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            return res;
+        }
+
+    }
+
+
+
+    /**
+     * create a new comment
+     */
+    @PostMapping(value = "/timeline/{id}/comment",
+            consumes = "application/json",
+            produces = "application/json")
+    public @ResponseBody Response writeComment(
+            @RequestBody final Map<String, Object> body,
+            @PathVariable final String postId,
+            final HttpServletResponse response) {
+        Response res = new Response();
+        try {
+            int[] arr = getIds(postId);
+            int userId = arr[0];
+            int timelineId = arr[1];
+            String content = (String) body.get("content");
+            System.out.printf("userId: %d timelineId: %d content: %s\n",
+                    userId, timelineId, content);
+            TimelineComment saved = timelineCommentService.save(
+                    new TimelineComment(
+                            content, "comment", userId, timelineId));
+            System.out.printf("SAVED TimelineComment:  %s\n", saved);
+            res.setSuccess(true);
+            res.setMsg(saved.toString());
+            response.setStatus(HttpServletResponse.SC_CREATED);
+            return res;
+        } catch (Exception e) {
+            res.setMsg(e.getMessage());
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            return res;
+        }
+    }
 
     /**
      * create a new comment
@@ -123,6 +256,7 @@ public class MyController {
             @RequestBody final Map<String, Object> body,
             @PathVariable final String bookId,
             final HttpServletResponse response) {
+
         SecurityContext context = SecurityContextHolder.getContext();
         int userId = Integer.parseInt(context.getAuthentication()
                 .getPrincipal().toString());

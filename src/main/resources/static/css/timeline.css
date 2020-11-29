@@ -107,3 +107,19 @@ h6 {
 .text-center {
     margin-top: 15px
 }
+.fas {
+  font-size: 20px;
+  margin-right: 5px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.fas:hover {
+  color: darkblue;
+}
+
+#commentForm {
+
+display:none;
+
+}

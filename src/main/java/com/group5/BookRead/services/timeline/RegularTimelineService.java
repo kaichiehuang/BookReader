@@ -1,7 +1,10 @@
 package com.group5.BookRead.services.timeline;
 
 import com.group5.BookRead.models.Timeline;
+import com.group5.BookRead.models.TimelineComment;
+import com.group5.BookRead.models.User;
 import com.group5.BookRead.repositories.TimelineRepository;
+import com.group5.BookRead.services.timelineComment.TimelineCommentService;
 import com.group5.BookRead.services.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,6 +22,9 @@ public class RegularTimelineService implements TimelineService {
 
     @Autowired
     UserService  userService;
+
+    @Autowired
+    TimelineCommentService timelineCommentService;
 
     /**
      * store a timeline
@@ -49,15 +55,26 @@ public class RegularTimelineService implements TimelineService {
         }
         List<ResponseTimeline> res = new ArrayList<>();
         for (Timeline timeline : ls) {
-            String username = userService.findByUserId(
-                    timeline.getUserId()).getUsername();
+            User user = userService.findByUserId(
+                    timeline.getUserId());
+            String username = user.getUsername();
+            List<TimelineComment> likes = timelineCommentService.
+                    getTimelineCommentsByTimelineIdAndType(timeline.getId(),
+                            "like");
+            List<TimelineComment> comments = timelineCommentService.
+                    getTimelineCommentsByTimelineIdAndType(timeline.getId(),
+                            "comment");
+            boolean liked = timelineCommentService.
+                    getTimelineCommentsByTimelineIdAndUserId(
+                    timeline.getId(), user.getId(), "like").size() > 0;
+
             res.add(new ResponseTimeline(
                     timeline.getId(),
                     timeline.getUserId(),
                     timeline.getContent(),
                     timeline.getType(),
                     timeline.getTimestamp(),
-                    username
+                    username, comments, liked, likes.size()
                     ));
         }
         return res;

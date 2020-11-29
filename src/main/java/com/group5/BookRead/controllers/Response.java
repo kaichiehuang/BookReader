@@ -2,6 +2,7 @@ package com.group5.BookRead.controllers;
 
 public class Response {
     boolean success = false;
+    String msg = "";
 
     /**
      * getter
@@ -20,13 +21,30 @@ public class Response {
     }
 
     /**
+     * get message
+     * @return
+     */
+    public String getMsg() {
+        return msg;
+    }
+
+
+    /**
+     * set message
+     * @param msg
+     */
+    public void setMsg(final String msg) {
+        this.msg = msg;
+    }
+
+    /**
      * to string
      * @return
      */
     @Override
     public String toString() {
-        return "{"
+        return "Response{"
                 + "success=" + success
-                + "}";
+                + ", msg='" + msg + '\'' + '}';
     }
 }

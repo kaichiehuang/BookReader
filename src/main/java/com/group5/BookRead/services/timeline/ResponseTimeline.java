@@ -1,6 +1,9 @@
 package com.group5.BookRead.services.timeline;
 
+import com.group5.BookRead.models.TimelineComment;
+
 import java.sql.Timestamp;
+import java.util.List;
 
 public class ResponseTimeline {
     private int id;
@@ -9,6 +12,9 @@ public class ResponseTimeline {
     private String type;
     private Timestamp timestamp;
     private String username;
+    private List<TimelineComment> commentList;
+    private boolean isLiked;
+    private int likes;
 
     public ResponseTimeline(
             final int id,
@@ -16,13 +22,67 @@ public class ResponseTimeline {
             final String content,
             final String type,
             final Timestamp timestamp,
-            final String username) {
+            final String username,
+            final List<TimelineComment> commentList,
+            final boolean isLiked,
+            final int likes) {
         this.id = id;
         this.userId = userId;
         this.content = content;
         this.type = type;
         this.timestamp = timestamp;
         this.username = username;
+        this.commentList = commentList;
+        this.isLiked = isLiked;
+        this.likes = likes;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public boolean isLiked() {
+        return isLiked;
+    }
+
+    /**
+     *
+     * @param liked
+     */
+    public void setLiked(final boolean liked) {
+        isLiked = liked;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public int getLikes() {
+        return likes;
+    }
+
+    /**
+     *
+     * @param likes
+     */
+    public void setLikes(final int likes) {
+        this.likes = likes;
+    }
+
+    /**
+     * get comment list
+     * @return
+     */
+    public List<TimelineComment> getCommentList() {
+        return commentList;
+    }
+
+    /**
+     * set comment list
+     * @param commentList
+     */
+    public void setCommentList(final List<TimelineComment> commentList) {
+        this.commentList = commentList;
     }
 
     /**
@@ -128,10 +188,14 @@ public class ResponseTimeline {
     @Override
     public String toString() {
         return "ResponseTimeline{"
-                + "content='" + content + '\''
+                + "id=" + id
+                + ", userId=" + userId
+                + ", content='" + content + '\''
                 + ", type='" + type + '\''
                 + ", timestamp=" + timestamp
                 + ", username='" + username + '\''
-                + '}';
+                + ", commentList=" + commentList
+                + ", isLiked=" + isLiked
+                + ", likes=" + likes + '}';
     }
 }

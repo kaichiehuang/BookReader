@@ -6,6 +6,7 @@
    <link rel="stylesheet" th:href="@{/css/timeline.css}" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
     <div th:replace="fragments/common :: include"></div>
     <div th:replace="fragments/header :: header-css"></div>
 </head>
@@ -15,36 +16,116 @@
 
 <div class="padding">
         <div class="row container d-flex justify-content-center">
+            <h5>User Timeline</h5>
             <div class="col-xl-5 col-md-12">
-                <div class="card user-activity-card">
+                <div class="card user-activity-card" th:each = "timeline:${timelines}">
                     <div class="card-header">
-                        <h5>User Timeline</h5>
+                     <h5 th:text ="${timeline.getUsername()}"></h5>
                     </div>
-                    <div class="card-block" th:each="timeline:${timelines}">
-                        <div class="row m-b-25">
-<!--                             <div class="col-auto p-r-0"> -->
-<!--                                 <div class="u-img"> <img src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1557925704/doruk-yemenici-1593970-unsplash.jpg" alt="user image" class="img-radius cover-img"> <img src="https://img.icons8.com/ultraviolet/40/000000/active-state.png" alt="user image" class="img-radius profile-img"> </div> -->
-<!--                             </div> -->
-                            <div class="col">
-                                <h6 class="m-b-5" th:text ="${timeline.getUsername()}"></h6>
-                                <p class="text-muted m-b-0" th:text="${timeline.getContent()}"></p>
-                                <p class="text-muted m-b-0" th:text="${timeline.getTimestamp()}"><i class="mdi mdi-timer feather icon-clock m-r-10"></i></p>
+                        <div class="card-block">
+                            <div class="row m-b-25">
+                                <div class="col">
+                                    <p class="text-muted m-b-0" th:text="${timeline.getContent()}"></p>
+                                    <p class="text-muted m-b-0" th:text="${timeline.getTimestamp()}"><i class="mdi mdi-timer feather icon-clock m-r-10"></i></p>
+                                </div>
                             </div>
+<!--                             <button th:onclick="'javascript:upload(' + ${gallery} + ')'"></button> -->
+                            <i th:if = "${timeline.isLiked()}" th:onclick= "'javascript:toggleUnlike(this, '+${timeline.getId()} + ','+ ${timeline.getUserId()}+','+ ${timeline.getLikes()}+')'" class="fas fa-thumbs-down" th:id = "${timeline.getId()+'-unlike'}" th:text = "${timeline.getLikes()}"></i>
+                            <i th:unless = "${timeline.isLiked()}" th:onclick="'javascript:toggleLike(this, '+${timeline.getId()} + ','+ ${timeline.getUserId()}+','+ ${timeline.getLikes()}+')'" class="fas fa-thumbs-up" th:id = "${timeline.getId()+'-like'}" th:text = "${timeline.getLikes()}"></i>
+                            <span><button type="button" class ="btn btn-outline-success my-2 my-sm-0" id="commentButton">Comment</button></span>
+
+                            <form id="commentForm">
+                                <div class= "comment-area" th:each = "comment: ${timeline.getCommentList()}">
+                                    <p th:text="${comment}"></p>
+                                </div>
+                                <textarea class="form-control" style="resize:none" type="text" id = "comment-input" placeholder="Comment"> </textarea>
+                                <button class="btn btn-outline-success my-2 my-sm-0" id= "postComment" type="submit">Post</button>
+                            </form>
                         </div>
-                    </div>
+                        <script>
+                        function toggleLike(x, timelineId, userId, numberLikes) {
+                            // let timelineId = "[[${timeline.getId()}]]"
+                            // let userId = "[[${timeline.getUserId()}]]"
+                            // let numberLikes = "[[${timeline.getLikes()}]]"
+                            console.log("timeline id", timelineId)
+                            console.log("Toggle like button + 1 like", numberLikes)
+                             $.ajax({
+                                    url: `/timeline/` + timelineId + `/like`,
+                                    type: 'POST',
+                                    cache: false,
+                                    contentType: 'application/json; charset=utf-8',
+                                    data: JSON.stringify({userId: userId}),
+                                    headers: {'Authorization': 'Bearer ' + getCookie("jwt")},
+                                    success: function(res) {
+                                        console.log(res)
+                                        let newNumberLikes = parseInt(numberLikes) + 1
+                                        console.log("new number of likes", newNumberLikes)
+                        //                 $("#like").val(newNumberLikes).toString()
+                                        document.getElementById(timelineId + "-like").value = newNumberLikes.toString()
+
+                                    },
+                                    error: (xhr, resp, text) => console.log(xhr),
+                                });
+                                x.classList.toggle("fa-thumbs-down");
+                        }
+
+                        function toggleUnlike(x, timelineId, userId, numberLikes) {
+//                             let timelineId = "[[${timeline.getId()}]]"
+//                             let userId = "[[${timeline.getUserId()}]]"
+//                             let numberLikes = "[[${timeline.getLikes()}]]"
+                            console.log("Toggle liked button - 1 like", numberLikes)
+                            $.ajax({
+                                url: `/timeline/` + timelineId + `/unlike`,
+                                type: 'PUT',
+                                cache: false,
+                                contentType: 'application/json; charset=utf-8',
+                                data: JSON.stringify({userId: userId}),
+                                headers: {'Authorization': 'Bearer ' + getCookie("jwt")},
+                                success: function(res) {
+                                    console.log(res)
+                                    let newNumberLikes = parseInt(numberLikes) - 1
+                                    console.log("new number of likes", newNumberLikes)
+                                    document.getElementById("unlike").value = newNumberLikes.toString()
+                                },
+                                error: (xhr, resp, text) => console.log(xhr),
+                            });
+                            x.classList.toggle("fa-thumbs-up");
+                        }
+
+                        $("#commentButton").click(function(){
+                            console.log("comment button clicked")
+                            $("#commentForm").toggle();
+                          });
+
+                        $("#postComment").submit(function(){
+                            let timelineId = "[[${timeline.getId()}]]"
+                            let userId = "[[${timeline.getUserId()}]]"
+                            let commentInput = document.getElementById("comment-input").value
+                            console.log("comment", commentInput)
+                            $.ajax({
+                                url: `/timeline/` + timelineId + `/comment`,
+                                type: 'POST',
+                                cache: false,
+                                contentType: 'application/json; charset=utf-8',
+                                data: JSON.stringify({userId: userId, comment: commentInput}),
+                                headers: {'Authorization': 'Bearer ' + getCookie("jwt")},
+                                success: function(res) {
+                                    let newComment = "<p>" + commentInput + "</p>"
+                                    console.log("new comment", newComment)
+                                    $(".comment-area").append(newComment)
+                                },
+                                error: (xhr, resp, text) => console.log(xhr),
+                            });
+                        })
+
+
+                        </script>
+<!--                         <script src="/js/timeline.js"></script> -->
                 </div>
             </div>
+
         </div>
 </div>
-<!--     <div class = "timeline" th:each="timeline :${timelines}"> -->
-<!--         <h1> Timeline </h1> -->
-<!--         <div class="timeline-header"> -->
-<!--             <span th:text="${timeline.getUserId()}">User</span> -->
-<!--             <span th:text="${timeline.getTimestamp()}">Timestamp</span> -->
-<!--         </div> -->
-<!--         <div class = "timeline-post"> -->
-<!--             <p th:text="${timeline.getContent()}">text</p> -->
-<!--         </div> -->
-<!--     </div> -->
 </body>
+
 </html>
