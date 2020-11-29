@@ -234,3 +234,13 @@ body{
 .popover .arrow::after, .popover .arrow::before {
     border-style: solid !important;
 }
+
+.input-group-append {
+	margin-bottom: 14px;
+}
+
+.input-group-append input {
+	margin-right: 5px;
+}
+
+

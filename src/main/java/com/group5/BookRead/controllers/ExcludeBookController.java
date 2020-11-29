@@ -35,7 +35,12 @@ public class ExcludeBookController extends BookController {
 
             // add to excluded
             bookServiceSelector.addToExcluded(bookId, userId);
+            // remove from all shelves
             bookServiceSelector.removeBook(bookId, "recommended", userId);
+            bookServiceSelector.removeBook(bookId, "want to read", userId);
+            bookServiceSelector.removeBook(bookId, "reading", userId);
+            bookServiceSelector.removeBook(bookId, "read", userId);
+            bookServiceSelector.removeBook(bookId, "favorites", userId);
 
             response.setStatus(HttpServletResponse.SC_OK);
 

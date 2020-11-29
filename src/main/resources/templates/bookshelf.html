@@ -31,13 +31,21 @@
                                 </div>
                                 <h3>20 out of 40 pages read</h3>
                                 <div class="input-group mb-3">
-                                    <input type="text" class="form-control" id="page-input" placeholder="Enter new page" aria-describedby="basic-addon2">
+                                    
                                     <div class="input-group-append">
+                                    	<input type="text" class="form-control" id="page-input" placeholder="Enter new page" aria-describedby="basic-addon2">
                                         <button class="btn btn-primary" type="button" id="update-page" th:attr="data-book-id=${book.id}">Update</button>
                                     </div>
+                                    
+                                    <div class="input-group-append">
+                                    	<input type="text" class="form-control" id="recomendee-input" placeholder="Enter friend name" aria-describedby="basic-addon2">
+                                    	<button class="btn btn-primary" type="button" id="recommend-book" th:attr="data-book-id=${book.id}">Recommend</button>  
+                                	</div>
+                                	<div class="input-group-append">
+                                		<button class="btn btn-danger" type="button" id="exclude-book" th:attr="data-book-id=${book.id}">Exclude Book</button>
+                                	</div>
                                 </div>
                             </div>
-
 
                             <a data-toggle="popover" data-placement="top" style="display:inline-block" class="book-a">
                                 <div class="book-holder" >

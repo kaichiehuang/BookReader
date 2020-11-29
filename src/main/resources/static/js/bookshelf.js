@@ -60,6 +60,51 @@ $(function() {
             error: (xhr, resp, text) => console.log(xhr),
         });
     });
+    
+    $("body").on("click", "#recommend-book", function() {
+        let friendName = $('.popover-body').find('#recomendee-input').val();
+        let bookId = $(this).attr("data-book-id");
+//        console.log("friendname: "+friendName);
+//        console.log(bookId);
+        $.ajax({
+            url: '/book/'+friendName,
+            type: 'POST',
+            cache: false,
+            contentType: 'application/json; charset=utf-8',
+            headers: {'Authorization': 'Bearer ' + getCookie("jwt")},
+            data: JSON.stringify({bookId: bookId}),
+            success: function(res) {
+//            	console.log(res);
+            	if (res.msg == "success") {
+            		location.reload();
+                	alert("Recommendation Success")
+            	}
+            	else {
+            		location.reload();
+            		alert(res.msg)
+            	}
+            },
+            error: (xhr, resp, text) => console.log(xhr),
+        });
+    });
+    
+    $("body").on("click", "#exclude-book", function() {
+        let friendName = $('.popover-body').find('#recomendee-input').val();
+        let bookId = $(this).attr("data-book-id");
+        $.ajax({
+            url: '/book/exclude',
+            type: 'POST',
+            cache: false,
+            contentType: 'application/json; charset=utf-8',
+            headers: {'Authorization': 'Bearer ' + getCookie("jwt")},
+            data: JSON.stringify({bookId: bookId}),
+            success: function(res) {
+            	location.reload();
+                alert("Excluding Book Success")
+            },
+            error: (xhr, resp, text) => console.log(xhr),
+        });
+    });
 
     $(".book-a").click(function(e){
         e.preventDefault();
