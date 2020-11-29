@@ -61,7 +61,7 @@ public class RegularCommentService implements CommentService {
             throws SQLIntegrityConstraintViolationException {
 
         commentRepository.insert(comment);
-        return commentRepository.getCommentByUserIdAndBookId(
+        return getComment(
                 comment.getUserId(),
                 comment.getBookId());
     }
@@ -74,6 +74,11 @@ public class RegularCommentService implements CommentService {
      */
     @Override
     public Comment getComment(final int userId, final int bookId) {
-        return commentRepository.getCommentByUserIdAndBookId(userId, bookId);
+        List<Comment> ls = commentRepository.getCommentsByUserIdAndBookId(
+                userId, bookId);
+        if (ls.size() == 0) {
+            return null;
+        }
+        return ls.get(0);
     }
 }

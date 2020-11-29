@@ -85,7 +85,7 @@ public class TimelineRepositoryImpl implements TimelineRepository {
     public List<Timeline> getTimelines() {
         try {
             List<Timeline> timelines = jdbcTemplate.query(
-                    "select * from Timeline ",
+                    "select * from Timeline ORDER BY time_created DESC",
                     new Object[] {},
                     new TimelineRowMapper());
             return timelines;

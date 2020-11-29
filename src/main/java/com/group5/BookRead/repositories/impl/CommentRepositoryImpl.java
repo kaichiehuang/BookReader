@@ -52,7 +52,8 @@ public class CommentRepositoryImpl implements CommentRepository {
     public List<Comment> getCommentsByBookId(final int bookId) {
         try {
             List<Comment> comments = jdbcTemplate.query(
-                    "select * from Comment " + "where book_id = ?",
+                    "select * from Comment " + "where book_id = ? "
+                            + "ORDER BY time_created DESC",
                     new Object[] {bookId},
                     new CommentRowMapper());
             return comments;
@@ -69,12 +70,13 @@ public class CommentRepositoryImpl implements CommentRepository {
      * @throws EmptyResultDataAccessException
      */
     @Override
-    public Comment getCommentByUserIdAndBookId(final int userId,
+    public List<Comment> getCommentsByUserIdAndBookId(final int userId,
                                                final int bookId)
             throws EmptyResultDataAccessException {
-        return jdbcTemplate.queryForObject("select * "
+        return jdbcTemplate.query("select * "
                         + "from Comment "
-                        + "where user_id = ? and book_id = ?",
+                        + "where user_id = ? and book_id = ? "
+                        + "ORDER BY time_created DESC",
                         new Object[] {userId, bookId},
                         new CommentRowMapper());
     }

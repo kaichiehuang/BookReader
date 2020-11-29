@@ -12,5 +12,5 @@ public interface CommentRepository {
     Comment findById(int id);
     List<Comment> getCommentsByBookId(int bookId);
 
-    Comment getCommentByUserIdAndBookId(int userId, int bookId);
+    List<Comment> getCommentsByUserIdAndBookId(int userId, int bookId);
 }
