@@ -6,7 +6,8 @@ import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 
 public interface FriendshipRepository {
-    int insert(Friendship friendship) throws SQLIntegrityConstraintViolationException;
+    int insert(Friendship friendship)
+            throws SQLIntegrityConstraintViolationException;
     List<Friendship> findAllByUserId(int userId);
 
 }

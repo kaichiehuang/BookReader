@@ -42,7 +42,8 @@ public class FriendshipService {
         List<String> friends = new ArrayList<>();
 
         for (Friendship friendship : friendships) {
-            friends.add(userRepository.findById(friendship.getFriendId()).getUsername());
+            friends.add(userRepository.findById(friendship.
+                    getFriendId()).getUsername());
         }
         return friends;
     }
@@ -54,12 +55,17 @@ public class FriendshipService {
      * @return FriendRequest
      *
      */
-    public FriendRequest requestFriendship(final int userId, final String requestFriendName) {
+    public FriendRequest requestFriendship(final int userId,
+                                           final String requestFriendName) {
         try {
-            int requestedFriendId = userRepository.findIdByUsername(requestFriendName);
-            FriendRequest friendRequest = new FriendRequest(userId, requestedFriendId);
+            int requestedFriendId =
+                    userRepository.findIdByUsername(requestFriendName);
+            FriendRequest friendRequest =
+                    new FriendRequest(userId, requestedFriendId);
             friendRequestRepository.insert(friendRequest);
-            FriendRequest storedFriendRequest = friendRequestRepository.findByUserIdAndRequestedFriendId(userId, requestedFriendId);
+            FriendRequest storedFriendRequest =
+                    friendRequestRepository.findByUserIdAndRequestedFriendId(
+                            userId, requestedFriendId);
             return storedFriendRequest;
         } catch (SQLIntegrityConstraintViolationException throwables) {
             return null;
@@ -73,11 +79,18 @@ public class FriendshipService {
      * @return void
      *
      */
-    public void acceptFriendship(final int userId, final String acceptedFriendName) throws SQLIntegrityConstraintViolationException, UserDidNotRequestToBeFriendException {
-        int acceptedFriendId = userRepository.findIdByUsername(acceptedFriendName);
+    public void acceptFriendship(final int userId,
+                                 final String acceptedFriendName)
+            throws SQLIntegrityConstraintViolationException,
+            UserDidNotRequestToBeFriendException {
+        int acceptedFriendId =
+                userRepository.findIdByUsername(acceptedFriendName);
         //first delete entry from friend request
-        if (friendRequestRepository.deleteByUserIdAndAcceptedFriendId(acceptedFriendId, userId) == 0) {
-            throw new UserDidNotRequestToBeFriendException(acceptedFriendName + " did not request to be a friend with you");
+        if (friendRequestRepository.
+                deleteByUserIdAndAcceptedFriendId(acceptedFriendId,
+                        userId) == 0) {
+            throw new UserDidNotRequestToBeFriendException(acceptedFriendName
+                    + " did not request to be a friend with you");
         }
         //add each other as friend
         Friendship f1 = new Friendship(userId, acceptedFriendId);

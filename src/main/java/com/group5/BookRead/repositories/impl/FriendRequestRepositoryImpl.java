@@ -35,10 +35,12 @@ public class FriendRequestRepositoryImpl implements FriendRequestRepository {
      * @return status code
      */
     @Override
-    public int insert(final FriendRequest friendRequest) throws SQLIntegrityConstraintViolationException {
+    public int insert(final FriendRequest friendRequest)
+            throws SQLIntegrityConstraintViolationException {
         return jdbcTemplate.update("insert into FriendRequest (user_id, "
                         + "requestedFriend_id) " + "values(?, ?)",
-                new Object[] {friendRequest.getUserId(), friendRequest.getRequestedFriendId()});
+                new Object[] {friendRequest.getUserId(),
+                        friendRequest.getRequestedFriendId()});
     }
 
     /**  find a friend request object with userId and requestedFriendId
@@ -47,7 +49,8 @@ public class FriendRequestRepositoryImpl implements FriendRequestRepository {
      * @return FriendRequest
      */
     @Override
-    public FriendRequest findByUserIdAndRequestedFriendId(final int userId, final int requestedFriendId) {
+    public FriendRequest findByUserIdAndRequestedFriendId(
+            final int userId, final int requestedFriendId) {
         try {
             FriendRequest friendRequest = jdbcTemplate.queryForObject(
                     "select * from FriendRequest " + "where user_id = ?"
@@ -83,7 +86,8 @@ public class FriendRequestRepositoryImpl implements FriendRequestRepository {
      * @return status code
      */
     @Override
-    public int deleteByUserIdAndAcceptedFriendId(final int acceptedUserId, final int userId) {
+    public int deleteByUserIdAndAcceptedFriendId(
+            final int acceptedUserId, final int userId) {
         return jdbcTemplate.update("delete from FriendRequest "
                         + "where user_id = ? and requestedFriend_id = ?",
                     new Object[] {acceptedUserId, userId});
