@@ -6,7 +6,7 @@
      <link rel="stylesheet" th:href="@{/css/viewBook.css}" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <div th:replace="fragments/common :: include"></div>
+    <div th:replace="fragments/common :: css"></div>
     <div th:replace="fragments/header :: header-css"></div>
 </head>
 <body>
@@ -44,59 +44,60 @@
         <p> No comments </p>
     </div>
 
-      <div class="form-group">
+        <div class="form-group">
             <label> Rating scale from 1-5</label>
-              <div class="rating">
-                  <input type="radio" name="rating" value="5" id="5"><label for="5">☆</label>
-                  <input type="radio" name="rating" value="4" id="4"><label for="4">☆</label>
-                  <input type="radio" name="rating" value="3" id="3"><label for="3">☆</label>
-                  <input type="radio" name="rating" value="2" id="2"><label for="2">☆</label>
-                  <input type="radio" name="rating" value="1" id="1"><label for="1">☆</label>
-              </div>
-<!--            <input type ="text" class="form-control" id = "ratingInput">-->
-            <label for = "commentInput"> Review </label>
-          <textarea type ="text" class="form-control" id = "commentInput" rows="3" ></textarea>
-            <button class="btn btn-outline-success my-2 my-sm-0" id= "commentSubmit" onclick= "review()">Review</button>
-          <script>
-              function review() {
+                <div class="rating">
+                    <input type="radio" name="rating" value="5" id="5"><label for="5">☆</label>
+                    <input type="radio" name="rating" value="4" id="4"><label for="4">☆</label>
+                    <input type="radio" name="rating" value="3" id="3"><label for="3">☆</label>
+                    <input type="radio" name="rating" value="2" id="2"><label for="2">☆</label>
+                    <input type="radio" name="rating" value="1" id="1"><label for="1">☆</label>
+                </div>
+    <!--            <input type ="text" class="form-control" id = "ratingInput">-->
+                <label for = "commentInput"> Review </label>
+            <textarea type ="text" class="form-control" id = "commentInput" rows="3" ></textarea>
+                <button class="btn btn-outline-success my-2 my-sm-0" id= "commentSubmit" onclick= "review()">Review</button>
+            <script>
+                function review() {
 
-                  console.log("submitting")
-                  var bookIdentifier = "[[${book.getBookIdentifier()}]]"
-                  var bookTitle = "[[${book.getTitle()}]]"
-                  var bookCover = "[[${book.getLink()}]]"
-                  var bookAuthor = "[[${book.getAuthor()}]]"
-                  var bookPage = "[[${book.getPage()}]]"
-                  var bookDescription = "[[${book.getDescription()}]]"
+                    console.log("submitting")
+                    var bookIdentifier = "[[${book.getBookIdentifier()}]]"
+                    var bookTitle = "[[${book.getTitle()}]]"
+                    var bookCover = "[[${book.getLink()}]]"
+                    var bookAuthor = "[[${book.getAuthor()}]]"
+                    var bookPage = "[[${book.getPage()}]]"
+                    var bookDescription = "[[${book.getDescription()}]]"
 
-                  let rating = $("input:radio:checked").val()
-                  console.log(rating)
-                  let review = document.getElementById("commentInput").value
+                    let rating = $("input:radio:checked").val()
+                    console.log(rating)
+                    let review = document.getElementById("commentInput").value
 
-                  console.log(bookAuthor, bookIdentifier, bookTitle, rating, review)
-                  $.ajax({
-                      url: '/books/' + bookIdentifier + "/review",
-                      type: "POST",
-                      contentType: 'application/json; charset=utf-8',
-                      data: JSON.stringify({rating: rating, review: review, title: bookTitle,
-                          page: bookPage, author: bookAuthor, link: bookCover, description: bookDescription}),
-                      headers: {'Authorization': 'Bearer ' + getCookie("jwt")},
-                      success: function(res) {
-                         console.log(res);
-                         window.location.reload()
-//                          window.location.replace("/books/" + bookIdentifier + "/review");
-                         console.log('success')
-                      },
-                      error: (xhr, resp, text) => console.log(xhr),
-                  });
-              }
+                    console.log(bookAuthor, bookIdentifier, bookTitle, rating, review)
+                    $.ajax({
+                        url: '/books/' + bookIdentifier + "/review",
+                        type: "POST",
+                        contentType: 'application/json; charset=utf-8',
+                        data: JSON.stringify({rating: rating, review: review, title: bookTitle,
+                            page: bookPage, author: bookAuthor, link: bookCover, description: bookDescription}),
+                        headers: {'Authorization': 'Bearer ' + getCookie("jwt")},
+                        success: function(res) {
+                            console.log(res);
+                            window.location.reload()
+    //                          window.location.replace("/books/" + bookIdentifier + "/review");
+                            console.log('success')
+                        },
+                        error: (xhr, resp, text) => console.log(xhr),
+                    });
+                }
 
 
-          </script>
-      </div>
+            </script>
+        </div>
 <!--    </form>-->
 
-</div>
+    </div>
 
 <!--<script src="/js/viewBook.js"></script>-->
+    <div th:replace="fragments/common :: js"></div>
 </body>
 </html>

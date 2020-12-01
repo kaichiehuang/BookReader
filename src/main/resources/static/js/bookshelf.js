@@ -103,6 +103,12 @@ $(function() {
         });
     });
 
+    $("body").on("click", "#book-info", function() {
+        let href = $(this).attr("data-href");
+        console.log(href);
+        window.location.replace(href);
+    });
+
     $(".book-a").click(function(e){
         e.preventDefault();
     })

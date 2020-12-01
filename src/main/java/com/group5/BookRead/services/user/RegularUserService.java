@@ -54,7 +54,7 @@ public class RegularUserService implements UserService {
         return userRepository.findAll();
     }
 
-     *  find by user id
+    /**  find by user id
      * @param userId
      * @return
      * @throws UsernameNotFoundException

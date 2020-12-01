@@ -43,10 +43,14 @@
                                 	</div>
                                 	<div class="input-group-append">
                                 		<button class="btn btn-danger" type="button" id="exclude-book" th:attr="data-book-id=${book.id}">Exclude Book</button>
-                                	</div>
+                                    </div>   
+                                    <div class="input-group-append">
+                                        <button class="btn btn-danger" type="button" id="book-info" th:attr="data-href=@{/book(id=${book.getBookIdentifier()})}">Book Info</button>
+                                    </div>
                                 </div>
+                                
                             </div>
-                            <a data-toggle="popover" data-placement="top" style="display:inline-block" class="book-a" th:href="@{/book(id=${book.getBookIdentifier()})}">
+                            <a data-toggle="popover" data-placement="top" style="display:inline-block" class="book-a">
                                 <div class="book-holder" >
                                     <div class="book-container">
                                         <div class="book" >
@@ -54,8 +58,8 @@
                                                 <!-- TODO: book cover set background image-->
                                                 <div class="cover">
                                                     <img id = "link" th:src="${book.getLink()}"></img>
-<!--                                                     <span class="book-title" th:text="${book.getTitle()}"></span> -->
-<!--                                                     <span class="book-writer" th:text="${book.getAuthor()}"></span> -->
+                                                    <!-- <span class="book-title" th:text="${book.getTitle()}"></span> -->
+                                                    <!-- <span class="book-writer" th:text="${book.getAuthor()}"></span> -->
                                                 </div>
                                             </div>
                                             <div class="book-spine">

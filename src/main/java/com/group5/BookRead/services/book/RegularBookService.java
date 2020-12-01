@@ -109,7 +109,7 @@ public final class RegularBookService implements BookService {
 
                     if (curBook != null) {
                         throw new BookExistsOnTragetShelfException(
-                                book.getName() + " exists on "
+                                book.getTitle() + " exists on "
                                 + shelf.getName());
                     }
                 }
