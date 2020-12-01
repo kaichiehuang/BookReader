@@ -53,6 +53,32 @@ public class FriendshipRESTController {
     }
 
     /**
+     * <p> get a list of users that have sent a request to a user
+     * </p>
+     * @param response response object
+     * @return response message
+     * @since 1.0
+     */
+    @GetMapping("/user/requests")
+    public String getFriendRequests(final HttpServletResponse response) {
+        try {
+            SecurityContext context = SecurityContextHolder.getContext();
+
+            int userId = Integer.parseInt(context.getAuthentication()
+                    .getPrincipal().toString());
+
+            List<String> requestList =
+                    friendshipService.getAllFriendRequestsFromOthers(userId);
+
+            response.setStatus(HttpServletResponse.SC_OK);
+
+            return "{\"requests\":\"" + requestList.toString() + "\"}";
+        } catch (Exception e) {
+            throw e;
+        }
+    }
+
+    /**
      * <p> request a friendship to another user by username
      * </p>
      * @param json param object
@@ -84,7 +110,7 @@ public class FriendshipRESTController {
     /**
      * <p> accept a friendship
      * </p>
-     * @param json param object
+     * @param acceptedFriendName param object
      * @param response response object
      * @return response message
      * @since 1.0
@@ -115,7 +141,7 @@ public class FriendshipRESTController {
     /**
      * <p> reject a friendship
      * </p>
-     * @param json param object
+     * @param rejectFriendName param object
      * @param response response object
      * @return response message
      * @since 1.0

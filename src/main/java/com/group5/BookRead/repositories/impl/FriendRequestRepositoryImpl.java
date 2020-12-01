@@ -93,4 +93,21 @@ public class FriendRequestRepositoryImpl implements FriendRequestRepository {
                     new Object[] {friendId, userId});
     }
 
+    /**  find all friend request object towards one user with userId
+     * @param userId
+     * @return List<FriendRequest>
+     */
+    @Override
+    public List<FriendRequest> findAllByFriendId(final int userId) {
+        try {
+            List<FriendRequest> friendRequests = jdbcTemplate.query("select * "
+                            + "from FriendRequest " + "where requestedFriend_id = ?",
+                    new Object[] {userId},
+                    new FriendRequestRepositoryImpl.FriendRequestRowMapper());
+            return friendRequests;
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
 }

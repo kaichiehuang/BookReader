@@ -12,4 +12,6 @@ public interface FriendRequestRepository {
                                                    int requestedFriendId);
     List<FriendRequest> findAllByUserId(int userId);
     int deleteByUserIdAndFriendId(int friendId, int userId);
+
+    List<FriendRequest> findAllByFriendId(int userId);
 }

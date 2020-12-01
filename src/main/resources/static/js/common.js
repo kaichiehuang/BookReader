@@ -16,3 +16,22 @@ function getCookie(name) {
     // Return null if not found
     return null;
 }
+
+$(function() {
+    $.ajax({
+        url: '/user/requests',
+        type: 'GET',
+        cache: false,
+        contentType: 'application/json; charset=utf-8',
+        headers: {'Authorization': 'Bearer ' + getCookie("jwt")},
+        success: function(res) {
+            let json = JSON.parse(res);
+            let requestCnt = json['requests'].split(',').length;
+            if (json['requests'].split(',') == "[]") {
+                requestCnt = 0;
+            }
+            document.getElementById("requestCnt").innerHTML = requestCnt.toString();
+        },
+        error: (xhr, resp, text) => console.log(xhr),
+    });
+})

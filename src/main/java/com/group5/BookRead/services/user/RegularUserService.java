@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.sql.SQLIntegrityConstraintViolationException;
+import java.util.List;
 
 @Service (value = "regular")
 public class RegularUserService implements UserService {
@@ -45,6 +46,13 @@ public class RegularUserService implements UserService {
         }
     }
 
+    /**
+     * get all user
+     * @return List<User>
+     */
+    public List<User> findAllUsers() {
+        return userRepository.findAll();
+    }
 
     /**
      * get user by username

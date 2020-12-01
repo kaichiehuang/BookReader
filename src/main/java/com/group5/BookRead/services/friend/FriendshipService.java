@@ -49,6 +49,42 @@ public class FriendshipService {
     }
 
     /**
+     *  Get a list of user's requested friends by userId
+     * @param userId
+     * @return List<String>
+     */
+    public List<String> getAllRequestedFriends(final int userId) {
+        List<FriendRequest> friendRequests =
+                friendRequestRepository.findAllByUserId(userId);
+
+        List<String> friends = new ArrayList<>();
+
+        for (FriendRequest friendRequest : friendRequests) {
+            friends.add(userRepository.findById(friendRequest.
+                    getRequestedFriendId()).getUsername());
+        }
+        return friends;
+    }
+
+    /**
+     *  Get a list of user's requested friends by userId
+     * @param userId
+     * @return List<String>
+     */
+    public List<String> getAllFriendRequestsFromOthers(final int userId) {
+        List<FriendRequest> friendRequests =
+                friendRequestRepository.findAllByFriendId(userId);
+
+        List<String> friends = new ArrayList<>();
+
+        for (FriendRequest friendRequest : friendRequests) {
+            friends.add(userRepository.findById(friendRequest.
+                    getUserId()).getUsername());
+        }
+        return friends;
+    }
+
+    /**
      *  Request a friendship to another user
      * @param userId
      * @param requestFriendName
@@ -62,12 +98,18 @@ public class FriendshipService {
                     userRepository.findIdByUsername(requestFriendName);
             FriendRequest friendRequest =
                     new FriendRequest(userId, requestedFriendId);
+            if (friendRequestRepository.findByUserIdAndRequestedFriendId(
+                    userId, requestedFriendId) != null) {
+                throw new AlreadyRequestedException(
+                        "Already send friend request to " + requestFriendName);
+            }
+
             friendRequestRepository.insert(friendRequest);
             FriendRequest storedFriendRequest =
                     friendRequestRepository.findByUserIdAndRequestedFriendId(
                             userId, requestedFriendId);
             return storedFriendRequest;
-        } catch (SQLIntegrityConstraintViolationException throwables) {
+        } catch (Exception e) {
             return null;
         }
     }

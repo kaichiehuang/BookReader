@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Network</title>
+    <title>Friend Requests</title>
     <link rel="stylesheet" th:href="@{/css/friends.css}" />
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -21,20 +21,21 @@
                     <div class="tab-content p-0">
                         <!-- begin #profile-friends tab -->
                         <div class="tab-pane fade in active show" style="font-size: large;" id="profile-friends">
-                            <h2 class="m-t-0 m-b-20">All user </h2>
+                            <h2 class="m-t-0 m-b-20">Friend Requests </h2>
                             <!-- begin row -->
                             <div class="row row-space-2">
                                 <!-- begin col-6 -->
-                                <div class="col-md-6 m-b-2" th:each="user,iter : ${users}">
+                                <div class="col-md-6 m-b-2" th:each="request,iter : ${requests}">
                                     <div class="p-10 bg-white">
                                         <div class="media media-xs overflow-visible">
                                             <a class="media-left" href="javascript:;"></a>
                                             <div class="media-body valign-middle">
-                                                <b class="text-inverse" th:text="${user}"></b>
+                                                <b class="text-inverse" th:text="${request}"></b>
                                             </div>
                                             <div class="media-body valign-middle text-right overflow-visible">
 
-                                                <button id="reqBtn" th:attr="data-friend-name=${user}" type="button" class="btn btn-primary">Friend Request</button>
+                                                <button id="accBtn" th:attr="data-friend-name=${request}" type="button" class="btn btn-primary">Accept</button>
+                                                <button id="rejBtn" th:attr="data-friend-name=${request}" type="button" class="btn btn-primary">Reject</button>
                                             </div>
                                         </div>
                                     </div>
@@ -55,6 +56,6 @@
 
 
 <div th:replace="fragments/common :: js"></div>
-<script src="/js/network.js"></script>
+<script src="/js/request.js"></script>
 </body>
 </html>
