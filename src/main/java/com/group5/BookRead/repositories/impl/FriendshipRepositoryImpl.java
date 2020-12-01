@@ -40,7 +40,8 @@ public class FriendshipRepositoryImpl implements FriendshipRepository {
             SQLIntegrityConstraintViolationException {
         return jdbcTemplate.update("insert into Friendship (user_id, "
             + "friend_id) " + "values(?, ?)",
-                new Object[] {friendship.getUserId(), friendship.getFriendId()});
+                new Object[]{friendship.getUserId(),
+                        friendship.getFriendId()});
     }
 
     /**  find all friendship of a user by userId
