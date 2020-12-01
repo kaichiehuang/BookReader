@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-public class FriendshipController {
+public class FriendshipRESTController {
 
     @Autowired
     FriendshipService friendshipService;
