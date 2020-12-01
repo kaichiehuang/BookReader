@@ -212,7 +212,7 @@ public class MyController {
     /**
      * create a new comment
      */
-    @PostMapping(value = "/timeline/{id}/comment",
+    @PostMapping(value = "/timeline/{postId}/comment",
             consumes = "application/json",
             produces = "application/json")
     public @ResponseBody Response writeComment(
@@ -224,7 +224,7 @@ public class MyController {
             int[] arr = getIds(postId);
             int userId = arr[0];
             int timelineId = arr[1];
-            String content = (String) body.get("content");
+            String content = (String) body.get("comment");
             System.out.printf("userId: %d timelineId: %d content: %s\n",
                     userId, timelineId, content);
             TimelineComment saved = timelineCommentService.save(

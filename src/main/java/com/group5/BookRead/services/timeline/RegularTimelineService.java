@@ -64,9 +64,12 @@ public class RegularTimelineService implements TimelineService {
             List<TimelineComment> comments = timelineCommentService.
                     getTimelineCommentsByTimelineIdAndType(timeline.getId(),
                             "comment");
-            boolean liked = timelineCommentService.
+
+
+             List<TimelineComment> likedByUser = timelineCommentService.
                     getTimelineCommentsByTimelineIdAndUserId(
-                    timeline.getId(), user.getId(), "like").size() > 0;
+                    user.getId(), timeline.getId(), "like");
+            boolean liked = likedByUser.size() > 0;
 
             res.add(new ResponseTimeline(
                     timeline.getId(),

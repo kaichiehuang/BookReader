@@ -66,7 +66,7 @@ public class RegularTimelineCommentService implements TimelineCommentService {
      */
     @Override
     public List<TimelineComment> getTimelineCommentsByTimelineIdAndUserId(
-            final int timelineId, final int userId, final String type) {
+            final int userId, final int timelineId, final String type) {
         return timelineCommentRepository.
                 getTimelineCommentsByTimelineIdAndUserId(
                 timelineId, userId, type);

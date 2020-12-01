@@ -184,6 +184,7 @@ public final class RegularBookService implements BookService {
 
     @Override
     public Book getBook(final String identifier) {
+        System.out.println(identifier);
         return bookRepository.findByIdentifier(identifier);
     }
 
