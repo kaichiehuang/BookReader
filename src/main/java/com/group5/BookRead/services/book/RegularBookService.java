@@ -21,6 +21,7 @@ public final class RegularBookService implements BookService {
     private BookHelperService bookHelperService;
 
 
+
     @Autowired
     public RegularBookService(final BookRepository bookRepository,
                               final BookHelperService bookHelperService) {
@@ -28,6 +29,13 @@ public final class RegularBookService implements BookService {
         this.bookHelperService = bookHelperService;
     }
 
+
+    @Override
+    public Book save(final Book book)
+            throws SQLIntegrityConstraintViolationException {
+        bookRepository.insert(book);
+        return bookRepository.findByIdentifier(book.getBookIdentifier());
+    }
 
     @Override
     public Book remove(final int bookId,
@@ -74,7 +82,7 @@ public final class RegularBookService implements BookService {
         if (existing != null) {
             // exists
             throw new BookExistsOnTragetShelfException(
-                    book.getName() + " exists on " + bookshelfName);
+                    book.getTitle() + " exists on " + bookshelfName);
         }
 
         List<Bookshelf> shelves = bookHelperService.getBookShelves(userId);
@@ -88,7 +96,7 @@ public final class RegularBookService implements BookService {
                         && (shelf.getName().equals("favorites")
                         || bookshelfName.equals("favorites"))) {
                     throw new BookExistsOnTragetShelfException(
-                            book.getName() + " exists on " + shelf.getName());
+                            book.getTitle() + " exists on " + shelf.getName());
                 }
 
             }
@@ -120,7 +128,7 @@ public final class RegularBookService implements BookService {
             int res = bookRepository.insert(book);
             if (res == 1) {
                 return bookRepository.findByNameAndAuthor(
-                        book.getName(),
+                        book.getTitle(),
                         book.getAuthor());
             }
 
@@ -129,6 +137,9 @@ public final class RegularBookService implements BookService {
             return null;
         }
     }
+
+
+
 
 
     /**
@@ -169,6 +180,12 @@ public final class RegularBookService implements BookService {
                     getBooks(bookshelf.getName(), userId));
         }
         return map;
+    }
+
+    @Override
+    public Book getBook(final String identifier) {
+        System.out.println(identifier);
+        return bookRepository.findByIdentifier(identifier);
     }
 
     /**

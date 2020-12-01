@@ -35,9 +35,9 @@
             <td colspan="2"> No Books Available </td>
         </tr>
         <tr th:each="book : ${books}" id="bookRow">
-            <td><img th:src="${book.getLink()}"></img></td>
-            <td><span th:text="${book.getTitle()}" id="title"> Title </span></td>
-            <td><span th:text="${book.getAuthors()}" id="author"> Author </span></td>
+            <td><img id = "link" th:src="${book.getLink()}"></img></td>
+            <td><span th:text="${book.getTitle()}" id="title" th:class="${book.getBookIdentifier()}"> Title </span></td>
+            <td><span th:text="${book.getAuthor()}" id="author"> Author </span></td>
             <td><span th:text="${book.getPage()}" id="pages"> Pages </span></td>
             <td><span th:text="${book.getDescription()}" id="description"> Description </span></td>
             <td>
@@ -53,7 +53,12 @@
                     </div>
                 </div>
             </td>
-            
+            <td>
+<!--                   <form th:action="@{/book}" method="get"> -->
+<!--                       <button class="btn btn-outline-success my-2 my-sm-0" id= "moreInfoBtn" type="submit">More Info</button> -->
+<!--                   </form> -->
+                <a th:href="@{/book(id=${book.getBookIdentifier()})}" button class="btn btn-outline-success my-2 my-sm-0" id= "moreInfoBtn"> More Info</a>
+            </td>
         </tr>
         </tbody>
     </table>
