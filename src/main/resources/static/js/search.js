@@ -3,21 +3,32 @@ $(function(){
     $(".bookshelfChoice").unbind('click').bind('click', function (event) {
         let bookshelf = $(this).text();
 
+        let link= $(this).closest("#bookRow").find("#link").attr('src');
         let title = $(this).closest("#bookRow").find("#title").text();
         let author = $(this).closest("#bookRow").find("#author").text();
         let pages = $(this).closest("#bookRow").find("#pages").text();
         let description = $(this).closest("#bookRow").find("#description").text();
-        console.log(title);
-        console.log(author);
-        console.log(pages);
-        console.log(description);
+        let bookIdentifier = $(this).closest("#bookRow").find("#title").attr('class');
+
+        // let id = $(this).closest()
+        // console.log(title);
+        // console.log(author);
+        // console.log(pages);
+        // console.log(description);
+        // console.log(bookIdentifier)
+        // console.log("BookIdentifier", bookIdMap[title+pages])
+        // let bookIdentifier = bookIdMap[title+pages]
 
         let data = {
-            name: title,
+            bookIdentifier: bookIdentifier,
+            title: title,
             author: author,
-            page: pages,
-            description: description
+            page: parseInt(pages),
+            description: description,
+            link: link
         };
+
+        console.log(data)
 
         $.ajax({
             url: '/book/shelf/' + bookshelf.toLowerCase(),

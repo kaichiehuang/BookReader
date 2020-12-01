@@ -46,20 +46,20 @@
                                 	</div>
                                 </div>
                             </div>
-                            <a data-toggle="popover" data-placement="top" style="display:inline-block" class="book-a">
+                            <a data-toggle="popover" data-placement="top" style="display:inline-block" class="book-a" th:href="@{/book(id=${book.getBookIdentifier()})}">
                                 <div class="book-holder" >
                                     <div class="book-container">
                                         <div class="book" >
                                             <div class="book-cover" >
                                                 <!-- TODO: book cover set background image-->
                                                 <div class="cover">
-                                                    
-                                                    <span class="book-title" th:text="${book.name}"></span>
-                                                    <span class="book-writer" th:text="${book.author}"></span>
+                                                    <img id = "link" th:src="${book.getLink()}"></img>
+<!--                                                     <span class="book-title" th:text="${book.getTitle()}"></span> -->
+<!--                                                     <span class="book-writer" th:text="${book.getAuthor()}"></span> -->
                                                 </div>
                                             </div>
                                             <div class="book-spine">
-                                                <h1 th:text="${book.name}"></h1>
+                                                <h1 th:text="${book.getTitle()}"></h1>
                                             </div>
                                         </div>
                                     </div>

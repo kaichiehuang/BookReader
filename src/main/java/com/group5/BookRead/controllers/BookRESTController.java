@@ -70,6 +70,7 @@ public class BookRESTController extends BookController {
             int userId = Integer.parseInt(context.getAuthentication()
                 .getPrincipal().toString());
 
+            System.out.println("book " + book);
             bookServiceSelector.addBookToShelf(book, dstShelf.toLowerCase(),
                 userId);
 

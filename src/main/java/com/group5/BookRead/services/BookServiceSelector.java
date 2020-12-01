@@ -43,10 +43,11 @@ public class BookServiceSelector {
                                final int userId)
             throws BookExistsOnTragetShelfException {
         // check if book exists in database
-        Book curBook = bookService.getBookByNameAuthor(book.getName(),
+        Book curBook = bookService.getBookByNameAuthor(book.getTitle(),
             book.getAuthor());
         if (curBook == null) {
             // the book does not exist
+//            System.out.println(" in service selec"book);
             curBook = bookService.chooseBook(book);
         }
 
@@ -88,6 +89,7 @@ public class BookServiceSelector {
         return bookService.getBook(bookId);
     }
 
+
     /**
      *  get excluded books
      * @param userId
@@ -104,5 +106,24 @@ public class BookServiceSelector {
      */
     public void addToExcluded(final int bookId, final int userId) {
         bookService.addToExcluded(bookId, userId);
+    }
+  
+    /**
+     * get book by identifier
+     * @param identifier
+     * @return
+     */
+    public  Book getBook(final String identifier) {
+        return bookService.getBook(identifier);
+    }
+
+
+    /**
+     * store a book
+     * @param book
+     * @return
+     */
+    public Book storeBook(final Book book) {
+        return bookService.chooseBook(book);
     }
 }

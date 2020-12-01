@@ -22,6 +22,9 @@ public class GoogleAPIService implements BookAPI {
     final String keywordsSEARCH = "https://www.googleapis.com/books/v1/volumes?"
             + "q=%s&key=AIzaSyBS_bQYbKIUs7hBTGYpQFtpNJI8hcG76ww&maxResults=20";
 
+    final String identifierSEARCH = "https://www.googleapis.com/books/v1/volume"
+            + "s/%s?key=AIzaSyBS_bQYbKIUs7hBTGYpQFtpNJI8hcG76ww";
+
     /**
      *  search for books whoes titles match the search key
      * @param searchKey
@@ -34,5 +37,19 @@ public class GoogleAPIService implements BookAPI {
         ResponseEntity<String> response
                 = restTemplate.getForEntity(searchUrl, String.class);
         return bookAPIAdaptor.convert(response);
+    }
+
+    /**
+     * get single book through identifier
+     * @param bookIdentifier
+     * @return
+     */
+    @Override
+    public BookFromAPI getBook(final String bookIdentifier) {
+        String searchUrl
+                = String.format(identifierSEARCH, bookIdentifier);
+        ResponseEntity<String> response
+                = restTemplate.getForEntity(searchUrl, String.class);
+        return bookAPIAdaptor.convertBook(response);
     }
 }

@@ -147,7 +147,7 @@ public class MyBookRepositoryImpl implements MyBookRepository {
     }
 
     /**  update mybook
-     * @param mybook
+     * @param mb
      * @return status code
      */
     @Override
@@ -210,27 +210,10 @@ public class MyBookRepositoryImpl implements MyBookRepository {
      * @return mybook
      */
     @Override
-    public MyBook findByUsernameAndBookShelfnameAndBookId(
+    public MyBook findByUsernameAndBookShelfNameAndBookId(
             final String username, final String bookshelfName,
             final String bookId) {
         System.err.println("MyBookRepositoryImpl:185 - not implement");
-        System.exit(1);
-        return null;
-    }
-
-    /**
-     * find book by username, bookshelf, and bookId
-     * @param username
-     * @param bookshelfName
-     * @param bookId
-     * @return MyBook object
-     */
-    @Override
-    public MyBook findByUsernameAndBookShelfnameAndBookId(
-            final String username,
-            final String bookshelfName,
-            final int bookId) {
-        System.err.println("MyBookRepositoryImpl:200 - not implement");
         System.exit(1);
         return null;
     }
@@ -265,5 +248,4 @@ public class MyBookRepositoryImpl implements MyBookRepository {
         // TODO Auto-generated method stub
         return null;
     }
-
 }
