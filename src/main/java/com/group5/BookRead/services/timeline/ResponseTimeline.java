@@ -1,6 +1,6 @@
 package com.group5.BookRead.services.timeline;
 
-import com.group5.BookRead.models.TimelineComment;
+import com.group5.BookRead.services.timelineComment.TimelineCommentResponse;
 
 import java.sql.Timestamp;
 import java.util.List;
@@ -12,7 +12,7 @@ public class ResponseTimeline {
     private String type;
     private Timestamp timestamp;
     private String username;
-    private List<TimelineComment> commentList;
+    private List<TimelineCommentResponse> commentList;
     private boolean isLiked;
     private int likes;
 
@@ -23,7 +23,7 @@ public class ResponseTimeline {
             final String type,
             final Timestamp timestamp,
             final String username,
-            final List<TimelineComment> commentList,
+            final List<TimelineCommentResponse> commentList,
             final boolean isLiked,
             final int likes) {
         this.id = id;
@@ -73,7 +73,7 @@ public class ResponseTimeline {
      * get comment list
      * @return
      */
-    public List<TimelineComment> getCommentList() {
+    public List<TimelineCommentResponse> getCommentList() {
         return commentList;
     }
 
@@ -81,7 +81,8 @@ public class ResponseTimeline {
      * set comment list
      * @param commentList
      */
-    public void setCommentList(final List<TimelineComment> commentList) {
+    public void setCommentList(
+            final List<TimelineCommentResponse> commentList) {
         this.commentList = commentList;
     }
 

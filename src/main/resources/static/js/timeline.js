@@ -1,61 +1,52 @@
-// var timelineId = "[[${timeline.getId()}]]"
-// var userId = "[[${timeline.getUserId()}]]"
-console.log("timelineId", timelineId)
-console.log("userId", userId)
-
-
-
-
-function toggleLike(x) {
-//     let numberLikes = document.getElementById("like").text
-    console.log("Toggle like button + 1 like", numberLikes)
-     $.ajax({
+function toggleThumb(currentStatus, timelineId, userId, likes) {
+    console.log("toggling: ", currentStatus, timelineId, userId, likes)
+    if (!currentStatus) {
+        // we want to like;
+        $.ajax({
             url: `/timeline/` + timelineId + `/like`,
             type: 'POST',
             cache: false,
             contentType: 'application/json; charset=utf-8',
             data: JSON.stringify({userId: userId}),
             headers: {'Authorization': 'Bearer ' + getCookie("jwt")},
-            success: function(res) {
-                console.log(res)
-                let newNumberLikes = parseInt(numberLikes) + 1
-                console.log("new number of likes", newNumberLikes)
-//                 $("#like").val(newNumberLikes.toString())
-                document.getElementById("like").value = newNumberLikes.toString()
-            },
-            error: (xhr, resp, text) => console.log(xhr),
-        });
-    x.classList.toggle("fa-thumbs-down");
+            success: function (res) {
+                likes++;
+                document.querySelector(`#${'thumb-' + timelineId}`).innerHTML =
+                    `<i class="fas fa-thumbs-down" onclick = "toggleThumb(true, ${timelineId}, ${userId}, ${likes})"> ${likes}</i>`
+                // after like, we show thumb down button with count, so that user can unlike
+
+            }
+        })
+    } else {
+        // we want to unlike;
+        $.ajax({
+            url: `/timeline/` + timelineId + `/unlike`,
+            type: 'PUT',
+            cache: false,
+            contentType: 'application/json; charset=utf-8',
+            data: JSON.stringify({userId: userId}),
+            headers: {'Authorization': 'Bearer ' + getCookie("jwt")},
+            success: function (res) {
+                likes--;
+
+                document.querySelector(`#${'thumb-' + timelineId}`).innerHTML =
+                    `<i class="fas fa-thumbs-up" onclick = "toggleThumb(false, ${timelineId}, ${userId}, ${likes})"> ${likes}</i>`
+                // after unlike, we show thumb up button with count, so that user can like
+            }
+        })
+    }
 }
 
-function toggleUnlike(x) {
-    let numberLikes = document.getElementById("unlike").value
-    console.log("Toggle liked button - 1 like", numberLikes)
-    $.ajax({
-        url: `/timeline/` + timelineId + `/unlike`,
-        type: 'PUT',
-        cache: false,
-        contentType: 'application/json; charset=utf-8',
-        data: JSON.stringify({userId: userId}),
-        headers: {'Authorization': 'Bearer ' + getCookie("jwt")},
-        success: function(res) {
-            console.log(res)
-            let newNumberLikes = parseInt(numberLikes) - 1
-            console.log("new number of likes", newNumberLikes)
-            document.getElementById("unlike").value = newNumberLikes.toString()
-        },
-        error: (xhr, resp, text) => console.log(xhr),
-    });
-    x.classList.toggle("fa-thumbs-up");
+function showForm(timelineId){
+    $('#comment-form-' + timelineId).show()
 }
+function cancelComment(timelineId){
+    $('#comment-form-' + timelineId).hide()
+}
+function postComment(timelineId, userId){
+    console.log(timelineId, userId)
 
-$("#commentButton").click(function(){
-    console.log("comment button clicked")
-    $("#commentForm").toggle();
-  });
-
-$("#postComment").submit(function(){
-    let commentInput = document.getElementById("comment-input").value
+    let commentInput = document.getElementById("comment-input-" +timelineId).value
     console.log("comment", commentInput)
     $.ajax({
         url: `/timeline/` + timelineId + `/comment`,
@@ -65,10 +56,14 @@ $("#postComment").submit(function(){
         data: JSON.stringify({userId: userId, comment: commentInput}),
         headers: {'Authorization': 'Bearer ' + getCookie("jwt")},
         success: function(res) {
-            let newComment = "<p>" + commentInput + "</p>"
+
+            let newComment =
+                `<h5>${res.username} </h5> <span style = "float: right;"> ${res.timestamp}</span>
+                 <p> ${commentInput}</p>`
             console.log("new comment", newComment)
-            $(".comment-area").append(newComment)
+            document.querySelector(`#${'comment-area-' + timelineId}`).innerHTML += newComment
+            document.getElementById("comment-input-" +timelineId).value = ""
         },
         error: (xhr, resp, text) => console.log(xhr),
     });
-})
+}

@@ -8,5 +8,5 @@ import java.util.List;
 public interface TimelineService {
     Timeline store(Timeline timeline)
             throws SQLIntegrityConstraintViolationException;
-    List<ResponseTimeline> getTimelines() throws Exception;
+    List<ResponseTimeline> getTimelines(int userId) throws Exception;
 }

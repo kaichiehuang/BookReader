@@ -12,6 +12,7 @@ import com.group5.BookRead.services.comment.CommentService;
 import com.group5.BookRead.services.comment.ResponseComment;
 import com.group5.BookRead.services.timeline.ResponseTimeline;
 import com.group5.BookRead.services.timeline.TimelineService;
+import com.group5.BookRead.services.timelineComment.TimelineCommentResponse;
 import com.group5.BookRead.services.timelineComment.TimelineCommentService;
 import com.group5.BookRead.services.user.UserService;
 import org.apache.commons.lang.StringEscapeUtils;
@@ -115,8 +116,17 @@ public class MyController {
                            final Model model,
                            final HttpServletResponse response) {
         try {
-            List<ResponseTimeline> timelines = timelineService.getTimelines();
-            System.out.printf("acquired timelines: %s\n", timelines);
+            SecurityContext context = SecurityContextHolder.getContext();
+            int userId = Integer.parseInt(context.getAuthentication()
+                    .getPrincipal().toString());
+
+            List<ResponseTimeline> timelines = timelineService
+                    .getTimelines(userId);
+            System.out.println("currentUser: " + userId + " timeline page:");
+            for (ResponseTimeline t : timelines) {
+                System.out.println(t);
+            }
+//            System.out.printf("acquired timelines: %s\n", timelines);
             model.addAttribute("timelines", timelines);
             return "timeline";
         } catch (Exception e) {
@@ -215,7 +225,8 @@ public class MyController {
     @PostMapping(value = "/timeline/{postId}/comment",
             consumes = "application/json",
             produces = "application/json")
-    public @ResponseBody Response writeComment(
+    public @ResponseBody
+    TimelineCommentResponse writeComment(
             @RequestBody final Map<String, Object> body,
             @PathVariable final String postId,
             final HttpServletResponse response) {
@@ -231,14 +242,21 @@ public class MyController {
                     new TimelineComment(
                             content, "comment", userId, timelineId));
             System.out.printf("SAVED TimelineComment:  %s\n", saved);
-            res.setSuccess(true);
-            res.setMsg(saved.toString());
             response.setStatus(HttpServletResponse.SC_CREATED);
-            return res;
+
+            User commentBy = userService.findByUserId(userId);
+
+            return new TimelineCommentResponse(
+                    saved.getId(),
+                    saved.getUserId(),
+                    saved.getContent(),
+                    saved.getType(),
+                    saved.getTimestamp(),
+                    commentBy.getUsername());
         } catch (Exception e) {
             res.setMsg(e.getMessage());
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            return res;
+            return null;
         }
     }
 

@@ -4,6 +4,7 @@ import com.group5.BookRead.models.Timeline;
 import com.group5.BookRead.models.TimelineComment;
 import com.group5.BookRead.models.User;
 import com.group5.BookRead.repositories.TimelineRepository;
+import com.group5.BookRead.services.timelineComment.TimelineCommentResponse;
 import com.group5.BookRead.services.timelineComment.TimelineCommentService;
 import com.group5.BookRead.services.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,7 +49,8 @@ public class RegularTimelineService implements TimelineService {
      * @return
      */
     @Override
-    public List<ResponseTimeline> getTimelines() throws Exception {
+    public List<ResponseTimeline> getTimelines(final int userId)
+            throws Exception {
         List<Timeline> ls = timelineRepository.getTimelines();
         if (ls == null) {
             throw new Exception("Error in getting timelines in DB");
@@ -66,9 +68,23 @@ public class RegularTimelineService implements TimelineService {
                             "comment");
 
 
-             List<TimelineComment> likedByUser = timelineCommentService.
-                    getTimelineCommentsByTimelineIdAndUserId(
-                    user.getId(), timeline.getId(), "like");
+            List<TimelineCommentResponse> responseComments = new ArrayList<>();
+            for (TimelineComment c : comments) {
+                User commentBy = userService.findByUserId(
+                        c.getUserId());
+                TimelineCommentResponse cur = new TimelineCommentResponse(
+                        c.getId(),
+                        commentBy.getId(),
+                        c.getContent(),
+                        c.getType(),
+                        c.getTimestamp(),
+                        commentBy.getUsername());
+                responseComments.add(cur);
+            }
+
+            List<TimelineComment> likedByUser = timelineCommentService
+                    .getTimelineCommentsByTimelineIdAndUserId(
+                    userId, timeline.getId(), "like");
             boolean liked = likedByUser.size() > 0;
 
             res.add(new ResponseTimeline(
@@ -77,7 +93,7 @@ public class RegularTimelineService implements TimelineService {
                     timeline.getContent(),
                     timeline.getType(),
                     timeline.getTimestamp(),
-                    username, comments, liked, likes.size()
+                    username, responseComments, liked, likes.size()
                     ));
         }
         return res;

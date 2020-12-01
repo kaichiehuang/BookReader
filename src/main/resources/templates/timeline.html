@@ -34,92 +34,25 @@
                             <div th:id = "${'thumb-' + timeline.getId()}">
                                 <i th:if = "${timeline.isLiked()}" th:onclick= "'javascript:toggleThumb(true,'+${timeline.getId()} + ','+ ${timeline.getUserId()}+','+ ${timeline.getLikes()}+')'" class="fas fa-thumbs-down" th:text = "${timeline.getLikes()}"></i>
                                 <i th:unless= "${timeline.isLiked()}" th:onclick="'javascript:toggleThumb(false,'+${timeline.getId()} + ','+ ${timeline.getUserId()}+','+ ${timeline.getLikes()}+ ')'" class="fas fa-thumbs-up" th:text = "${timeline.getLikes()}"></i>
-
                             </div>
+                                <span><button type="button" class ="btn btn-outline-success my-2 my-sm-0" id="commentButton" th:onclick="'javascript:showForm(' +${timeline.getId()} + ')'">Comment</button></span>
 
-                            <span><button type="button" class ="btn btn-outline-success my-2 my-sm-0" id="commentButton" th:onclick="'javascript:showForm(' +${timeline.getId()} + ')'" >Comment</button></span>
 
-                            <div th:id="${'comment-form-' + timeline.getId()}" style = "display:none;">
-                                <div th:class= "${'comment-area-' + timeline.getId()}" th:each = "comment: ${timeline.getCommentList()}">
-<!--                                    <p th:text ="${comment.getUsername()}"></p>-->
-<!--                                    <p th:text="${comment.getContent()}"></p>-->
-<!--                                    <hr>-->
+
+                            <div th:id="${'comment-form-' + timeline.getId()}" style = "display:none;" >
+                                <div th:id= "${'comment-area-' + timeline.getId()}">
+                                    <div th:each = "comment: ${timeline.getCommentList()}">
+                                       <h5 th:text ="${comment.getUsername()}"></h5> <span th:text = "${comment.getTimestamp()}" style = "float: right;"> </span>
+                                       <p th:text="${comment.getContent()}"></p>
+                                       <hr>
+                                    </div>
                                 </div>
                                 <textarea class="form-control" style="resize:none;" type="text" th:id= "${'comment-input-' + timeline.getId()}" placeholder="Comment"> </textarea>
                                 <button class="btn btn-outline-success my-2 my-sm-0" th:id= "${'postComment-' + timeline.getId()}" th:onclick="'javascript:postComment(' +${timeline.getId()} +','+ ${timeline.getUserId()} + ')'">Post</button>
                                 <button class="btn btn-outline-success my-2 my-sm-0" th:id= "${'cancelComment-' + timeline.getId()}" th:onclick="'javascript:cancelComment(' +${timeline.getId()} + ')'">Cancel</button>
                             </div>
                         </div>
-                        <script>
-                            function toggleThumb(currentStatus, timelineId, userId, likes) {
-                                console.log("toggling: ", currentStatus, timelineId, userId, likes)
-                                if (!currentStatus) {
-                                    // we want to like;
-                                    $.ajax({
-                                        url: `/timeline/` + timelineId + `/like`,
-                                        type: 'POST',
-                                        cache: false,
-                                        contentType: 'application/json; charset=utf-8',
-                                        data: JSON.stringify({userId: userId}),
-                                        headers: {'Authorization': 'Bearer ' + getCookie("jwt")},
-                                        success: function (res) {
-                                            likes++;
-                                            document.querySelector(`#${'thumb-' + timelineId}`).innerHTML =
-                                                `<i class="fas fa-thumbs-down" onclick = "toggleThumb(true, ${timelineId}, ${userId}, ${likes})"> ${likes}</i>`
-                                            // after like, we show thumb down button with count, so that user can unlike
-
-                                        }
-                                    })
-                                } else {
-                                    // we want to unlike;
-                                    $.ajax({
-                                        url: `/timeline/` + timelineId + `/unlike`,
-                                        type: 'PUT',
-                                        cache: false,
-                                        contentType: 'application/json; charset=utf-8',
-                                        data: JSON.stringify({userId: userId}),
-                                        headers: {'Authorization': 'Bearer ' + getCookie("jwt")},
-                                        success: function (res) {
-                                            likes--;
-
-                                            document.querySelector(`#${'thumb-' + timelineId}`).innerHTML =
-                                                `<i class="fas fa-thumbs-up" onclick = "toggleThumb(false, ${timelineId}, ${userId}, ${likes})"> ${likes}</i>`
-                                            // after unlike, we show thumb up button with count, so that user can like
-                                        }
-                                    })
-                                }
-                            }
-
-                            function showForm(timelineId){
-                                $('#comment-form-' + timelineId).show()
-                            }
-                            function cancelComment(timelineId){
-                                $('#comment-form-' + timelineId).hide()
-                            }
-                            function postComment(timelineId, userId){
-                                console.log(timelineId, userId)
-
-                                let commentInput = document.getElementById("comment-input-" +timelineId).value
-                                console.log("comment", commentInput)
-                                $.ajax({
-                                    url: `/timeline/` + timelineId + `/comment`,
-                                    type: 'POST',
-                                    cache: false,
-                                    contentType: 'application/json; charset=utf-8',
-                                    data: JSON.stringify({userId: userId, comment: commentInput}),
-                                    headers: {'Authorization': 'Bearer ' + getCookie("jwt")},
-                                    success: function(res) {
-                                        let newComment = "<p>" + commentInput + "</p>"
-                                        console.log("new comment", newComment)
-                                        document.querySelector(`.${'comment-area-' + timelineId}`).innerHTML += newComment
-                                    },
-                                    error: (xhr, resp, text) => console.log(xhr),
-                                });
-                            }
-
-
-                        </script>
-<!--                         <script src="/js/timeline.js"></script> -->
+                    <script src="/js/timeline.js"></script>
                 </div>
             </div>
 

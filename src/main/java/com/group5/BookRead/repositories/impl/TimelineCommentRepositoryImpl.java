@@ -11,12 +11,23 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
-import java.sql.*;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
+import java.sql.Timestamp;
+import java.sql.PreparedStatement;
+import java.sql.Statement;
+import java.sql.Connection;
 import java.util.List;
 
 @Repository
 public class TimelineCommentRepositoryImpl
         implements TimelineCommentRepository {
+
+    final int parameterONE = 1;
+    final int parameterTWO = 2;
+    final int parameterTHREE = 3;
+    final int parameterFOUR = 4;
 
     @Autowired
     JdbcTemplate jdbcTemplate;
@@ -60,22 +71,24 @@ public class TimelineCommentRepositoryImpl
                 + "timeline_id, content, type) "
                 + "values(?, ?, ?, ?)";
         jdbcTemplate.update(new PreparedStatementCreator() {
+
             /**
              *
              * @param connection
              * @return
              * @throws SQLException
              */
+            @SuppressWarnings("checkstyle:MagicNumber")
             @Override
             public PreparedStatement createPreparedStatement(
                     final Connection connection)
                     throws SQLException {
                 PreparedStatement ps = connection.prepareStatement(query,
                         Statement.RETURN_GENERATED_KEYS);
-                ps.setInt(1, timelineComment.getUserId());
-                ps.setInt(2, timelineComment.getTimelineId());
-                ps.setString(3, timelineComment.getContent());
-                ps.setString(4, timelineComment.getType());
+                ps.setInt(parameterONE, timelineComment.getUserId());
+                ps.setInt(parameterTWO, timelineComment.getTimelineId());
+                ps.setString(parameterTHREE, timelineComment.getContent());
+                ps.setString(parameterFOUR, timelineComment.getType());
                 return ps;
             }
         }, holder);
