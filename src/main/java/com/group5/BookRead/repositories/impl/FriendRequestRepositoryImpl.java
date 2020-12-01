@@ -86,11 +86,11 @@ public class FriendRequestRepositoryImpl implements FriendRequestRepository {
      * @return status code
      */
     @Override
-    public int deleteByUserIdAndAcceptedFriendId(
-            final int acceptedUserId, final int userId) {
+    public int deleteByUserIdAndFriendId(
+            final int friendId, final int userId) {
         return jdbcTemplate.update("delete from FriendRequest "
                         + "where user_id = ? and requestedFriend_id = ?",
-                    new Object[] {acceptedUserId, userId});
+                    new Object[] {friendId, userId});
     }
 
 }

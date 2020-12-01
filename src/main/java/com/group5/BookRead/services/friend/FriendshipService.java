@@ -87,7 +87,7 @@ public class FriendshipService {
                 userRepository.findIdByUsername(acceptedFriendName);
         //first delete entry from friend request
         if (friendRequestRepository.
-                deleteByUserIdAndAcceptedFriendId(acceptedFriendId,
+            deleteByUserIdAndFriendId(acceptedFriendId,
                         userId) == 0) {
             throw new UserDidNotRequestToBeFriendException(acceptedFriendName
                     + " did not request to be a friend with you");
@@ -97,5 +97,27 @@ public class FriendshipService {
         Friendship f2 = new Friendship(acceptedFriendId, userId);
         friendshipRepository.insert(f1);
         friendshipRepository.insert(f2);
+    }
+
+    /**
+     * reject friendship
+     * @param userId
+     * @param rejectFriendName
+     * @return void
+     *
+     */
+    public void rejectFriendship(final int userId,
+                                 final String rejectFriendName)
+            throws SQLIntegrityConstraintViolationException,
+            UserDidNotRequestToBeFriendException {
+        int rejectFriendId =
+                userRepository.findIdByUsername(rejectFriendName);
+        //first delete entry from friend request
+        if (friendRequestRepository.
+                deleteByUserIdAndFriendId(rejectFriendId,
+                        userId) == 0) {
+            throw new UserDidNotRequestToBeFriendException(rejectFriendName
+                    + " did not request to be a friend with you");
+        }
     }
 }

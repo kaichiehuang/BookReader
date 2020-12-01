@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 
 
@@ -88,8 +90,10 @@ public class FriendshipController {
      * @since 1.0
      */
     @PutMapping("/user/friend")
-    public String acceptFriendship(@RequestBody final Map<String, String> json,
-                                   final HttpServletResponse response)
+    public String acceptFriendship(
+        @RequestParam(name = "acceptedFriendName",
+            required = true) final String acceptedFriendName, 
+            final HttpServletResponse response)
             throws SQLIntegrityConstraintViolationException,
                 UserDidNotRequestToBeFriendException {
         try {
@@ -98,8 +102,6 @@ public class FriendshipController {
             // get parameters
             int userId = Integer.parseInt(context.getAuthentication()
                     .getPrincipal().toString());
-            String acceptedFriendName = json.get("acceptedFriendName");
-
             friendshipService.acceptFriendship(userId, acceptedFriendName);
 
             response.setStatus(HttpServletResponse.SC_OK);
@@ -110,8 +112,34 @@ public class FriendshipController {
         }
     }
 
+    /**
+     * <p> reject a friendship
+     * </p>
+     * @param json param object
+     * @param response response object
+     * @return response message
+     * @since 1.0
+     */
+    @DeleteMapping("/user/friend")
+    public String rejectFriendship(@RequestParam(name = "rejectFriendName",
+        required = true) final String rejectFriendName,
+        final HttpServletResponse response)
+            throws SQLIntegrityConstraintViolationException,
+                UserDidNotRequestToBeFriendException {
+        try {
+            SecurityContext context = SecurityContextHolder.getContext();
 
+            // get parameters
+            int userId = Integer.parseInt(context.getAuthentication()
+                    .getPrincipal().toString());
 
+            friendshipService.rejectFriendship(userId, rejectFriendName);
 
+            response.setStatus(HttpServletResponse.SC_OK);
 
+            return "{\"msg\":\"success\"}";
+        } catch (Exception e) {
+            throw e;
+        }
+    }
 }
