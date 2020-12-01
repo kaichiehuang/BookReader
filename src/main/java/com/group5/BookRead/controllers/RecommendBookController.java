@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.group5.BookRead.models.Book;
+import com.group5.BookRead.services.friend.FriendshipService;
 import com.group5.BookRead.services.user.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 public class RecommendBookController extends BookController {
 
     @Autowired
-    private UserService userService;
+    FriendshipService friendshipService;
+
+    @Autowired
+    UserService userService;
 
     /**
      * recommend a book to a friend
@@ -49,12 +53,13 @@ public class RecommendBookController extends BookController {
 //            System.out.println("username: " + username);
 
             // validate friendship
-//            List<String> friendList = userService.findFriends(userId);
-//            if (!friendList.contains(username)) {
-//                response.setStatus(HttpServletResponse.SC_NOT_ACCEPTABLE);
-//                return "{\"msg\":\"Request failed because
-//            you are not friend with this user\"}";
-//            }
+            List<String> friendList = friendshipService.getFriends(userId);
+//            System.out.println(friendList);
+            if (!friendList.contains(username)) {
+                response.setStatus(HttpServletResponse.SC_OK);
+                return "{\"msg\":\"Request failed because"
+                        + "you are not friend with this user\"}";
+            }
 
             // validate excluded book
             int friendId = userService.findByUsername(username).getId();
