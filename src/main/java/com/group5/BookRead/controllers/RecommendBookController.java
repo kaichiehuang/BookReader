@@ -48,13 +48,8 @@ public class RecommendBookController extends BookController {
                 .getPrincipal().toString());
             int bookId = Integer.parseInt(json.get("bookId"));
 
-//            System.out.println("userId: "+userId);
-//            System.out.println("bookId: "+userId);
-//            System.out.println("username: " + username);
-
             // validate friendship
             List<String> friendList = friendshipService.getFriends(userId);
-//            System.out.println(friendList);
             if (!friendList.contains(username)) {
                 response.setStatus(HttpServletResponse.SC_OK);
                 return "{\"msg\":\"Request failed because"
@@ -63,7 +58,6 @@ public class RecommendBookController extends BookController {
 
             // validate excluded book
             int friendId = userService.findByUsername(username).getId();
-//            System.out.println("friendId: " + friendId);
             List<Integer> excludedList = bookServiceSelector
                     .getExcludedBooks(friendId);
             if (excludedList.contains(bookId)) {
