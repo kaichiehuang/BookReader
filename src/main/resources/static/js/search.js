@@ -31,8 +31,9 @@ $(function(){
         console.log(data)
 
         $.ajax({
-            url: '/book/shelf/' + bookshelf.toLowerCase(),
-            type: 'POST',
+            // url: '/book/shelf/' + bookshelf.toLowerCase(),
+            url: '/book/shelf/addBook',
+            type: 'PUT',
             cache: false,
             contentType: 'application/json; charset=utf-8',
             data: JSON.stringify(data),
