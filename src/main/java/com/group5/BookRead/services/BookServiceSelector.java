@@ -107,7 +107,7 @@ public class BookServiceSelector {
     public void addToExcluded(final int bookId, final int userId) {
         bookService.addToExcluded(bookId, userId);
     }
-  
+
     /**
      * get book by identifier
      * @param identifier
