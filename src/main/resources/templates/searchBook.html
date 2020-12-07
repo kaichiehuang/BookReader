@@ -5,21 +5,21 @@
     <meta charset="UTF-8"/>
     <link rel="stylesheet" th:href="@{/css/searchBook.css}" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <div th:replace="fragments/common :: include"></div>
+    <div th:replace="fragments/common :: css"></div>
     <div th:replace="fragments/header :: header-css"></div>
 </head>
 <body>
 <div th:replace="fragments/header :: header"></div>
     <div class = "search">
     <h1> Search </h1>
-
-    <form class="form-inline my-2 my-lg-0" th:action="@{/search}" method="get">
-        <input class="form-control mr-sm-2" name="term" type="text" id = "search_input" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-success my-2 my-sm-0" id= "searchButton" type="submit">Search</button>
-    </form>
-    <table>
-        <thead>
+        <form th:action="@{/search}" method="get">
+            <div class="input-group">
+                <textarea class="form-control" style="resize:none" name="term" type="text" id = "search_input_main" placeholder="Search" aria-label="Search"> </textarea>
+                <button class="btn btn-outline-success my-2 my-sm-0" id= "searchButton" type="submit">Search</button>
+            </div>
+        </form>
+    <table class = "table table-hover">
+        <thead class = "thead-dark">
         <tr>
             <th> Book Cover </th>
             <th> Title </th>
@@ -34,9 +34,9 @@
             <td colspan="2"> No Books Available </td>
         </tr>
         <tr th:each="book : ${books}" id="bookRow">
-            <td><img th:src="${book.getLink()}"></img></td>
-            <td><span th:text="${book.getTitle()}" id="title"> Title </span></td>
-            <td><span th:text="${book.getAuthors()}" id="author"> Author </span></td>
+            <td><img id = "link" th:src="${book.getLink()}"></img></td>
+            <td><span th:text="${book.getTitle()}" id="title" th:class="${book.getBookIdentifier()}"> Title </span></td>
+            <td><span th:text="${book.getAuthor()}" id="author"> Author </span></td>
             <td><span th:text="${book.getPage()}" id="pages"> Pages </span></td>
             <td><span th:text="${book.getDescription()}" id="description"> Description </span></td>
             <td>
@@ -52,12 +52,18 @@
                     </div>
                 </div>
             </td>
-            
+            <td>
+<!--                   <form th:action="@{/book}" method="get"> -->
+<!--                       <button class="btn btn-outline-success my-2 my-sm-0" id= "moreInfoBtn" type="submit">More Info</button> -->
+<!--                   </form> -->
+                <a th:href="@{/book(id=${book.getBookIdentifier()})}" button class="btn btn-outline-success my-2 my-sm-0" id= "moreInfoBtn"> More Info</a>
+            </td>
         </tr>
         </tbody>
     </table>
 
 </div>
+<div th:replace="fragments/common :: js"></div>
 <script src="/js/search.js"></script>
 </body>
 </html>

@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.sql.SQLIntegrityConstraintViolationException;
+import java.util.List;
 
 @Service (value = "regular")
 public class RegularUserService implements UserService {
@@ -31,7 +32,7 @@ public class RegularUserService implements UserService {
      */
     @Override
     public User createUser(final User user) {
-        String[] bookshelves = new String[] {"favorites", "recommended", 
+        String[] bookshelves = new String[] {"favorites", "recommended",
             "reading", "read", "want to read"};
         try {
             userRepository.insert(user);
@@ -45,6 +46,28 @@ public class RegularUserService implements UserService {
         }
     }
 
+    /**
+     * get all user
+     * @return List<User>
+     */
+    public List<User> findAllUsers() {
+        return userRepository.findAll();
+    }
+
+    /**  find by user id
+     * @param userId
+     * @return
+     * @throws UsernameNotFoundException
+     */
+    @Override
+    public User findByUserId(final int userId)
+            throws UsernameNotFoundException {
+        User user = userRepository.findById(userId);
+        if (user == null) {
+            throw new UsernameNotFoundException("" + userId);
+        }
+        return user;
+    }
 
     /**
      * get user by username
