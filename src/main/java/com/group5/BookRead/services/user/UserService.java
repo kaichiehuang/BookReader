@@ -6,6 +6,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 public interface UserService {
     User findByUsername(String username);
     User removeUser(int userId);
-    User createUser(User user);
+    User createUser(String username, String password) throws Exception;
     User findByUserId(int userId) throws UsernameNotFoundException;
 }
