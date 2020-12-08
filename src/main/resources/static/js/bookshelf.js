@@ -15,9 +15,7 @@ $(function() {
             let dstShelf = $(this).find('.heading').text()
             let bookId = ui.draggable.attr("data-book-id")
 
-            // console.log(bookId); 
-            // console.log(srcShelf);
-            // console.log(dstShelf)
+
             $.ajax({
                 url: '/book/shelf/' + dstShelf,
                 type: 'PUT',

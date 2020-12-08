@@ -5,9 +5,9 @@
     <meta charset="UTF-8"/>
     <link rel="stylesheet" th:href="@{/css/searchBook.css}" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <div th:replace="fragments/common :: include"></div>
     <div th:replace="fragments/header :: header-css"></div>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
 <body>
 <div th:replace="fragments/header :: header"></div>
@@ -41,17 +41,19 @@
             <td><span th:text="${book.getPage()}" id="pages"> Pages </span></td>
             <td><span th:text="${book.getDescription()}" id="description"> Description </span></td>
             <td>
-                <div class="dropdown">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Add Book
-                    </button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <a class="dropdown-item bookshelfChoice">Read</a>
-                        <a class="dropdown-item bookshelfChoice">Reading</a>
-                        <a class="dropdown-item bookshelfChoice">Want To Read</a>
-                        <a class="dropdown-item bookshelfChoice">Favorites</a>
-                    </div>
-                </div>
+<!--                <div class="dropdown">-->
+<!--                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->
+<!--                        Add Book-->
+<!--                    </button>-->
+<!--                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">-->
+<!--                        <a class="dropdown-item bookshelfChoice">Read</a>-->
+<!--                        <a class="dropdown-item bookshelfChoice">Reading</a>-->
+<!--                        <a class="dropdown-item bookshelfChoice">Want To Read</a>-->
+<!--                        <a class="dropdown-item bookshelfChoice">Favorites</a>-->
+<!--                    </div>-->
+<!--                </div>-->
+                <button class="btn btn-outline-success my-2 my-sm-0" id="addBookBtn">Add Book</button>
+
             </td>
             <td>
 <!--                   <form th:action="@{/book}" method="get"> -->

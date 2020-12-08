@@ -8,47 +8,71 @@
     <div th:replace="fragments/common :: include"></div>
     <div th:replace="fragments/header :: header-css"></div>
 </head>
-<body>
-    <div th:replace="fragments/header :: header"></div>
-    <div class="container">
-        <div class="row bookshelf" th:each="instance : ${bookshelfs}">
-            <div class="col-md-12 text-center">
-                <div>
-                    <h1 class="heading" th:text="${instance.key}"></h1>
-                    <!-- TODO: use service here -->
-                    <div th:each="book,iter : ${instance.value}">
-                        <div class="col-xs-4 col-md-2" id="book" th:attr="data-book-id=${book.getId()}" style="z-index: 5;">
-                            <!-- TODO: book link goes here -->
-                            <a th:href="@{/book(id=${book.getBookIdentifier()})}">
-                                <div class="book-holder">
-                                    <div class="book-container">
-                                        <div class="book">
-                                            <div class="book-cover" >
-                                                <!-- TODO: book cover set background image-->
-                                                <div class="cover">
-                                                    <img id = "link" th:src="${book.getLink()}"></img>
-<!--                                                     <span class="book-title" th:text="${book.getTitle()}"></span> -->
-<!--                                                     <span class="book-writer" th:text="${book.getAuthor()}"></span> -->
+    <body>
+        <div class="modal" id="customBookshelfModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header bg-dark">
+                        <h5 class="modal-title" id="exampleModalLongTitle">Custom Bookshelf</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="inputGroup-sizing-default">Custom bookshelf name:</span>
+                            </div>
+                            <input type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary bg-dark">Add bookshelf</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div th:replace="fragments/header :: header"></div>
+        <div class="container">
+            <button type="button" class="btn btn-primary btn-lg bg-dark" data-toggle="modal" data-target="#customBookshelfModal">Add new shelf</button>
+            <div class="row bookshelf" th:each="instance : ${bookshelfs}">
+                <div class="col-md-12 text-center">
+                    <div>
+                        <h1 class="heading" th:text="${instance.key}"></h1>
+                        <!-- TODO: use service here -->
+                        <div th:each="book,iter : ${instance.value}">
+                            <div class="col-xs-4 col-md-2" id="book" th:attr="data-book-id=${book.getId()}" style="z-index: 5;">
+                                <!-- TODO: book link goes here -->
+                                <a th:href="@{/book(id=${book.getBookIdentifier()})}">
+                                    <div class="book-holder">
+                                        <div class="book-container">
+                                            <div class="book">
+                                                <div class="book-cover" >
+                                                    <!-- TODO: book cover set background image-->
+                                                    <div class="cover">
+                                                        <img id = "link" th:src="${book.getLink()}"></img>
+    <!--                                                     <span class="book-title" th:text="${book.getTitle()}"></span> -->
+    <!--                                                     <span class="book-writer" th:text="${book.getAuthor()}"></span> -->
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="book-spine">
-                                                <h1 th:text="${book.getTitle()}"></h1>
+                                                <div class="book-spine">
+                                                    <h1 th:text="${book.getTitle()}"></h1>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            </a>
+                                </a>
+                            </div>
+                            <div class="col-xs-12 shelf" th:if="${(iter.index + 1) % 6 == 0}"></div>
                         </div>
-                        <div class="col-xs-12 shelf" th:if="${(iter.index + 1) % 6 == 0}"></div>
+                        <div class="col-xs-12 shelf" th:unless="${#lists.size(instance.value) % 6 == 0}"></div>
                     </div>
-                    <div class="col-xs-12 shelf" th:unless="${#lists.size(instance.value) % 6 == 0}"></div>
-                </div>   
+                </div>
             </div>
         </div>
-    </div>	
-
-    <script src="/js/bookshelf.js"></script>
-</body>
+        <script src="/js/bookshelf.js"></script>
+    </body>
 </html>
 
 

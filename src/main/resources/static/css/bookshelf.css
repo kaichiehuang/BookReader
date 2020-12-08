@@ -25,7 +25,7 @@
 	content: '';
 	background: #686868;
 	height: 20px;
-	
+
 	position: absolute;
 	top: 30px;
 	left: 0;
@@ -155,7 +155,7 @@ body{
     text-shadow: 1px 0px 5px #000;
 }
 .book-writer{
-    color:#fff; 
+    color:#fff;
     text-shadow: 1px 0px 5px #000;
     display:block;
     font-size:12px;
