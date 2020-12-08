@@ -158,7 +158,7 @@ $(function() {
     $("#addBookshelf").on("click", ()=>{
         let customShelf = $('#customShelfName').val();
         $.ajax({
-            url: '/book/shelf/' + customShelf,
+            url: '/book/shelf/new',
             type: 'POST',
             cache: false,
             contentType: 'application/json; charset=utf-8',
@@ -181,7 +181,7 @@ $(function() {
             curDefaultShelf = defaultShelf
         }
         $.ajax({
-            url: '/book/shelf/' + customShelf,
+            url: '/book/shelf/default',
             type: 'PUT',
             cache: false,
             contentType: 'application/json; charset=utf-8',

@@ -43,6 +43,7 @@ $(function(){
     //         error: (xhr, resp, text) => console.log(xhr),
     //     });
     // })
+    $('.alert').hide()
     $("body").on("click","#addBookBtn", function(){
         let bookId = $(this).attr('data-book');
         $.ajax({
@@ -54,6 +55,9 @@ $(function(){
             headers: {'Authorization': 'Bearer ' + getCookie("jwt")},
             success: function(res) {
                 console.log(bookId)
+                $('.alert').fadeTo(2000, 500).slideUp(500, function() {
+                    $('.alert').slideUp(500);
+                })
             },
             error: (xhr, resp, text) => console.log(xhr),
         });
