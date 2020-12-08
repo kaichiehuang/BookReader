@@ -11,13 +11,16 @@ import java.util.Map;
 import java.util.List;
 
 import com.group5.BookRead.models.Book;
+import com.group5.BookRead.services.book.DecoratorChainException;
 
 @Controller
 public class BookHTMLController extends BookController {
 
     /**
-     * <p> get login page
+     * <p>
+     * get login page
      * </p>
+     * 
      * @return view to be output
      * @since 1.0
      */
@@ -27,8 +30,10 @@ public class BookHTMLController extends BookController {
     }
 
     /**
-     * <p> logout
+     * <p>
+     * logout
      * </p>
+     * 
      * @return view to be output
      * @since 1.0
      */
@@ -37,16 +42,19 @@ public class BookHTMLController extends BookController {
         return "login";
     }
 
-
     /**
-     * <p> get Book shelf items
+     * <p>
+     * get Book shelf items
      * </p>
+     * 
      * @param model Thymyleaf model
      * @return value to be outputed
+     * @throws DecoratorChainException
      * @since 1.0
      */
     @GetMapping("/book/shelf")
-    public String getBookBookshelf(final Model model) {
+    public String getBookBookshelf(final Model model) 
+        throws DecoratorChainException {
 
         SecurityContext context = SecurityContextHolder.getContext();
         int userId = Integer.parseInt(context.getAuthentication()

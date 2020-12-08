@@ -17,14 +17,13 @@ import com.group5.BookRead.models.Book;
 import com.group5.BookRead.models.MyBook;
 import com.group5.BookRead.services.BookServiceSelector;
 import com.group5.BookRead.services.book.BookDecorator.BookServiceDecorator;
-import com.group5.BookRead.services.book.BookDecorator.ConcreteBookServiceDecorator;
 
 
 @RestController
 public class TrackProgressController {
     @Autowired
     @Qualifier("basicDecoratedBookService")
-    ConcreteBookServiceDecorator bookServiceDecorator;
+    BookServiceDecorator bookServiceDecorator;
 
     @Autowired
     BookServiceSelector bookServiceSelector;

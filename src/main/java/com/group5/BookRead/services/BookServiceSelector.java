@@ -2,7 +2,8 @@ package com.group5.BookRead.services;
 
 import com.group5.BookRead.models.Book;
 import com.group5.BookRead.services.book.BookExistsOnTragetShelfException;
-import com.group5.BookRead.services.book.BookDecorator.ConcreteBookServiceDecorator;
+import com.group5.BookRead.services.book.DecoratorChainException;
+import com.group5.BookRead.services.book.BookDecorator.BookServiceDecorator;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -15,34 +16,35 @@ import java.util.List;
 public class BookServiceSelector {
 
     @Autowired
-    @Qualifier("concreteBookServiceDecorator")
-    ConcreteBookServiceDecorator bookServiceDecorator;
+    @Qualifier("basicDecoratedBookService")
+    BookServiceDecorator bookServiceDecorator;
 
     /**
-     *  remove a book
+     * remove a book
+     * 
      * @param bookId
      * @param bookshelf
      * @param userId
      * @return
+     * @throws DecoratorChainException
      */
-    public Book removeBook(final int bookId,
-                           final String bookshelf,
-                           final int userId) {
+    public Book removeBook(final int bookId, final String bookshelf, final int userId) 
+        throws DecoratorChainException {
         Book book = bookServiceDecorator.remove(bookId, bookshelf, userId);
         return book;
     }
 
     /**
      * add a book
+     * 
      * @param book
      * @param bookshelf
      * @param userId
      * @return
+     * @throws DecoratorChainException
      */
-    public Book addBookToShelf(final Book book,
-                               final String bookshelf,
-                               final int userId)
-            throws BookExistsOnTragetShelfException {
+    public Book addBookToShelf(final Book book, final String bookshelf, final int userId)
+            throws BookExistsOnTragetShelfException, DecoratorChainException {
         // check if book exists in database
         Book curBook = bookServiceDecorator.getBookByNameAuthor(book.getTitle(),
             book.getAuthor());
@@ -64,20 +66,26 @@ public class BookServiceSelector {
 
     /**
      * get bookshelves and books on the shelves for a user
+     * 
      * @param userId
      * @return
+     * @throws DecoratorChainException
      */
-    public HashMap<String, List<Book>> getBooksFromShelves(final int userId) {
+    public HashMap<String, List<Book>> getBooksFromShelves(final int userId) 
+        throws DecoratorChainException {
         return bookServiceDecorator.getBooksOnBookshelves(userId);
     }
 
     /**
      * get all books of an user on one shelf
+     * 
      * @param bookshelfType
      * @param userId
      * @return
+     * @throws DecoratorChainException
      */
-    public List<Book> getBooks(final String bookshelfType, final int userId) {
+    public List<Book> getBooks(final String bookshelfType, final int userId) 
+        throws DecoratorChainException {
         return bookServiceDecorator.getBooks(bookshelfType, userId);
     }
 
@@ -101,7 +109,8 @@ public class BookServiceSelector {
      * @param userId
      * @return
      */
-    public List<Integer> getExcludedBooks(final int userId) {
+    public List<Integer> getExcludedBooks(final int userId) 
+        throws DecoratorChainException {
         return bookServiceDecorator.getExcludedBooks(userId);
     }
 
@@ -110,7 +119,8 @@ public class BookServiceSelector {
      * @param bookId
      * @param userId
      */
-    public void addToExcluded(final int bookId, final int userId) {
+    public void addToExcluded(final int bookId, final int userId) 
+        throws DecoratorChainException {
         bookServiceDecorator.addToExcluded(bookId, userId);
     }
   

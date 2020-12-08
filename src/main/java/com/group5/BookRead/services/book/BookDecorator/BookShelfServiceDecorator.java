@@ -9,49 +9,42 @@ import com.group5.BookRead.models.Book;
 import com.group5.BookRead.models.Bookshelf;
 import com.group5.BookRead.models.MyBook;
 
-
-import com.group5.BookRead.services.book.excludedBook.ExcludedBookService;
-import org.springframework.beans.factory.annotation.Autowired;
-
 import com.group5.BookRead.repositories.BookshelfRepository;
 import com.group5.BookRead.services.BookshelfServiceSelector;
 import com.group5.BookRead.repositories.MyBookRepository;
 import com.group5.BookRead.repositories.BookRepository;
 import com.group5.BookRead.services.book.BookService;
-
+import com.group5.BookRead.services.book.DecoratorChainException;
 
 import java.util.List;
 import java.util.HashMap;
 import java.util.ArrayList;
 
 @Component
-public final class ConcreteBookServiceDecorator extends BookServiceDecorator {
+public final class BookShelfServiceDecorator extends BookServiceDecorator {
     private BookRepository bookRepository;
     private BookshelfServiceSelector bookshelfServiceSelector;
     private BookshelfRepository bookshelfRepo;
     private MyBookRepository myBookRepository;
-    private ExcludedBookService excludedBookService;
 
     @Autowired
-    public ConcreteBookServiceDecorator(
+    public BookShelfServiceDecorator (
         final BookService service,
         final BookRepository bookRepository,
         final BookshelfServiceSelector bookshelfServiceSelector,
         final BookshelfRepository bookshelfRepo,
-        final MyBookRepository myBookRepository,
-        final ExcludedBookService excludedBookService) {
+        final MyBookRepository myBookRepository) {
         super(service);
         this.bookRepository = bookRepository;
-        this.excludedBookService = excludedBookService;
         this.bookshelfServiceSelector = bookshelfServiceSelector;
         this.bookshelfRepo = bookshelfRepo;
         this.myBookRepository = myBookRepository;
     }
-
+    @Override
 	public Bookshelf getShelf(final String bookshelf, final int userId) {
         return bookshelfServiceSelector.getBookShelf(userId, bookshelf);
     }
-
+    @Override
     public boolean remove(final int bookId,
                           final int userId,
                           final String bookshelf) {
@@ -63,7 +56,7 @@ public final class ConcreteBookServiceDecorator extends BookServiceDecorator {
                 bookId);
         return  status == 1;
     }
-
+    @Override
     public Book remove(final int bookId,
                        final String bookshelf,
                        final int userId) {
@@ -80,6 +73,7 @@ public final class ConcreteBookServiceDecorator extends BookServiceDecorator {
      * @param userId
      * @return
      */
+    @Override
     public List<MyBook> getMyBooks(final String bookshelfName,
                                    final int userId) {
         Bookshelf bookshelf = bookshelfServiceSelector.getBookShelf(
@@ -98,6 +92,7 @@ public final class ConcreteBookServiceDecorator extends BookServiceDecorator {
      * @param userId
      * @return
      */
+    @Override
     public Book addBookToShelf(final Book book,
                     final String bookshelfName,
                     final int userId)
@@ -157,7 +152,8 @@ public final class ConcreteBookServiceDecorator extends BookServiceDecorator {
         }
         return null;
     }
-
+    
+    @Override
     public boolean addToShelf(final MyBook book) {
         try {
             return myBookRepository.insert(book) == 1;
@@ -172,6 +168,7 @@ public final class ConcreteBookServiceDecorator extends BookServiceDecorator {
      * @param userId
      * @return
      */
+    @Override
     public List<Book> getBooks(final String bookshelfName, final int userId) {
         List<MyBook> myBooks = getMyBooks(
                 bookshelfName,
@@ -194,6 +191,7 @@ public final class ConcreteBookServiceDecorator extends BookServiceDecorator {
      * @param userId
      * @return
      */
+    @Override
     public HashMap<String, List<Book>> getBooksOnBookshelves(final int userId) {
         List<Bookshelf> bookshelves = getBookShelves(userId);
         // System.out.println(bookshelves.size());
@@ -204,7 +202,7 @@ public final class ConcreteBookServiceDecorator extends BookServiceDecorator {
         }
         return map;
     }
-
+    @Override
     public List<Bookshelf> getBookShelves(final int userId) {
         return bookshelfServiceSelector.getBookShelves(userId);
     }
@@ -217,6 +215,7 @@ public final class ConcreteBookServiceDecorator extends BookServiceDecorator {
      * @param userId
      * @return bookshelf
      */
+    @Override
     public Bookshelf getReadingShelf(final int userId, final int bookId) {
         List<MyBook> mybooks = this.getMyBooks(userId, bookId);
         for (MyBook b : mybooks) {
@@ -240,6 +239,7 @@ public final class ConcreteBookServiceDecorator extends BookServiceDecorator {
      * @param bookId
      * @return void
      */
+    @Override
     public void moveBook(final String srcShelf, final String dstShelf,
         final int userId, final int bookId) {
         Bookshelf srcSh = this.getShelf(srcShelf, userId);
@@ -249,16 +249,15 @@ public final class ConcreteBookServiceDecorator extends BookServiceDecorator {
         myBookRepository.update(mbook);
     }
 
-
-
-
     /**
      * Get excluded book list of the user
      * @param userId
      * @return excluded book list
      */
-    public List<Integer> getExcludedBooks(final int userId) {
-        return excludedBookService.getExcludedBooks(userId);
+    @Override
+    public List<Integer> getExcludedBooks(final int userId) 
+        throws DecoratorChainException {
+        return super.getExcludedBooks(userId);
     }
 
 
@@ -267,8 +266,10 @@ public final class ConcreteBookServiceDecorator extends BookServiceDecorator {
      * @param bookId
      * @param userId
      */
-    public void addToExcluded(final int bookId, final int userId) {
-        excludedBookService.addToExcluded(bookId, userId);
+    @Override
+    public void addToExcluded(final int bookId, final int userId) 
+        throws DecoratorChainException {
+        super.addToExcluded(bookId, userId);
     }
 }
 
