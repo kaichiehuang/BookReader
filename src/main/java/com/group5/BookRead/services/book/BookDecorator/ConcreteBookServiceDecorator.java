@@ -17,12 +17,12 @@ import java.util.ArrayList;
 
 @Component
 public final class ConcreteBookServiceDecorator extends BookServiceDecorator {
-
+    
     private BookRepository bookRepository;
-
-
+    
     @Autowired
-    public ConcreteBookServiceDecorator(final BookRepository bookRepository, 
+    public ConcreteBookServiceDecorator(
+        final BookRepository bookRepository,
         final BookService service) {
         super(service);
         this.bookRepository = bookRepository;

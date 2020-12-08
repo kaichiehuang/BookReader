@@ -11,19 +11,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
-
-@Service(value = "book")
 public final class ConcreteBookService implements BookService {
 
     private MyBookRepository myBookRepository;
+
     private BookshelfServiceSelector bookshelfServiceSelector;
 
     @Autowired
-    public ConcreteBookService(final MyBookRepository mybookRepository,
-                    final  BookshelfServiceSelector bookshelfServiceSelector) {
-        this.myBookRepository = mybookRepository;
+    public ConcreteBookService(
+        final MyBookRepository myBookRepository,
+        final BookshelfServiceSelector bookshelfServiceSelector) {
+        this.myBookRepository = myBookRepository;
         this.bookshelfServiceSelector = bookshelfServiceSelector;
     }
+
 
     @Override
     public Bookshelf getShelf(final String bookshelf, final int userId) {
