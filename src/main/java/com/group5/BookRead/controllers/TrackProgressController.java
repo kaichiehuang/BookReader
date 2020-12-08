@@ -4,6 +4,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,19 +16,22 @@ import org.springframework.web.bind.annotation.RestController;
 import com.group5.BookRead.models.Book;
 import com.group5.BookRead.models.MyBook;
 import com.group5.BookRead.services.BookServiceSelector;
-import com.group5.BookRead.services.book.myBook.BookHelperService;
+import com.group5.BookRead.services.book.BookDecorator.BookServiceDecorator;
+import com.group5.BookRead.services.book.BookDecorator.ConcreteBookServiceDecorator;
 
 
 @RestController
 public class TrackProgressController {
-
     @Autowired
-    BookHelperService bookHelperService;
+    @Qualifier("basicDecoratedBookService")
+    ConcreteBookServiceDecorator bookServiceDecorator;
+
     @Autowired
     BookServiceSelector bookServiceSelector;
 
     public static final double PROGRESS_PERCENTAGE = 100.0;
 
+    
     /**
      * get current progress of mybook
      * @param json param object
@@ -47,12 +51,12 @@ public class TrackProgressController {
             String bookshelf = json.get("bookshelf");
 
             // get total page and previous progress
-            int bookshelfId = bookHelperService.getShelf(
+            int bookshelfId = bookServiceDecorator.getShelf(
                     bookshelf, userId).getId();
 
-            MyBook mbook = bookHelperService.getMyBook(
+            MyBook mbook = bookServiceDecorator.getMyBook(
                     userId, bookshelfId, bookId);
-            double progress = bookHelperService.getMyBook(
+            double progress = bookServiceDecorator.getMyBook(
                     userId, bookshelfId, bookId).getProgress();
 
             response.setStatus(HttpServletResponse.SC_OK);
@@ -87,11 +91,11 @@ public class TrackProgressController {
             Book bookFromDb = bookServiceSelector.getBook(bookId);
             int totalPage = bookFromDb.getPage();
 
-            double curProgress = curPage * PROGRESS_PERCENTAGE / totalPage;
+            double curProgress = PROGRESS_PERCENTAGE * curPage / totalPage;
 
             // manage shelves
             // srcShelf = want to read, reading, or read
-            String srcShelf = bookHelperService.getReadingShelf(
+            String srcShelf = bookServiceDecorator.getReadingShelf(
                     userId, bookId).getName();
 
             // TODO: double check if book can only in favorite bookshelf or not
@@ -106,11 +110,11 @@ public class TrackProgressController {
                 } else {
                     dstShelf = "reading";
                 }
-                bookHelperService.moveBook(srcShelf, dstShelf, userId, bookId);
+                bookServiceDecorator.moveBook(srcShelf, dstShelf, userId, bookId);
             }
 
             // update progress
-            bookHelperService.updateProgress(
+            bookServiceDecorator.updateProgress(
                 userId, bookId, curProgress);
 
             response.setStatus(HttpServletResponse.SC_OK);

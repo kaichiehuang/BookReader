@@ -2,7 +2,8 @@ package com.group5.BookRead.services;
 
 import com.group5.BookRead.models.Book;
 import com.group5.BookRead.services.book.BookExistsOnTragetShelfException;
-import com.group5.BookRead.services.book.BookService;
+import com.group5.BookRead.services.book.BookDecorator.ConcreteBookServiceDecorator;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -14,8 +15,8 @@ import java.util.List;
 public class BookServiceSelector {
 
     @Autowired
-    @Qualifier("book")
-    BookService bookService;
+    @Qualifier("concreteBookServiceDecorator")
+    ConcreteBookServiceDecorator bookServiceDecorator;
 
     /**
      *  remove a book
@@ -27,7 +28,7 @@ public class BookServiceSelector {
     public Book removeBook(final int bookId,
                            final String bookshelf,
                            final int userId) {
-        Book book = bookService.remove(bookId, bookshelf, userId);
+        Book book = bookServiceDecorator.remove(bookId, bookshelf, userId);
         return book;
     }
 
@@ -43,17 +44,17 @@ public class BookServiceSelector {
                                final int userId)
             throws BookExistsOnTragetShelfException {
         // check if book exists in database
-        Book curBook = bookService.getBookByNameAuthor(book.getTitle(),
+        Book curBook = bookServiceDecorator.getBookByNameAuthor(book.getTitle(),
             book.getAuthor());
         if (curBook == null) {
             // the book does not exist
 //            System.out.println(" in service selec"book);
-            curBook = bookService.chooseBook(book);
+            curBook = bookServiceDecorator.chooseBook(book);
         }
 
         // The curBook is the current book
         // now here, we actually need to check if the bookshelf is not favorites
-        Book addedBook = bookService.addBookToShelf(curBook, bookshelf, userId);
+        Book addedBook = bookServiceDecorator.addBookToShelf(curBook, bookshelf, userId);
         if (addedBook != null) {
             return addedBook;
         }
@@ -67,7 +68,7 @@ public class BookServiceSelector {
      * @return
      */
     public HashMap<String, List<Book>> getBooksFromShelves(final int userId) {
-        return bookService.getBooksOnBookshelves(userId);
+        return bookServiceDecorator.getBooksOnBookshelves(userId);
     }
 
     /**
@@ -77,7 +78,7 @@ public class BookServiceSelector {
      * @return
      */
     public List<Book> getBooks(final String bookshelfType, final int userId) {
-        return bookService.getBooks(bookshelfType, userId);
+        return bookServiceDecorator.getBooks(bookshelfType, userId);
     }
 
     /**
@@ -86,7 +87,12 @@ public class BookServiceSelector {
      * @return
      */
     public Book getBook(final int bookId) {
-        return bookService.getBook(bookId);
+        return bookServiceDecorator.getBook(bookId);
+    }
+
+    public void updateBookProgress (final int userId, final int bookId, 
+        final double progress){
+
     }
 
 
@@ -96,7 +102,7 @@ public class BookServiceSelector {
      * @return
      */
     public List<Integer> getExcludedBooks(final int userId) {
-        return bookService.getExcludedBooks(userId);
+        return bookServiceDecorator.getExcludedBooks(userId);
     }
 
     /**
@@ -105,7 +111,7 @@ public class BookServiceSelector {
      * @param userId
      */
     public void addToExcluded(final int bookId, final int userId) {
-        bookService.addToExcluded(bookId, userId);
+        bookServiceDecorator.addToExcluded(bookId, userId);
     }
   
     /**
@@ -114,7 +120,7 @@ public class BookServiceSelector {
      * @return
      */
     public  Book getBook(final String identifier) {
-        return bookService.getBook(identifier);
+        return bookServiceDecorator.getBook(identifier);
     }
 
 
@@ -124,6 +130,6 @@ public class BookServiceSelector {
      * @return
      */
     public Book storeBook(final Book book) {
-        return bookService.chooseBook(book);
+        return bookServiceDecorator.chooseBook(book);
     }
 }

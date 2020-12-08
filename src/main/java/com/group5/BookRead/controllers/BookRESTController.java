@@ -41,7 +41,7 @@ public class BookRESTController extends BookController {
             // bookServiceSelector.removeBook(bookId, srcShelf, userId);
             // bookServiceSelector.addBookToShelf(bookFromDb, dstShelf, userId);
 
-            bookHelperService.moveBook(srcShelf, dstShelf, userId, bookId);
+            bookServiceDecorator.moveBook(srcShelf, dstShelf, userId, bookId);
             response.setStatus(HttpServletResponse.SC_OK);
 
             return "{\"msg\":\"success\"}";
