@@ -5,8 +5,6 @@
     <meta charset="UTF-8"/>
     <link rel="stylesheet" th:href="@{/css/searchBook.css}" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-
-    <div th:replace="fragments/common :: include"></div>
     <div th:replace="fragments/common :: css"></div>
     <div th:replace="fragments/header :: header-css"></div>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
@@ -30,6 +28,7 @@
             <th> Pages </th>
             <th> Description </th>
             <th> Action </th>
+            <th> More Information </th>
         </tr>
         </thead>
         <tbody>
@@ -54,7 +53,7 @@
 <!--                        <a class="dropdown-item bookshelfChoice">Favorites</a>-->
 <!--                    </div>-->
 <!--                </div>-->
-                <button class="btn btn-outline-success my-2 my-sm-0" id="addBookBtn">Add Book</button>
+                <button class="btn btn-outline-success my-2 my-sm-0" th:attr="data-book=${book.getBookIdentifier()}"id="addBookBtn">Add Book</button>
 
             </td>
             <td>
