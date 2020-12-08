@@ -21,7 +21,7 @@
 	z-index: 3;
 }
 /*Example adding pseudo element to give shelf depth*/
-.shelf:after {
+.shelf::after {
 	content: '';
 	background: #686868;
 	height: 20px;
@@ -39,7 +39,7 @@ body{
     width: 100%;
     height: 100%;
     background: rgb(242,243,244);
-    background: -moz-radial-gradient(center, ellipse cover,  rgba(242,243,244,1) 0%, rgba(212,213,214,1) 79%, rgba(193,193,193,1) 100%);
+    background: -moz-radial-gradient(center, ellipse cover, rgb(242, 243, 244) 0%, rgb(212, 213, 214) 79%, rgb(193, 193, 193) 100%);
     background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%,rgba(242,243,244,1)), color-stop(79%,rgba(212,213,214,1)), color-stop(100%,rgba(193,193,193,1)));
     background: -webkit-radial-gradient(center, ellipse cover,  rgba(242,243,244,1) 0%,rgba(212,213,214,1) 79%,rgba(193,193,193,1) 100%);
     background: -o-radial-gradient(center, ellipse cover,  rgba(242,243,244,1) 0%,rgba(212,213,214,1) 79%,rgba(193,193,193,1) 100%);
@@ -97,14 +97,14 @@ body{
     z-index: 5;
     position: relative;
 }
-.book:after {
+.book::after {
     content: "";
     position: absolute;
     top: 0;
     bottom: 0;
     left: 3px;
     width: 7px;
-    background: rgb(0, 0, 0, 0.4);
+    background: rgba(0, 0, 0, 0.4);
     z-index: 20;
     transform: translateZ(1px);
     -webkit-transform: translateZ(1px);
@@ -139,7 +139,7 @@ body{
     position: relative;
     border-radius: 0 10px 10px 0;
 }
-.cover:after {
+.cover::after {
     content: "";
     position: absolute;
     height: 100px;
@@ -211,10 +211,43 @@ body{
     -ms-transform-origin: 0 0;
     transform-origin: 0 0;
 }
-.book-spine:before {
+.book-spine::before {
     position: absolute;
     content: "";
     width: 100%;
     height: 100%;
-    background: rgb(0, 0, 0, 0.3);
+    background: rgba(0, 0, 0, 0.3);
 }
+
+.popover {
+    text-align: center !important;
+}
+
+.fade {
+    opacity: 1 !important;
+}
+
+.popover>.arrow, .popover>.arrow:after {
+    border-style: none !important;
+}
+
+.popover .arrow::after, .popover .arrow::before {
+    border-style: solid !important;
+}
+
+.input-group-append {
+	margin-bottom: 14px;
+}
+
+.input-group-append input {
+	margin-right: 5px;
+}
+
+#setDefaultBtn{
+    display:none;
+    float:right;
+}
+.row:hover #setDefaultBtn{
+    display:inline-block;
+}
+

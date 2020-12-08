@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Search Book</title>
+    <title>Timeline</title>
     <meta charset="UTF-8"/>
    <link rel="stylesheet" th:href="@{/css/timeline.css}" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
-    <div th:replace="fragments/common :: include"></div>
+    <div th:replace="fragments/common :: css"></div>
     <div th:replace="fragments/header :: header-css"></div>
 </head>
 <body>
@@ -30,16 +30,14 @@
                                 </div>
                             </div>
 
-
-                            <div th:id = "${'thumb-' + timeline.getId()}">
-                                <i th:if = "${timeline.isLiked()}" th:onclick= "'javascript:toggleThumb(true,'+${timeline.getId()} + ','+ ${timeline.getUserId()}+','+ ${timeline.getLikes()}+')'" class="fas fa-thumbs-down" th:text = "${timeline.getLikes()}"></i>
-                                <i th:unless= "${timeline.isLiked()}" th:onclick="'javascript:toggleThumb(false,'+${timeline.getId()} + ','+ ${timeline.getUserId()}+','+ ${timeline.getLikes()}+ ')'" class="fas fa-thumbs-up" th:text = "${timeline.getLikes()}"></i>
+                            <div class="thumb-like">
+                                <div th:id = "${'thumb-' + timeline.getId()}">
+                                    <i th:if = "${timeline.isLiked()}" th:onclick= "'javascript:toggleThumb(true,'+${timeline.getId()} + ','+ ${timeline.getUserId()}+','+ ${timeline.getLikes()}+')'" class="fas fa-thumbs-down" th:text = "${timeline.getLikes()}"></i>
+                                    <i th:unless= "${timeline.isLiked()}" th:onclick="'javascript:toggleThumb(false,'+${timeline.getId()} + ','+ ${timeline.getUserId()}+','+ ${timeline.getLikes()}+ ')'" class="fas fa-thumbs-up" th:text = "${timeline.getLikes()}"></i>
+                                </div>
                             </div>
                                 <span><button type="button" class ="btn btn-outline-success my-2 my-sm-0" id="commentButton" th:onclick="'javascript:showForm(' +${timeline.getId()} + ')'">Comment</button></span>
-
-
-
-                            <div th:id="${'comment-form-' + timeline.getId()}" style = "display:none;" >
+                            <div class="comment-form-area" th:id="${'comment-form-' + timeline.getId()}">
                                 <div th:id= "${'comment-area-' + timeline.getId()}">
                                     <div th:each = "comment: ${timeline.getCommentList()}">
                                        <h5 th:text ="${comment.getUsername()}"></h5> <span th:text = "${comment.getTimestamp()}" style = "float: right;"> </span>
@@ -58,6 +56,7 @@
 
         </div>
 </div>
+<div th:replace="fragments/common :: js"></div>
 </body>
 
 </html>

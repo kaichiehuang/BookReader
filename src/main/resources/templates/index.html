@@ -4,10 +4,13 @@
         <title>Home page</title>
         <meta charset="UTF-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-        <div th:replace="fragments/common :: include"></div>
+        <div th:replace="fragments/common :: css"></div>
         <div th:replace="fragments/header :: header-css"></div>
     </head>
     <body>
         <div th:replace="fragments/header :: header"></div>
+
+        <div th:replace="fragments/common :: js"></div>
+        <script src="/js/header.js"></script>
     </body>
 </html>

@@ -118,8 +118,11 @@ h6 {
   color: darkblue;
 }
 
-#commentForm {
+.comment-form-area {
+    padding:15px;
+    display:none;
 
-display:none;
-
+}
+.thumb-like{
+    padding:10px;
 }

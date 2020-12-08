@@ -4,6 +4,7 @@ import com.group5.BookRead.models.Book;
 import com.group5.BookRead.models.Bookshelf;
 import com.group5.BookRead.models.MyBook;
 import com.group5.BookRead.repositories.BookRepository;
+import com.group5.BookRead.services.book.excludedBook.ExcludedBookService;
 import com.group5.BookRead.services.book.myBook.BookHelperService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,14 +20,17 @@ public final class RegularBookService implements BookService {
 
     private BookRepository bookRepository;
     private BookHelperService bookHelperService;
+    private ExcludedBookService excludedBookService;
 
 
 
     @Autowired
     public RegularBookService(final BookRepository bookRepository,
-                              final BookHelperService bookHelperService) {
+                              final BookHelperService bookHelperService,
+                              final ExcludedBookService excludedBookService) {
         this.bookRepository = bookRepository;
         this.bookHelperService = bookHelperService;
+        this.excludedBookService = excludedBookService;
     }
 
 
@@ -79,29 +83,38 @@ public final class RegularBookService implements BookService {
                 userId,
                 book.getId());
 
+        // check if there are duplicates in same shelf
         if (existing != null) {
             // exists
             throw new BookExistsOnTragetShelfException(
                     book.getTitle() + " exists on " + bookshelfName);
         }
 
-        List<Bookshelf> shelves = bookHelperService.getBookShelves(userId);
-        for (Bookshelf shelf : shelves) {
-            if (!shelf.getName().equals(bookshelfName)) {
-                MyBook curBook = bookHelperService.getMyBook(
-                        userId,
-                        shelf.getId(),
-                        book.getId());
-                if (curBook != null
-                        && (shelf.getName().equals("favorites")
-                        || bookshelfName.equals("favorites"))) {
-                    throw new BookExistsOnTragetShelfException(
-                            book.getTitle() + " exists on " + shelf.getName());
-                }
+        //TODO: please refactor by using bookshelf subclasses
+        // used for mutual excluse want to read, reading, and read bookshelf
+        // i.e. only one can be in these three shelves
+        if (bookshelfName.equals("want to read")
+            || bookshelfName.equals("read")
+            || bookshelfName.equals("reading")) {
+            List<Bookshelf> shelves = bookHelperService.getBookShelves(userId);
 
+            for (Bookshelf shelf : shelves) {
+                if (shelf.getName().equals("want to read")
+                    || shelf.getName().equals("read")
+                    || shelf.getName().equals("reading")) {
+                    MyBook curBook = bookHelperService.getMyBook(
+                            userId,
+                            shelf.getId(),
+                            book.getId());
+
+                    if (curBook != null) {
+                        throw new BookExistsOnTragetShelfException(
+                                book.getTitle() + " exists on "
+                                + shelf.getName());
+                    }
+                }
             }
         }
-
 
         // Create a new myBook as we are changing the bookshelf
         MyBook myBook = new MyBook(
@@ -197,6 +210,28 @@ public final class RegularBookService implements BookService {
     @Override
     public Book getBookByNameAuthor(final String name, final String author) {
         return bookRepository.findByNameAndAuthor(name, author);
+    }
+
+
+    /**
+     * Get excluded book list of the user
+     * @param userId
+     * @return excluded book list
+     */
+    @Override
+    public List<Integer> getExcludedBooks(final int userId) {
+        return excludedBookService.getExcludedBooks(userId);
+    }
+
+
+    /**
+     * Add book to user's excluded list
+     * @param bookId
+     * @param userId
+     */
+    @Override
+    public void addToExcluded(final int bookId, final int userId) {
+        excludedBookService.addToExcluded(bookId, userId);
     }
 }
 
