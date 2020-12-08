@@ -17,13 +17,14 @@ import com.group5.BookRead.models.Book;
 import com.group5.BookRead.models.MyBook;
 import com.group5.BookRead.services.BookServiceSelector;
 import com.group5.BookRead.services.book.BookDecorator.BookServiceDecorator;
+import com.group5.BookRead.services.book.BookDecorator.ConcreteBookServiceDecorator;
 
 
 @RestController
 public class TrackProgressController {
     @Autowired
     @Qualifier("basicDecoratedBookService")
-    BookServiceDecorator bookServiceDecorator;
+    ConcreteBookServiceDecorator bookServiceDecorator;
 
     @Autowired
     BookServiceSelector bookServiceSelector;
@@ -92,24 +93,29 @@ public class TrackProgressController {
 
             double curProgress = PROGRESS_PERCENTAGE * curPage / totalPage;
 
-            // update progress
-//            bookServiceDecorator.updateProgress(
-//                    userId, bookId, curProgress);
-
             // manage shelves
             // srcShelf = want to read, reading, or read
-//            String srcShelf = bookServiceDecorator.getReadingShelf(
-//                    userId, bookId);
-//            String dstShelf = srcShelf;
-//            if (curProgress != 100) {
-//                dstShelf = "reading";
-//            }
-//            else if (curProgress == 100 ) {
-//                dstShelf = "read";
-//            }
-//            bookServiceSelector.addBookToShelf(
-//                    bookFromDb, dstShelf, userId);
-//            bookServiceSelector.removeBook(bookId, srcShelf, userId);
+            String srcShelf = bookServiceDecorator.getReadingShelf(
+                    userId, bookId).getName();
+
+            // TODO: double check if book can only in favorite bookshelf or not
+            // only favorite bookshelf contains the book
+            // not doing auto moving
+            if (srcShelf != null) {
+                String dstShelf = srcShelf;
+                if (curProgress <= 0) {
+                    dstShelf = "want to read";
+                } else if (curProgress >= PROGRESS_PERCENTAGE) {
+                    dstShelf = "read";
+                } else {
+                    dstShelf = "reading";
+                }
+                bookServiceDecorator.moveBook(srcShelf, dstShelf, userId, bookId);
+            }
+
+            // update progress
+            bookServiceDecorator.updateProgress(
+                userId, bookId, curProgress);
 
             response.setStatus(HttpServletResponse.SC_OK);
 

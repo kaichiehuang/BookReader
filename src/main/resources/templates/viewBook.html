@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>View Book</title>
+    <meta charset="UTF-8"/>
+     <link rel="stylesheet" th:href="@{/css/viewBook.css}" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <div th:replace="fragments/common :: css"></div>
+    <div th:replace="fragments/header :: header-css"></div>
+</head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+<div class = "container">
+    <h1 id= "bookTitle" th:text= "${book.getTitle()}"></h1>
+    <img th:src= "${book.getLink()}" id = "link"></img>
+    <span th:text="${book.getAuthor()}" id="author"> Author </span>
+    <span th:text="${book.getPage()}" id="pages"> Pages </span>
+    <p th:utext="${book.getDescription()}" id="description"> Description </p>
+    <div th:if="${comments !=null and comments.size() != 0}">
+        <div class = "comments" th:each = "comment: ${comments}">
+                <span th:text="${comment.getUsername()}" id="user"></span>
+                <span th:text="${comment.getTimestamp()}" id = "timestamp"></span>
+            <div class="rating">
+                <div class="mt-5">Rating: <strong th:text="${comment.getRating()}"></strong></div>
+<!--                <div class="rating-comment">-->
+<!--                    <input type="radio" name="rating" th:checked="${5 <= comment.getRating()}" value="5" id="5-comment"><label for="5-comment">☆</label>-->
+<!--                    <input type="radio" name="rating" th:checked="${4 <= comment.getRating()}" value="4" id="4-comment"><label for="4-comment">☆</label>-->
+<!--                    <input type="radio" name="rating" th:checked="${3 <= comment.getRating()}" value="3" id="3-comment"><label for="3-comment">☆</label>-->
+<!--                    <input type="radio" name="rating" th:checked="${2 <= comment.getRating()}" value="2" id="2-comment"><label for="2-comment">☆</label>-->
+<!--                    <input type="radio" name="rating" th:checked="${1 <= comment.getRating()}" value="1" id="1-comment"><label for="1-comment">☆</label>-->
+<!--                </div>-->
+            </div>
+            <div class="comment-content">
+                <p th:text="${comment.getContent()}" id ="text"></p>
+            </div>
+        </div>
+    </div>
+    <script>
+        // decoding here
+        var elem = document.createElement('textarea')
+    </script>
+    <div th:if="${comments == null || comments.size() == 0}">
+        <p> No comments </p>
+    </div>
+
+        <div class="form-group">
+            <label> Rating scale from 1-5</label>
+                <div class="rating">
+                    <input type="radio" name="rating" value="5" id="5"><label for="5">☆</label>
+                    <input type="radio" name="rating" value="4" id="4"><label for="4">☆</label>
+                    <input type="radio" name="rating" value="3" id="3"><label for="3">☆</label>
+                    <input type="radio" name="rating" value="2" id="2"><label for="2">☆</label>
+                    <input type="radio" name="rating" value="1" id="1"><label for="1">☆</label>
+                </div>
+    <!--            <input type ="text" class="form-control" id = "ratingInput">-->
+                <label for = "commentInput"> Review </label>
+            <textarea type ="text" class="form-control" id = "commentInput" rows="3" ></textarea>
+                <button class="btn btn-outline-success my-2 my-sm-0" id= "commentSubmit" onclick= "review()">Review</button>
+            <script>
+                function review() {
+
+                    console.log("submitting")
+                    var bookIdentifier = "[[${book.getBookIdentifier()}]]"
+                    var bookTitle = "[[${book.getTitle()}]]"
+                    var bookCover = "[[${book.getLink()}]]"
+                    var bookAuthor = "[[${book.getAuthor()}]]"
+                    var bookPage = "[[${book.getPage()}]]"
+                    var bookDescription = "[[${book.getDescription()}]]"
+
+                    let rating = $("input:radio:checked").val()
+                    console.log(rating)
+                    let review = document.getElementById("commentInput").value
+
+                    console.log(bookAuthor, bookIdentifier, bookTitle, rating, review)
+                    $.ajax({
+                        url: '/books/' + bookIdentifier + "/review",
+                        type: "POST",
+                        contentType: 'application/json; charset=utf-8',
+                        data: JSON.stringify({rating: rating, review: review, title: bookTitle,
+                            page: bookPage, author: bookAuthor, link: bookCover, description: bookDescription}),
+                        headers: {'Authorization': 'Bearer ' + getCookie("jwt")},
+                        success: function(res) {
+                            console.log(res);
+                            window.location.reload()
+    //                          window.location.replace("/books/" + bookIdentifier + "/review");
+                            console.log('success')
+                        },
+                        error: (xhr, resp, text) => console.log(xhr),
+                    });
+                }
+
+
+            </script>
+        </div>
+<!--    </form>-->
+
+    </div>
+
+<!--<script src="/js/viewBook.js"></script>-->
+    <div th:replace="fragments/common :: js"></div>
+</body>
+</html>

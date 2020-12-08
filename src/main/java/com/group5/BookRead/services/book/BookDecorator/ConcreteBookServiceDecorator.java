@@ -8,8 +8,17 @@ import org.springframework.stereotype.Component;
 import com.group5.BookRead.models.Book;
 import com.group5.BookRead.models.Bookshelf;
 import com.group5.BookRead.models.MyBook;
+
+
+import com.group5.BookRead.services.book.excludedBook.ExcludedBookService;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.group5.BookRead.repositories.BookshelfRepository;
+import com.group5.BookRead.services.BookshelfServiceSelector;
+import com.group5.BookRead.repositories.MyBookRepository;
 import com.group5.BookRead.repositories.BookRepository;
 import com.group5.BookRead.services.book.BookService;
+
 
 import java.util.List;
 import java.util.HashMap;
@@ -17,35 +26,70 @@ import java.util.ArrayList;
 
 @Component
 public final class ConcreteBookServiceDecorator extends BookServiceDecorator {
-    
     private BookRepository bookRepository;
-    
+    private BookshelfServiceSelector bookshelfServiceSelector;
+    private BookshelfRepository bookshelfRepo;
+    private MyBookRepository myBookRepository;
+    private ExcludedBookService excludedBookService;
+
     @Autowired
     public ConcreteBookServiceDecorator(
+        final BookService service,
         final BookRepository bookRepository,
-        final BookService service) {
+        final BookshelfServiceSelector bookshelfServiceSelector,
+        final BookshelfRepository bookshelfRepo,
+        final MyBookRepository myBookRepository,
+        final ExcludedBookService excludedBookService) {
         super(service);
         this.bookRepository = bookRepository;
+        this.excludedBookService = excludedBookService;
+        this.bookshelfServiceSelector = bookshelfServiceSelector;
+        this.bookshelfRepo = bookshelfRepo;
+        this.myBookRepository = myBookRepository;
+    }
+
+	public Bookshelf getShelf(final String bookshelf, final int userId) {
+        return bookshelfServiceSelector.getBookShelf(userId, bookshelf);
+    }
+
+    public boolean remove(final int bookId,
+                          final int userId,
+                          final String bookshelf) {
+        Bookshelf shelf = bookshelfServiceSelector.getBookShelf(userId,
+                bookshelf);
+        int status = myBookRepository.deleteByUserIdAndBookshelfIdAndBookId(
+                userId,
+                shelf.getId(),
+                bookId);
+        return  status == 1;
     }
 
     public Book remove(final int bookId,
                        final String bookshelf,
                        final int userId) {
-        Book book = getBook(bookId);
-        if (super.remove(bookId, userId, bookshelf)) {
+        Book book = super.getBook(bookId);
+        if (remove(bookId, userId, bookshelf)) {
             return book;
         }
         return null;
     }
 
     /**
-     * get the book with all information including author, description
-     * @param id
+     *  Heleper methods for Book service
+     * @param bookshelfName
+     * @param userId
      * @return
      */
-    public Book getBook(final int id) {
-        return bookRepository.findById(id);
+    public List<MyBook> getMyBooks(final String bookshelfName,
+                                   final int userId) {
+        Bookshelf bookshelf = bookshelfServiceSelector.getBookShelf(
+                userId,
+                bookshelfName);
+        return myBookRepository.findAllByUserIdAndShelfId(
+                userId,
+                bookshelf.getId());
     }
+    
 
     /**
      *
@@ -59,7 +103,7 @@ public final class ConcreteBookServiceDecorator extends BookServiceDecorator {
                     final int userId)
             throws BookExistsOnTragetShelfException {
 
-        Bookshelf bookShelf = super.getShelf(
+        Bookshelf bookShelf = getShelf(
                 bookshelfName,
                 userId);
         MyBook existing = super.getMyBook(
@@ -67,29 +111,38 @@ public final class ConcreteBookServiceDecorator extends BookServiceDecorator {
                 userId,
                 book.getId());
 
+        // check if there are duplicates in same shelf
         if (existing != null) {
             // exists
             throw new BookExistsOnTragetShelfException(
-                    book.getName() + " exists on " + bookshelfName);
+                    book.getTitle() + " exists on " + bookshelfName);
         }
 
-        List<Bookshelf> shelves = super.getBookShelves(userId);
-        for (Bookshelf shelf : shelves) {
-            if (!shelf.getName().equals(bookshelfName)) {
-                MyBook curBook = super.getMyBook(
-                        userId,
-                        shelf.getId(),
-                        book.getId());
-                if (curBook != null
-                        && (shelf.getName().equals("favorites")
-                        || bookshelfName.equals("favorites"))) {
-                    throw new BookExistsOnTragetShelfException(
-                            book.getName() + " exists on " + shelf.getName());
-                }
+        //TODO: please refactor by using bookshelf subclasses
+        // used for mutual excluse want to read, reading, and read bookshelf
+        // i.e. only one can be in these three shelves
+        if (bookshelfName.equals("want to read")
+            || bookshelfName.equals("read")
+            || bookshelfName.equals("reading")) {
+            List<Bookshelf> shelves = getBookShelves(userId);
 
+            for (Bookshelf shelf : shelves) {
+                if (shelf.getName().equals("want to read")
+                    || shelf.getName().equals("read")
+                    || shelf.getName().equals("reading")) {
+                    MyBook curBook = super.getMyBook(
+                            userId,
+                            shelf.getId(),
+                            book.getId());
+
+                    if (curBook != null) {
+                        throw new BookExistsOnTragetShelfException(
+                                book.getTitle() + " exists on "
+                                + shelf.getName());
+                    }
+                }
             }
         }
-
 
         // Create a new myBook as we are changing the bookshelf
         MyBook myBook = new MyBook(
@@ -99,32 +152,19 @@ public final class ConcreteBookServiceDecorator extends BookServiceDecorator {
                 0);
 
         // add myBook object to db
-        if (super.addToShelf(myBook)) {
+        if (addToShelf(myBook)) {
             return book;
         }
         return null;
     }
 
-    /**
-     *  add the book to the Book repository
-     * @param book
-     * @return
-     */
-    public Book chooseBook(final Book book) {
+    public boolean addToShelf(final MyBook book) {
         try {
-            int res = bookRepository.insert(book);
-            if (res == 1) {
-                return bookRepository.findByNameAndAuthor(
-                        book.getName(),
-                        book.getAuthor());
-            }
-
-            return null;
-        } catch (SQLIntegrityConstraintViolationException exception) {
-            return null;
+            return myBookRepository.insert(book) == 1;
+        } catch (SQLIntegrityConstraintViolationException e) {
+            return false;
         }
     }
-
 
     /**
      * get all Books with inforamtion for a user on a bookshelf
@@ -133,7 +173,7 @@ public final class ConcreteBookServiceDecorator extends BookServiceDecorator {
      * @return
      */
     public List<Book> getBooks(final String bookshelfName, final int userId) {
-        List<MyBook> myBooks = super.getMyBooks(
+        List<MyBook> myBooks = getMyBooks(
                 bookshelfName,
                 userId);
 
@@ -155,7 +195,7 @@ public final class ConcreteBookServiceDecorator extends BookServiceDecorator {
      * @return
      */
     public HashMap<String, List<Book>> getBooksOnBookshelves(final int userId) {
-        List<Bookshelf> bookshelves = super.getBookShelves(userId);
+        List<Bookshelf> bookshelves = getBookShelves(userId);
         // System.out.println(bookshelves.size());
         HashMap<String, List<Book>> map = new HashMap<>();
         for (Bookshelf bookshelf : bookshelves) {
@@ -165,14 +205,70 @@ public final class ConcreteBookServiceDecorator extends BookServiceDecorator {
         return map;
     }
 
+    public List<Bookshelf> getBookShelves(final int userId) {
+        return bookshelfServiceSelector.getBookShelves(userId);
+    }
+
     /**
-     * Get book with same name and author
-     * @param name book name
-     * @param author book author
-     * @return book object
+     * get currect bookshelf that the book located in current user
+     * only return: want to read, reading, and read used for automatical
+     * moving bookshelf
+     * @param bookId
+     * @param userId
+     * @return bookshelf
      */
-    public Book getBookByNameAuthor(final String name, final String author) {
-        return bookRepository.findByNameAndAuthor(name, author);
+    public Bookshelf getReadingShelf(final int userId, final int bookId) {
+        List<MyBook> mybooks = this.getMyBooks(userId, bookId);
+        for (MyBook b : mybooks) {
+            Bookshelf shelf = bookshelfRepo.findById(b.getBookshelfId());
+            String name = shelf.getName();
+            if (name.equals("want to read")
+                || name.equals("reading")
+                || name.equals("read")) {
+                return shelf;
+            }
+        }
+        System.out.println("book not in want to read, reading or read");
+        return null;
+    }
+
+    /**
+     * move book from srcShelf to dstShelf with progress maintained
+     * @param srcShelf
+     * @param dstShelf
+     * @param userId
+     * @param bookId
+     * @return void
+     */
+    public void moveBook(final String srcShelf, final String dstShelf,
+        final int userId, final int bookId) {
+        Bookshelf srcSh = this.getShelf(srcShelf, userId);
+        Bookshelf dstSh = this.getShelf(dstShelf, userId);
+        MyBook mbook = this.getMyBook(userId, srcSh.getId(), bookId);
+        mbook.setBookshelfId(dstSh.getId());
+        myBookRepository.update(mbook);
+    }
+
+
+
+
+    /**
+     * Get excluded book list of the user
+     * @param userId
+     * @return excluded book list
+     */
+    public List<Integer> getExcludedBooks(final int userId) {
+        return excludedBookService.getExcludedBooks(userId);
+    }
+
+
+    /**
+     * Add book to user's excluded list
+     * @param bookId
+     * @param userId
+     */
+    public void addToExcluded(final int bookId, final int userId) {
+        excludedBookService.addToExcluded(bookId, userId);
     }
 }
 

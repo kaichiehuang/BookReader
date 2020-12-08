@@ -3,10 +3,11 @@ package com.group5.BookRead.services.bookAPI;
 public class BookFromAPI {
 
     int page;
-    String authors;
+    String author;
     String title;
     String description;
     String link;
+    String bookIdentifier;
 
     /**
      * Constructor for creating Book from API
@@ -16,16 +17,26 @@ public class BookFromAPI {
      * @param description
      * @param link
      */
-    public BookFromAPI(final int page,
+    public BookFromAPI(final String bookIdentifier,
+                       final int page,
                        final String authors,
                        final String title,
                        final String description,
                        final String link) {
+        this.bookIdentifier = bookIdentifier;
         this.page = page;
-        this.authors = authors;
+        this.author = authors;
         this.title = title;
         this.description = description;
         this.link = link;
+    }
+
+    /**
+     *  get the book identifier
+     * @return
+     */
+    public String getBookIdentifier() {
+        return bookIdentifier;
     }
 
     /**
@@ -36,7 +47,7 @@ public class BookFromAPI {
     public String toString() {
         return "BookFromAPI{"
                 + "page=" + page
-                + ", authors='" + authors + '\''
+                + ", authors='" + author + '\''
                 + ", title='" + title + '\''
                 + ", description='" + description + '\''
                 + ", link='" + link + '\''
@@ -47,11 +58,11 @@ public class BookFromAPI {
      * Get authors from BookFromAPI object
      * @return authors list without brackets and quotes
      */
-    public String getAuthors() {
-        if (authors.length() > 2) {
-            return authors.substring(1, authors.length() - 1).replace("\"", "");
+    public String getAuthor() {
+        if (author.length() > 2) {
+            return author.substring(1, author.length() - 1).replace("\"", "");
         } else {
-            return authors;
+            return author;
         }
     }
 
@@ -86,4 +97,5 @@ public class BookFromAPI {
     public String getLink() {
         return link;
     }
+
 }

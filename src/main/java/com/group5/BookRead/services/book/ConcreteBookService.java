@@ -1,78 +1,91 @@
 package com.group5.BookRead.services.book;
 
-
-import com.group5.BookRead.models.Bookshelf;
+import com.group5.BookRead.models.Book;
 import com.group5.BookRead.models.MyBook;
+
+
+import com.group5.BookRead.repositories.BookRepository;
 import com.group5.BookRead.repositories.MyBookRepository;
-import com.group5.BookRead.services.BookshelfServiceSelector;
-
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 public final class ConcreteBookService implements BookService {
-
+    private BookRepository bookRepository;
     private MyBookRepository myBookRepository;
-
-    private BookshelfServiceSelector bookshelfServiceSelector;
 
     @Autowired
     public ConcreteBookService(
-        final MyBookRepository myBookRepository,
-        final BookshelfServiceSelector bookshelfServiceSelector) {
+        final BookRepository bookRepository,
+        final MyBookRepository myBookRepository
+    ) {
+        this.bookRepository = bookRepository;
         this.myBookRepository = myBookRepository;
-        this.bookshelfServiceSelector = bookshelfServiceSelector;
-    }
-
-
-    @Override
-    public Bookshelf getShelf(final String bookshelf, final int userId) {
-        return bookshelfServiceSelector.getBookShelf(userId, bookshelf);
     }
 
     @Override
-    public boolean remove(final int bookId,
-                          final int userId,
-                          final String bookshelf) {
-        Bookshelf shelf = bookshelfServiceSelector.getBookShelf(userId,
-                bookshelf);
-        int status = myBookRepository.deleteByUserIdAndBookshelfIdAndBookId(
-                userId,
-                shelf.getId(),
-                bookId);
-        return  status == 1;
-    }
-
-    @Override
-    public boolean addToShelf(final MyBook book) {
-        try {
-            return myBookRepository.insert(book) == 1;
-        } catch (SQLIntegrityConstraintViolationException e) {
-            return false;
-        }
-    }
-
-    @Override
-    public List<Bookshelf> getBookShelves(final int userId) {
-        return bookshelfServiceSelector.getBookShelves(userId);
+    public Book save (final Book book) 
+        throws SQLIntegrityConstraintViolationException {
+        bookRepository.insert(book);
+        return bookRepository.findByIdentifier(book.getBookIdentifier());
     }
 
     /**
-     *  Heleper methods for Book service
-     * @param bookshelfName
-     * @param userId
+     * get the book with all information including author, description
+     * @param id
      * @return
      */
+    public Book getBook(final int id) {
+        return bookRepository.findById(id);
+    }
+
+    /**
+     *  add the book to the Book repository
+     * @param book
+     * @return
+     */
+    public Book chooseBook(final Book book) {
+        try {
+            int res = bookRepository.insert(book);
+            if (res == 1) {
+                return bookRepository.findByNameAndAuthor(
+                        book.getTitle(),
+                        book.getAuthor());
+            }
+
+            return null;
+        } catch (SQLIntegrityConstraintViolationException exception) {
+            return null;
+        }
+    }
+
+    /**
+     * Get book with same name and author
+     * @param name book name
+     * @param author book author
+     * @return book object
+     */
+    public Book getBookByNameAuthor(final String name, final String author) {
+        return bookRepository.findByNameAndAuthor(name, author);
+    }
+    
+
     @Override
-    public List<MyBook> getMyBooks(final String bookshelfName,
-                                   final int userId) {
-        Bookshelf bookshelf = bookshelfServiceSelector.getBookShelf(
-                userId,
-                bookshelfName);
-        return myBookRepository.findAllByUserIdAndShelfId(
-                userId,
-                bookshelf.getId());
+    public Book getBook(final String identifier) {
+        System.out.println(identifier);
+        return bookRepository.findByIdentifier(identifier);
+    }
+
+    /**
+     * get all MyBook object with user and book
+     * @param bookId
+     * @param userId
+     * @return List of mybook
+     */
+    @Override
+    public List<MyBook> getMyBooks(final int userId,
+                            final int bookId) {
+        return myBookRepository.findAllMybooks(userId, bookId);
     }
 
 
@@ -83,5 +96,16 @@ public final class ConcreteBookService implements BookService {
         return myBookRepository.findByAllIds(bookId, userId, bookshelfId);
     }
 
+    // need to move in decorator
+    @Override
+    public double updateProgress(final int userId,
+        final int bookId, final double progress) {
 
+        List<MyBook> mybooks = this.getMyBooks(userId, bookId);
+        for (MyBook b : mybooks) {
+            b.setProgress(progress);
+            myBookRepository.update(b);
+        }
+        return progress;
+    }
 }

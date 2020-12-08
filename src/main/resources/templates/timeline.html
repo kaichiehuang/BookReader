@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Timeline</title>
+    <meta charset="UTF-8"/>
+   <link rel="stylesheet" th:href="@{/css/timeline.css}" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+    <div th:replace="fragments/common :: css"></div>
+    <div th:replace="fragments/header :: header-css"></div>
+</head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+
+
+<div class="padding">
+        <div class="row container d-flex justify-content-center">
+            <h5>User Timeline</h5>
+            <div class="col-xl-5 col-md-12">
+                <div class="card user-activity-card" th:each = "timeline:${timelines}">
+                    <div class="card-header">
+                     <h5 th:text ="${timeline.getUsername()}"></h5>
+                    </div>
+                        <div class="card-block">
+                            <div class="row m-b-25">
+                                <div class="col">
+                                    <p class="text-muted m-b-0" th:text="${timeline.getContent()}"></p>
+                                    <p class="text-muted m-b-0" th:text="${timeline.getTimestamp()}"><i class="mdi mdi-timer feather icon-clock m-r-10"></i></p>
+                                </div>
+                            </div>
+
+
+                            <div th:id = "${'thumb-' + timeline.getId()}">
+                                <i th:if = "${timeline.isLiked()}" th:onclick= "'javascript:toggleThumb(true,'+${timeline.getId()} + ','+ ${timeline.getUserId()}+','+ ${timeline.getLikes()}+')'" class="fas fa-thumbs-down" th:text = "${timeline.getLikes()}"></i>
+                                <i th:unless= "${timeline.isLiked()}" th:onclick="'javascript:toggleThumb(false,'+${timeline.getId()} + ','+ ${timeline.getUserId()}+','+ ${timeline.getLikes()}+ ')'" class="fas fa-thumbs-up" th:text = "${timeline.getLikes()}"></i>
+                            </div>
+                                <span><button type="button" class ="btn btn-outline-success my-2 my-sm-0" id="commentButton" th:onclick="'javascript:showForm(' +${timeline.getId()} + ')'">Comment</button></span>
+
+
+
+                            <div th:id="${'comment-form-' + timeline.getId()}" style = "display:none;" >
+                                <div th:id= "${'comment-area-' + timeline.getId()}">
+                                    <div th:each = "comment: ${timeline.getCommentList()}">
+                                       <h5 th:text ="${comment.getUsername()}"></h5> <span th:text = "${comment.getTimestamp()}" style = "float: right;"> </span>
+                                       <p th:text="${comment.getContent()}"></p>
+                                       <hr>
+                                    </div>
+                                </div>
+                                <textarea class="form-control" style="resize:none;" type="text" th:id= "${'comment-input-' + timeline.getId()}" placeholder="Comment"> </textarea>
+                                <button class="btn btn-outline-success my-2 my-sm-0" th:id= "${'postComment-' + timeline.getId()}" th:onclick="'javascript:postComment(' +${timeline.getId()} +','+ ${timeline.getUserId()} + ')'">Post</button>
+                                <button class="btn btn-outline-success my-2 my-sm-0" th:id= "${'cancelComment-' + timeline.getId()}" th:onclick="'javascript:cancelComment(' +${timeline.getId()} + ')'">Cancel</button>
+                            </div>
+                        </div>
+                    <script src="/js/timeline.js"></script>
+                </div>
+            </div>
+
+        </div>
+</div>
+<div th:replace="fragments/common :: js"></div>
+</body>
+
+</html>
