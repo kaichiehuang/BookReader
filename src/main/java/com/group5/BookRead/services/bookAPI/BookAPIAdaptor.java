@@ -7,4 +7,6 @@ import java.util.List;
 public interface BookAPIAdaptor {
 
     List<BookFromAPI> convert(ResponseEntity<String> response);
+
+    BookFromAPI convertBook(ResponseEntity<String> response);
 }
