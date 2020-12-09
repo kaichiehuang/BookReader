@@ -243,6 +243,17 @@ body{
 	margin-right: 5px;
 }
 
+#defaultBtn {
+    /*line-height: 12px;*/
+    /*width: 18px;*/
+    /*font-size: 8pt;*/
+    /*font-family: tahoma;*/
+    margin-top: 1px;
+    margin-right: 2px;
+    position:absolute;
+    top:0;
+    right:0;
+}
 #setDefaultBtn{
     display:none;
     float:right;

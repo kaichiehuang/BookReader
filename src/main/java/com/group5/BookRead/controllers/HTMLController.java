@@ -105,6 +105,7 @@ public class HTMLController extends BookController {
 
         HTMLRenderService strategy = 
             strategyFactory.findStrategy(StrategyName.BookshelfHTMLStrategy);
+        System.out.println(strategy.renderPage(model));
         return strategy.renderPage(model);
     }
 }

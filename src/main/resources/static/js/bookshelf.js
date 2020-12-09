@@ -62,6 +62,26 @@ $(function() {
             error: (xhr, resp, text) => console.log(xhr),
         });
     });
+
+    $("body").on("click", "#defaultBtn", function() {
+        let defaultBookshelf = $(this).attr("data-default-bookshelf");
+        console.log(defaultBookshelf);
+        //set default bookshlef
+        $.ajax({
+            url: '/book/shelf/setDefault/'+defaultBookshelf,
+            type: 'POST',
+            cache: false,
+            contentType: 'application/json; charset=utf-8',
+            headers: {'Authorization': 'Bearer ' + getCookie("jwt")},
+            success: function(res) {
+                window.alert("Successfully set "+ defaultBookshelf.toUpperCase() +" as default bookshelf!");
+            },
+            error: (xhr, resp, text) => console.log(xhr),
+        });
+    });
+
+
+
     
     $("body").on("click", "#recommend-book", function() {
         let friendName = $('.popover-body').find('#recomendee-input').val();

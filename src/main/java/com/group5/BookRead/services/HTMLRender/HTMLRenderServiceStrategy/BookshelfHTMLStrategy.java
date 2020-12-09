@@ -36,7 +36,6 @@ public class BookshelfHTMLStrategy implements HTMLRenderService {
 
         Map<String, List<Book>> bookshelfs =
             bookServiceSelector.getBooksFromShelves(userId);
-        //System.out.println(bookshelfs);
         model.addAttribute("bookshelfs", bookshelfs);
         return "bookshelf";
     }

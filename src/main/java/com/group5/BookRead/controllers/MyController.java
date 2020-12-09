@@ -57,7 +57,7 @@ public class MyController {
 
 
     /**
-     * populate viewBook page woth book ionfo and comments
+     * populate viewBook page with book info and comments
      * @param identifier
      * @param model
      * @return
