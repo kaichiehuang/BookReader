@@ -118,7 +118,7 @@ public class FriendshipRESTController {
     @PutMapping("/user/friend")
     public String acceptFriendship(
         @RequestParam(name = "acceptedFriendName",
-            required = true) final String acceptedFriendName, 
+            required = true) final String acceptedFriendName,
             final HttpServletResponse response)
             throws SQLIntegrityConstraintViolationException,
                 UserDidNotRequestToBeFriendException {
