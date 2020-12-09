@@ -5,6 +5,20 @@ public class User {
     private int id;
     private String username;
     private String password;
+    private String defaultBookshelf;
+
+    /**  get default bookshelf name
+     * @return defaultBookshelf
+     */
+    public String getDefaultBookshelf() {
+        return defaultBookshelf;
+    }
+    /**  set default bookshelf name
+     * @return defaultBookshelf
+     */
+    public void setDefaultBookshelf(final String defaultBookshelf) {
+        this.defaultBookshelf = defaultBookshelf;
+    }
 
     public User() {
         super();
