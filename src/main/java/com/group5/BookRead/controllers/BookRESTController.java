@@ -3,11 +3,15 @@ package com.group5.BookRead.controllers;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
+
+import com.group5.BookRead.services.user.Settings;
+import com.group5.BookRead.services.user.UserSettings;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PathVariable;
+
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 
@@ -15,6 +19,10 @@ import com.group5.BookRead.models.Book;
 
 @RestController
 public class BookRESTController extends BookController {
+
+    private Settings settings;
+    private Settings sampleSettings;
+  
     /**
      * <p> move book between shelf restful api
      * </p>
@@ -26,7 +34,7 @@ public class BookRESTController extends BookController {
      */
     @PutMapping(value = "/book/shelf/{dstShelf}",
         consumes = "application/json", produces = "application/json")
-    public String moveBookInBookeshelf(
+    public String moveBookInBookshelf(
         @RequestBody final Map<String, String> json,
         @PathVariable final String dstShelf,
         final HttpServletResponse response) throws Exception {
@@ -41,7 +49,7 @@ public class BookRESTController extends BookController {
             // bookServiceSelector.removeBook(bookId, srcShelf, userId);
             // bookServiceSelector.addBookToShelf(bookFromDb, dstShelf, userId);
 
-            bookHelperService.moveBook(srcShelf, dstShelf, userId, bookId);
+            bookServiceDecorator.moveBook(srcShelf, dstShelf, userId, bookId);
             response.setStatus(HttpServletResponse.SC_OK);
 
             return "{\"msg\":\"success\"}";
@@ -61,7 +69,7 @@ public class BookRESTController extends BookController {
      */
     @PostMapping(value = "/book/shelf/{dstShelf}",
         consumes = "application/json", produces = "application/json")
-    public String addBook(
+    public String moveBook(
             @RequestBody final Book book,
             @PathVariable final String dstShelf,
             final HttpServletResponse response) throws Exception {
@@ -74,6 +82,72 @@ public class BookRESTController extends BookController {
             bookServiceSelector.addBookToShelf(book, dstShelf.toLowerCase(),
                 userId);
 
+            response.setStatus(HttpServletResponse.SC_OK);
+
+            return "{\"msg\":\"success\"}";
+        } catch (Exception e) {
+            throw e;
+        }
+    }
+
+    /**
+     * <p> add book to default bookshelf and want to read
+     * </p>
+     * @param book object
+     * @param response response object
+     * @return response message
+     * @since 1.0
+     */
+    @PutMapping(value = "/book/shelf/addBook",
+            consumes = "application/json", produces = "application/json")
+    public String addBook(
+            @RequestBody final Book book,
+            final HttpServletResponse response) throws Exception {
+        try {
+            SecurityContext context = SecurityContextHolder.getContext();
+            int userId = Integer.parseInt(context.getAuthentication()
+                    .getPrincipal().toString());
+
+            System.out.println("book " + book);
+            bookServiceSelector.addBookToShelf(book, "want to read",
+                    userId);
+
+            if (settings == null) {
+                sampleSettings = new UserSettings(userId);
+            }
+
+            settings = sampleSettings.clone();
+            if (!settings.getDefaultBookshelf().equals("want to read")){
+                bookServiceSelector.addBookToShelf(
+                    book, settings.getDefaultBookshelf(),
+                    userId);
+            }
+            response.setStatus(HttpServletResponse.SC_OK);
+
+            return "{\"msg\":\"success\"}";
+        } catch (Exception e) {
+            throw e;
+        }
+    }
+
+    /**
+     * <p> add customized book shelf
+     * </p>
+     * @param name new ookshelf name
+     * @param response response object
+     * @return response message
+     */
+    @PostMapping(value = "/book/shelf/new",
+        consumes = "application/json", produces = "application/json")
+    public String addCustomizedBookshelf (
+                @RequestBody final String name,
+                final HttpServletResponse response) throws Exception {
+        try {
+            SecurityContext context = SecurityContextHolder.getContext();
+            int userId = Integer.parseInt(context.getAuthentication()
+                .getPrincipal().toString());
+
+            bookshelfServiceSelector.create(name, userId);
             response.setStatus(HttpServletResponse.SC_OK);
 
             return "{\"msg\":\"success\"}";

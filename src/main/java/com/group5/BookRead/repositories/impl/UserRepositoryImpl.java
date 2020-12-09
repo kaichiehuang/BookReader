@@ -29,6 +29,7 @@ public class UserRepositoryImpl implements UserRepository {
             user.setId(rs.getInt("id"));
             user.setPassword(rs.getString("password"));
             user.setUsername(rs.getString("username"));
+            user.setDefaultBookshelf(rs.getString("default_bookshelf"));
             return user;
         }
     }
@@ -41,9 +42,9 @@ public class UserRepositoryImpl implements UserRepository {
     public int insert(final User user) throws
 
         SQLIntegrityConstraintViolationException {
-        return jdbcTemplate.update("insert into User (username, password) "
-        + "values(?, ?)",
-            new Object[] {user.getUsername(), user.getPassword()});
+        return jdbcTemplate.update("insert into User (username, password, default_bookshelf) "
+        + "values(?, ?, ?)",
+            new Object[] {user.getUsername(), user.getPassword(), user.getDefaultBookshelf()});
     }
 
     /**  find all user
@@ -118,6 +119,18 @@ public class UserRepositoryImpl implements UserRepository {
                 + "where id = ?",
                 new Object[] {user.getUsername(), user.getPassword(),
                         user.getId()});
+    }
+
+    /**  update user
+     * @param user
+     * @return status code
+     */
+    @Override
+    public int setDefalultBookshelf(final int userId, final String bookshelfName) {
+        return jdbcTemplate.update("update User "
+                + "set default_bookshelf = ? "
+                + "where id = ?",
+                new Object[] {bookshelfName, userId});
     }
 
     /**  delete user by id

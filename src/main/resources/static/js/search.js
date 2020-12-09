@@ -45,7 +45,33 @@ $(function(){
     // })
     $('.alert').hide()
     $("body").on("click","#addBookBtn", function(){
+        
         let bookId = $(this).attr('data-book');
+      
+        let data = {
+            bookIdentifier: bookIdentifier,
+            title: title,
+            author: author,
+            page: parseInt(pages),
+            description: description,
+            link: link
+        };
+
+        console.log(data)
+
+        $.ajax({
+            // url: '/book/shelf/' + bookshelf.toLowerCase(),
+            url: '/book/shelf/addBook',
+            type: 'PUT',
+            cache: false,
+            contentType: 'application/json; charset=utf-8',
+            data: JSON.stringify(data),
+            headers: {'Authorization': 'Bearer ' + getCookie("jwt")},
+            success: function(res) {
+                window.location.replace("/book/shelf");
+            },
+            error: (xhr, resp, text) => console.log(xhr),
+        });
         // $.ajax({
         //     url: '/book/shelf/' + defaultShelf,
         //     type: 'POST',
@@ -64,5 +90,3 @@ $(function(){
         })
     })
 })
-
-
