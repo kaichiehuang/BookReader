@@ -8,13 +8,19 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import com.group5.BookRead.models.Book;
+import com.group5.BookRead.services.BookServiceSelector;
+import com.group5.BookRead.services.BookshelfServiceSelector;
+import com.group5.BookRead.services.book.BookDecorator.BookServiceDecorator;
 
 @RestController
 public class BookRESTController extends BookController {
+    
     /**
      * <p> move book between shelf restful api
      * </p>

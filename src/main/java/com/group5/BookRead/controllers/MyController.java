@@ -56,24 +56,12 @@ public class MyController {
     TimelineCommentService timelineCommentService;
 
 
-//    /**
-//     *
-//     */
-//    @GetMapping("/timeline/comments)  // get comments
-//    public String bookPage(@RequestParam("id") final String identifier,
-//                           final Model model,
-//                           final HttpServletResponse response) {
-//    }
-
-
-
-
-        /**
-         * populate viewBook page woth book ionfo and comments
-         * @param identifier
-         * @param model
-         * @return
-         */
+    /**
+     * populate viewBook page woth book ionfo and comments
+     * @param identifier
+     * @param model
+     * @return
+     */
     @GetMapping("/book")
     public String bookPage(@RequestParam("id") final String identifier,
                          final Model model,
@@ -113,8 +101,8 @@ public class MyController {
      */
     @GetMapping("/timeline")
     public String bookPage(
-                           final Model model,
-                           final HttpServletResponse response) {
+            final Model model,
+            final HttpServletResponse response) {
         try {
             SecurityContext context = SecurityContextHolder.getContext();
             int userId = Integer.parseInt(context.getAuthentication()
