@@ -71,7 +71,9 @@ public class UserController {
     @PostMapping("/signup")
     public ResponseEntity<?> signup(@RequestBody final User newUser)
             throws Exception {
-        User user = userService.createUser(newUser);
+        User user = userService.createUser(
+                newUser.getUsername(),
+                newUser.getPassword());
         if (user != null) {
             final UserDetails userDetails = new MyUserPrincipal(user);
             final String jwt = jwtTokenUtil.generateToken(userDetails);
