@@ -5,7 +5,9 @@ import java.util.Map;
 import javax.servlet.http.HttpServletResponse;
 
 import com.group5.BookRead.services.user.Settings;
+import com.group5.BookRead.services.user.UserService;
 import com.group5.BookRead.services.user.UserSettings;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,6 +24,9 @@ public class BookRESTController extends BookController {
 
     private Settings settings;
     private Settings sampleSettings;
+
+    @Autowired
+    UserService userService;
   
     /**
      * <p> move book between shelf restful api
@@ -155,4 +160,40 @@ public class BookRESTController extends BookController {
             throw e;
         }
     }
+
+    /**
+     * <p> Set bookshelf as default bookshelf
+     * </p>
+     * @param name new ookshelf name
+     * @param response response object
+     * @return response message
+     */
+    @PostMapping(value = "/book/shelf/setDefault/{shelf}",
+            consumes = "application/json", produces = "application/json")
+    public String setDefaultBookshelf(
+            @PathVariable final String shelf,
+            final HttpServletResponse response) throws Exception {
+        try {
+            SecurityContext context = SecurityContextHolder.getContext();
+            int userId = Integer.parseInt(context.getAuthentication()
+                    .getPrincipal().toString());
+
+            System.out.println(shelf);
+
+            userService.setDefalultBookshelf(userId, shelf);
+
+            response.setStatus(HttpServletResponse.SC_OK);
+
+            return "{\"msg\":\"success\"}";
+        } catch (Exception e) {
+            throw e;
+        }
+    }
+
+
+
+
+
+
+
 }
