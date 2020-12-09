@@ -124,6 +124,37 @@ public class MyController {
         }
     }
 
+
+    /**
+     *  get all activities to post on timeline
+     * @param model
+     * @param response
+     * @return
+     */
+    @GetMapping("/timeline/{userId}")
+    public String timelineForUser(
+            final Model model,
+            @PathVariable final String userId,
+            final HttpServletResponse response) {
+        try {
+            SecurityContext context = SecurityContextHolder.getContext();
+            int currentUser = Integer.parseInt(context.getAuthentication()
+                    .getPrincipal().toString());
+            int id = Integer.parseInt(userId);
+            List<ResponseTimeline> timelines = timelineService
+                    .getTimelinesByUser(id, currentUser);
+            for (ResponseTimeline t : timelines) {
+                System.out.println(t);
+            }
+            model.addAttribute("timelines", timelines);
+            return "timeline";
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            return "{\"msg\":\"failure\"}";
+        }
+    }
+
     /**
      * adding a like
      */

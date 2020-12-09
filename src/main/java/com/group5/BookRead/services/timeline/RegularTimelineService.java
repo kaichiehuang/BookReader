@@ -4,6 +4,7 @@ import com.group5.BookRead.models.Timeline;
 import com.group5.BookRead.models.TimelineComment;
 import com.group5.BookRead.models.User;
 import com.group5.BookRead.repositories.TimelineRepository;
+import com.group5.BookRead.services.friend.FriendshipService;
 import com.group5.BookRead.services.timelineComment.TimelineCommentResponse;
 import com.group5.BookRead.services.timelineComment.TimelineCommentService;
 import com.group5.BookRead.services.user.UserService;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.SQLIntegrityConstraintViolationException;
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +25,9 @@ public class RegularTimelineService implements TimelineService {
 
     @Autowired
     UserService  userService;
+
+    @Autowired
+    FriendshipService friendshipService;
 
     @Autowired
     TimelineCommentService timelineCommentService;
@@ -45,16 +50,22 @@ public class RegularTimelineService implements TimelineService {
     }
 
     /**
-     * get all timeline actvities
-     * @return
+     * get all timeline actvities for one user
+     * @param userId the id of the user whose acticities are pulled
+     * @param currentUser  the id of the current user who pulls the activities of another user
+     * @return timeline
      */
     @Override
-    public List<ResponseTimeline> getTimelines(final int userId)
+    public List<ResponseTimeline> getTimelinesByUser(final int userId, final int currentUser)
             throws Exception {
-        List<Timeline> ls = timelineRepository.getTimelines();
+        List<Timeline> ls = timelineRepository.getTimelinesByUserId(userId);
         if (ls == null) {
             throw new Exception("Error in getting timelines in DB");
         }
+        return convert(ls, currentUser);
+    }
+
+    List<ResponseTimeline> convert(final List<Timeline> ls, final int userId) {
         List<ResponseTimeline> res = new ArrayList<>();
         for (Timeline timeline : ls) {
             User user = userService.findByUserId(
@@ -84,7 +95,7 @@ public class RegularTimelineService implements TimelineService {
 
             List<TimelineComment> likedByUser = timelineCommentService
                     .getTimelineCommentsByTimelineIdAndUserId(
-                    userId, timeline.getId(), "like");
+                            userId, timeline.getId(), "like");
             boolean liked = likedByUser.size() > 0;
 
             res.add(new ResponseTimeline(
@@ -94,8 +105,28 @@ public class RegularTimelineService implements TimelineService {
                     timeline.getType(),
                     timeline.getTimestamp(),
                     username, responseComments, liked, likes.size()
-                    ));
+            ));
         }
         return res;
+    }
+
+    /**
+     * get all timeline actvities
+     * @return
+     */
+    @Override
+    public List<ResponseTimeline> getTimelines(final int userId)
+            throws Exception {
+
+
+        List<Integer> friendsIds = friendshipService.getFriendIds(userId);
+        List<Timeline> ls = timelineRepository.getTimelinesByUserIds(friendsIds);
+        if (ls == null) {
+            throw new Exception("Error in getting timelines in DB");
+        }
+
+        return convert(ls, userId);
+
+
     }
 }
