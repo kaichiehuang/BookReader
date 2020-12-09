@@ -7,8 +7,8 @@ import java.util.List;
 
 public interface UserService {
     User findByUsername(String username);
-    User removeUser(int userId);
     User createUser(String username, String password) throws Exception;
     List<User> findAllUsers();
     User findByUserId(int userId) throws UsernameNotFoundException;
+    int setDefalultBookshelf(int userId, String bookshelfName);
 }

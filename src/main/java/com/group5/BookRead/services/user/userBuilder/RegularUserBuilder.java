@@ -48,7 +48,7 @@ public class RegularUserBuilder implements UserBuilder {
      */
     @Override
     public void createUser(final String username, final String password) throws Exception {
-        User newUser = new User(username, password);
+        User newUser = new User(username, password, "want to read");
         userRepository.insert(newUser);
         this.user = userRepository.findByUsername(newUser.getUsername());
     }

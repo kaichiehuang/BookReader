@@ -83,13 +83,8 @@ public class RegularUserService implements UserService {
         return user;
     }
 
-    /**
-     * remove user from database, and remove bookshelves and books of the user
-     * @param userId
-     * @return removed user
-     */
-    @Override
-    public User removeUser(final int userId) {
-        return null;
-    }
+	@Override
+	public int setDefalultBookshelf(final int userId, final String bookshelfName) {
+		return userRepository.setDefalultBookshelf(userId, bookshelfName);
+	}
 }

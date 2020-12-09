@@ -117,10 +117,11 @@ public class BookRESTController extends BookController {
             }
 
             settings = sampleSettings.clone();
-
-            bookServiceSelector.addBookToShelf(
+            if (!settings.getDefaultBookshelf().equals("want to read")){
+                bookServiceSelector.addBookToShelf(
                     book, settings.getDefaultBookshelf(),
                     userId);
+            }
             response.setStatus(HttpServletResponse.SC_OK);
 
             return "{\"msg\":\"success\"}";
