@@ -123,7 +123,7 @@ public class BookServiceSelector {
         throws DecoratorChainException {
         bookServiceDecorator.addToExcluded(bookId, userId);
     }
-  
+
     /**
      * get book by identifier
      * @param identifier
