@@ -14,3 +14,9 @@ th {
 td {
     font-size: 14px;
 }
+
+.alert{
+    position:relative;
+    left:80%;
+    padding: 10px;
+}

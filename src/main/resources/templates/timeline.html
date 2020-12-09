@@ -20,26 +20,24 @@
             <div class="col-xl-5 col-md-12">
                 <div class="card user-activity-card" th:each = "timeline:${timelines}">
                     <div class="card-header">
-                     <h5 th:text ="${timeline.getUsername()}"></h5>
+                     <h4 th:text ="${timeline.getUsername()}"></h4>
                     </div>
                         <div class="card-block">
                             <div class="row m-b-25">
                                 <div class="col">
-                                    <p class="text-muted m-b-0" th:text="${timeline.getContent()}"></p>
+                                    <p class="text-muted m-b-0" th:text="${timeline.getContent()}" style="font-size:14px;" ></p>
                                     <p class="text-muted m-b-0" th:text="${timeline.getTimestamp()}"><i class="mdi mdi-timer feather icon-clock m-r-10"></i></p>
                                 </div>
                             </div>
 
-
-                            <div th:id = "${'thumb-' + timeline.getId()}">
-                                <i th:if = "${timeline.isLiked()}" th:onclick= "'javascript:toggleThumb(true,'+${timeline.getId()} + ','+ ${timeline.getUserId()}+','+ ${timeline.getLikes()}+')'" class="fas fa-thumbs-down" th:text = "${timeline.getLikes()}"></i>
-                                <i th:unless= "${timeline.isLiked()}" th:onclick="'javascript:toggleThumb(false,'+${timeline.getId()} + ','+ ${timeline.getUserId()}+','+ ${timeline.getLikes()}+ ')'" class="fas fa-thumbs-up" th:text = "${timeline.getLikes()}"></i>
+                            <div class="thumb-like">
+                                <div th:id = "${'thumb-' + timeline.getId()}">
+                                    <i th:if = "${timeline.isLiked()}" th:onclick= "'javascript:toggleThumb(true,'+${timeline.getId()} + ','+ ${timeline.getUserId()}+','+ ${timeline.getLikes()}+')'" class="fas fa-thumbs-down" th:text = "${timeline.getLikes()}"></i>
+                                    <i th:unless= "${timeline.isLiked()}" th:onclick="'javascript:toggleThumb(false,'+${timeline.getId()} + ','+ ${timeline.getUserId()}+','+ ${timeline.getLikes()}+ ')'" class="fas fa-thumbs-up" th:text = "${timeline.getLikes()}"></i>
+                                </div>
                             </div>
                                 <span><button type="button" class ="btn btn-outline-success my-2 my-sm-0" id="commentButton" th:onclick="'javascript:showForm(' +${timeline.getId()} + ')'">Comment</button></span>
-
-
-
-                            <div th:id="${'comment-form-' + timeline.getId()}" style = "display:none;" >
+                            <div class="comment-form-area" th:id="${'comment-form-' + timeline.getId()}">
                                 <div th:id= "${'comment-area-' + timeline.getId()}">
                                     <div th:each = "comment: ${timeline.getCommentList()}">
                                        <h5 th:text ="${comment.getUsername()}"></h5> <span th:text = "${comment.getTimestamp()}" style = "float: right;"> </span>
