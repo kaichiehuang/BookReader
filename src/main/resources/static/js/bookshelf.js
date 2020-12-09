@@ -1,6 +1,7 @@
 $(function() {
     let srcShelf;
 
+
     //setup popovers
     let bookOnSelf = document.getElementsByClassName("bookOnSelf");
     for (let i = 0; i < bookOnSelf.length; i++) {
@@ -148,9 +149,7 @@ $(function() {
             let dstShelf = $(this).find('.heading').text()
             let bookId = ui.draggable.attr("data-book-id")
 
-            // console.log(bookId); 
-            // console.log(srcShelf);
-            // console.log(dstShelf)
+
             $.ajax({
                 url: '/book/shelf/' + dstShelf,
                 type: 'PUT',
@@ -176,4 +175,42 @@ $(function() {
 //             }
 //         })
 //     })
+    $("#addBookshelf").on("click", ()=>{
+        let customShelf = $('#customShelfName').val();
+        $.ajax({
+            url: '/book/shelf/new',
+            type: 'POST',
+            cache: false,
+            contentType: 'application/json; charset=utf-8',
+            headers: {'Authorization': 'Bearer ' + getCookie("jwt")},
+            data: JSON.stringify({customShelfName: customShelf}),
+            success: function(res) {
+                location.reload();
+            },
+            error: (xhr, resp, text) => console.log(xhr),
+        })
+    })
+    let curDefaultShelf = 'want to read'
+    $("h1:contains('"+curDefaultShelf+"')").parent().parent().parent().css({border:"2px solid #28a745"})
+
+    $("body").on("click", "#setDefaultBtn", function(){
+        let defaultShelf = $(this).attr('data-shelfname')
+        if (curDefaultShelf != defaultShelf){
+            $(this).parent().parent().css({border:"2px solid #28a745"})
+            $("h1:contains('"+curDefaultShelf+"')").parent().parent().parent().css({border:"0px"})
+            curDefaultShelf = defaultShelf
+        }
+        $.ajax({
+            url: '/book/shelf/default',
+            type: 'PUT',
+            cache: false,
+            contentType: 'application/json; charset=utf-8',
+            headers: {'Authorization': 'Bearer ' + getCookie("jwt")},
+            data: JSON.stringify({defaultShelf: defaultShelf}),
+            success: function(res) {
+                // location.reload();
+            },
+            error: (xhr, resp, text) => console.log(xhr),
+        })
+    })
 });

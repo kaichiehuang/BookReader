@@ -11,13 +11,14 @@ body {
     -webkit-box-shadow: 0 1px 20px 0 rgba(69, 90, 100, 0.08);
     box-shadow: 0 1px 20px 0 rgba(69, 90, 100, 0.08);
     border: none;
-    margin-bottom: 30px
+    margin-bottom: 30px;
+    padding: 10px;
 }
 
 .card .card-header {
     background-color: transparent;
     border-bottom: none;
-    padding: 25px 20px
+    /*padding: 25px 20px*/
 }
 
 .card-block {
@@ -118,8 +119,11 @@ h6 {
   color: darkblue;
 }
 
-#commentForm {
+.comment-form-area {
+    padding:15px;
+    display:none;
 
-display:none;
-
+}
+.thumb-like{
+    padding:10px;
 }
