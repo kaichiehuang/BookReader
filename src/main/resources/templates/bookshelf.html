@@ -1,113 +1,227 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
+  <head>
     <title>Bookshelf</title>
     <link rel="stylesheet" th:href="@{/css/bookshelf.css}" />
     <link rel="stylesheet" th:href="@{/css/circle.css}" />
-    <meta charset="UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <div th:replace="fragments/common :: css"></div>
     <div th:replace="fragments/header :: header-css"></div>
-</head>
-<!--    Custom bookshelf modal-->
-    <div class="modal" id="customBookshelfModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header bg-dark">
-                    <h5 class="modal-title" id="exampleModalLongTitle">Custom Bookshelf</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text" id="inputGroup-sizing-default">Custom bookshelf name:</span>
-                        </div>
-                        <input type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" id="customShelfName">
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary bg-dark" id="addBookshelf">Add bookshelf</button>
-                </div>
-            </div>
+  </head>
+  <!--    Custom bookshelf modal-->
+  <div
+    class="modal"
+    id="customBookshelfModal"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="exampleModalCenterTitle"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header bg-dark">
+          <h5 class="modal-title" id="exampleModalLongTitle">
+            Custom Bookshelf
+          </h5>
+          <button
+            type="button"
+            class="close"
+            data-dismiss="modal"
+            aria-label="Close"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
         </div>
+        <div class="modal-body">
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="inputGroup-sizing-default"
+                >Custom bookshelf name:</span
+              >
+            </div>
+            <input
+              type="text"
+              class="form-control"
+              aria-label="Default"
+              aria-describedby="inputGroup-sizing-default"
+              id="customShelfName"
+            />
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">
+            Close
+          </button>
+          <button
+            type="button"
+            class="btn btn-primary bg-dark"
+            id="addBookshelf"
+          >
+            Add bookshelf
+          </button>
+        </div>
+      </div>
     </div>
-<body>
+  </div>
+  <body>
     <div th:replace="fragments/header :: header"></div>
     <div class="container">
-        <div class="d-flex justify-content-center">
-            <button type="button" class="btn btn-primary btn-lg bg-dark" data-toggle="modal" data-target="#customBookshelfModal">Add new shelf</button>
-        </div>
-        <div class="row bookshelf" th:each="instance : ${bookshelfs}">
-            <div class="col-md-12 text-center">
-                <button type="button" class="btn btn-primary bg-dark" th:attr="data-shelfname=${instance.key}" id="setDefaultBtn">Set Default</button>
-                <div>
-                    <h1 class="heading" th:text="${instance.key}"></h1>
-                    <button type="button" id="defaultBtn"  th:attr="data-default-bookshelf=${instance.key}" class="btn btn-success">Set as default</button>
-                    <div th:each="book,iter : ${instance.value}">
-                        <div class="bookOnSelf col-xs-4 col-md-2" id="book" th:attr="data-book-id=${book.id}, data-book-page=${book.page}" style="z-index: 5;">
-                            <!-- TODO: book link goes here -->
+      <div class="d-flex justify-content-center">
+        <!-- <button
+          type="button"
+          class="btn btn-primary btn-lg bg-dark"
+          data-toggle="modal"
+          data-target="#customBookshelfModal"
+        >
+          Add new shelf
+        </button> -->
+      </div>
+      <div class="row bookshelf" th:each="instance : ${bookshelfs}">
+        <div class="col-md-12 text-center">
+          <button
+            type="button"
+            class="btn btn-primary bg-dark"
+            th:attr="data-shelfname=${instance.key}"
+            id="setDefaultBtn"
+          >
+            Set Default
+          </button>
+          <div>
+            <h1 class="heading" th:text="${instance.key}"></h1>
+            <button
+              type="button"
+              id="defaultBtn"
+              th:attr="data-default-bookshelf=${instance.key}"
+              class="btn btn-success"
+            >
+              Set as default
+            </button>
+            <div th:each="book,iter : ${instance.value}">
+              <div
+                class="bookOnSelf col-xs-4 col-md-2"
+                id="book"
+                th:attr="data-book-id=${book.id}, data-book-page=${book.page}"
+                style="z-index: 5"
+              >
+                <!-- TODO: book link goes here -->
 
-                            <!-- Content inside popovers -->
-                            <div class="popover_content_wrapper"  id="popover_content_wrapper" style="display: none;">
-                                <div class="c100 small green">
-                                    <span>12%</span>
-                                    <div class="slice">
-                                        <div class="bar"></div>
-                                        <div class="fill"></div>
-                                    </div>
-                                </div>
-                                <h3>20 out of 40 pages read</h3>
-                                <div class="input-group mb-3">
-
-                                    <div class="input-group-append">
-                                        <input type="text" class="form-control" id="page-input" placeholder="Enter new page" aria-describedby="basic-addon2">
-                                        <button class="btn btn-primary" type="button" id="update-page" th:attr="data-book-id=${book.id}">Update</button>
-                                    </div>
-
-                                    <div class="input-group-append">
-                                        <input type="text" class="form-control" id="recomendee-input" placeholder="Enter friend name" aria-describedby="basic-addon2">
-                                        <button class="btn btn-primary" type="button" id="recommend-book" th:attr="data-book-id=${book.id}">Recommend</button>
-                                    </div>
-                                    <div class="input-group-append">
-                                        <button class="btn btn-danger" type="button" id="exclude-book" th:attr="data-book-id=${book.id}">Exclude Book</button>
-                                    </div>
-                                    <div class="input-group-append">
-                                        <button class="btn btn-danger" type="button" id="book-info" th:attr="data-href=@{/book(id=${book.getBookIdentifier()})}">Book Info</button>
-                                    </div>
-                                </div>
-                            </div>
-                            <a data-toggle="popover" data-placement="top" style="display:inline-block" class="book-a">
-                                <div class="book-holder" >
-                                    <div class="book-container">
-                                        <div class="book" >
-                                            <div class="book-cover" >
-                                                <!-- TODO: book cover set background image-->
-                                                <div class="cover">
-                                                    <img style="width:100%; height: 100%;"id = "link" th:src="${book.getLink()}"></img>
-                                                    <!-- <span class="book-title" th:text="${book.getTitle()}"></span> -->
-                                                    <!-- <span class="book-writer" th:text="${book.getAuthor()}"></span> -->
-                                                </div>
-                                            </div>
-                                            <div class="book-spine">
-                                                <h1 th:text="${book.getTitle()}"></h1>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-                        <div class="col-xs-12 shelf" th:if="${(iter.index + 1) % 6 == 0}"></div>
+                <!-- Content inside popovers -->
+                <div
+                  class="popover_content_wrapper"
+                  id="popover_content_wrapper"
+                  style="display: none"
+                >
+                  <div class="c100 small green">
+                    <span>12%</span>
+                    <div class="slice">
+                      <div class="bar"></div>
+                      <div class="fill"></div>
                     </div>
-                    <div class="col-xs-12 shelf" th:unless="${#lists.size(instance.value) % 6 == 0}"></div>
+                  </div>
+                  <h3>20 out of 40 pages read</h3>
+                  <div class="input-group mb-3">
+                    <div class="input-group-append">
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="page-input"
+                        placeholder="Enter new page"
+                        aria-describedby="basic-addon2"
+                      />
+                      <button
+                        class="btn btn-primary"
+                        type="button"
+                        id="update-page"
+                        th:attr="data-book-id=${book.id}"
+                      >
+                        Update
+                      </button>
+                    </div>
+
+                    <div class="input-group-append">
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="recomendee-input"
+                        placeholder="Enter friend name"
+                        aria-describedby="basic-addon2"
+                      />
+                      <button
+                        class="btn btn-primary"
+                        type="button"
+                        id="recommend-book"
+                        th:attr="data-book-id=${book.id}"
+                      >
+                        Recommend
+                      </button>
+                    </div>
+                    <div class="input-group-append">
+                      <button
+                        class="btn btn-danger"
+                        type="button"
+                        id="exclude-book"
+                        th:attr="data-book-id=${book.id}"
+                      >
+                        Exclude Book
+                      </button>
+                    </div>
+                    <div class="input-group-append">
+                      <button
+                        class="btn btn-danger"
+                        type="button"
+                        id="book-info"
+                        th:attr="data-href=@{/book(id=${book.getBookIdentifier()})}"
+                      >
+                        Book Info
+                      </button>
+                    </div>
+                  </div>
                 </div>
+                <a
+                  data-toggle="popover"
+                  data-placement="top"
+                  style="display: inline-block"
+                  class="book-a"
+                >
+                  <div class="book-holder">
+                    <div class="book-container">
+                      <div class="book">
+                        <div class="book-cover">
+                          <!-- TODO: book cover set background image-->
+                          <div class="cover">
+                            <img
+                              style="width: 100%; height: 100%"
+                              id="link"
+                              th:src="${book.getLink()}"
+                            />
+                            <!-- <span class="book-title" th:text="${book.getTitle()}"></span> -->
+                            <!-- <span class="book-writer" th:text="${book.getAuthor()}"></span> -->
+                          </div>
+                        </div>
+                        <div class="book-spine">
+                          <h1 th:text="${book.getTitle()}"></h1>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </a>
+              </div>
+              <div
+                class="col-xs-12 shelf"
+                th:if="${(iter.index + 1) % 6 == 0}"
+              ></div>
             </div>
+            <div
+              class="col-xs-12 shelf"
+              th:unless="${#lists.size(instance.value) % 6 == 0}"
+            ></div>
+          </div>
         </div>
+      </div>
     </div>
 
     <div th:replace="fragments/common :: js"></div>
     <script src="/js/bookshelf.js"></script>
-</body>
+  </body>
 </html>

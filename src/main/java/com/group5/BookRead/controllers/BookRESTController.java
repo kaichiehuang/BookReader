@@ -154,12 +154,14 @@ public class BookRESTController extends BookController {
     @PostMapping(value = "/book/shelf/new",
         consumes = "application/json", produces = "application/json")
     public String addCustomizedBookshelf (
-                @RequestBody final String name,
+                @RequestBody final Map<String, String> json,
                 final HttpServletResponse response) throws Exception {
         try {
             SecurityContext context = SecurityContextHolder.getContext();
             int userId = Integer.parseInt(context.getAuthentication()
                 .getPrincipal().toString());
+
+            String name = json.get("customShelfName");
 
             bookshelfServiceSelector.create(name, userId);
             response.setStatus(HttpServletResponse.SC_OK);
@@ -190,6 +192,7 @@ public class BookRESTController extends BookController {
             System.out.println(shelf);
 
             userService.setDefalultBookshelf(userId, shelf);
+            sampleSettings.setDefaultBookshelf(userId);
 
             response.setStatus(HttpServletResponse.SC_OK);
 
