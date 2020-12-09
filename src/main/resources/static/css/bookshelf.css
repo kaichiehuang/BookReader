@@ -98,7 +98,6 @@ body{
     position: relative;
 }
 .book::after {
-    content: "";
     position: absolute;
     top: 0;
     bottom: 0;
@@ -133,8 +132,6 @@ body{
     background: -webkit-linear-gradient(top, #FF5722 0%, #FF9800 45%, #FFEB3B 100%);
     background: linear-gradient(to bottom, #FF5722 0%, #FF9800 45%, #FFEB3B 100%);
     filter: progid: DXImageTransform.Microsoft.gradient( startColorstr='#FF5722', endColorstr='#FFEB3B', GradientType=0);
-    /* padding-left: 0px; */
-    padding-top: 20px;
     font-size: 22px;
     position: relative;
     border-radius: 0 10px 10px 0;
@@ -196,7 +193,7 @@ body{
     text-indent: -40px;
     text-transform: uppercase;
     font-family: monospace;
-    font-size: 18px;
+    font-size: 13px;
     opacity: 0.7;
     font-weight: normal;
     -webkit-font-smoothing: antialiased;
