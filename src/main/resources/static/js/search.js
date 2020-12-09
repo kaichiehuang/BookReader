@@ -3,12 +3,7 @@ $(function(){
     // $(".bookshelfChoice").unbind('click').bind('click', function (event) {
     //     let bookshelf = $(this).text();
     //
-    //     let link= $(this).closest("#bookRow").find("#link").attr('src');
-    //     let title = $(this).closest("#bookRow").find("#title").text();
-    //     let author = $(this).closest("#bookRow").find("#author").text();
-    //     let pages = $(this).closest("#bookRow").find("#pages").text();
-    //     let description = $(this).closest("#bookRow").find("#description").text();
-    //     let bookIdentifier = $(this).closest("#bookRow").find("#title").attr('class');
+    //     
     //
     //     // let id = $(this).closest()
     //     // console.log(title);
@@ -46,7 +41,12 @@ $(function(){
     $('.alert').hide()
     $("body").on("click","#addBookBtn", function(){
         
-        let bookId = $(this).attr('data-book');
+        let link= $(this).closest("#bookRow").find("#bookImg").attr('src');
+        let title = $(this).closest("#bookRow").find("#title").text();
+        let author = $(this).closest("#bookRow").find("#author").text();
+        let pages = $(this).closest("#bookRow").find("#pages").text();
+        let description = $(this).closest("#bookRow").find("#description").text();
+        let bookIdentifier = $(this).attr('data-book-identifier');
       
         let data = {
             bookIdentifier: bookIdentifier,
@@ -68,6 +68,9 @@ $(function(){
             data: JSON.stringify(data),
             headers: {'Authorization': 'Bearer ' + getCookie("jwt")},
             success: function(res) {
+                $('.alert').fadeTo(2000, 500).slideUp(500, function() {
+                    $('.alert').slideUp(500);
+                })
                 window.location.replace("/book/shelf");
             },
             error: (xhr, resp, text) => console.log(xhr),
@@ -85,8 +88,5 @@ $(function(){
         //     },
         //     error: (xhr, resp, text) => console.log(xhr),
         // });
-        $('.alert').fadeTo(2000, 500).slideUp(500, function() {
-            $('.alert').slideUp(500);
-        })
     })
 })

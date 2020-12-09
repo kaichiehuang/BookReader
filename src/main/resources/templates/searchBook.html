@@ -15,7 +15,7 @@
     <div class = "search">
     <h1> Search </h1>
         <div class="alert alert-primary sticky-top col-md-4" align="center" role="alert">
-            <strong>Book has been added to default shelf ✓</strong>
+            <strong>Book has been added to bookshelves✓</strong>
         </div>
         <form th:action="@{/search}" method="get">
             <div class="input-group">
@@ -40,14 +40,15 @@
             <td colspan="2"> No Books Available </td>
         </tr>
         <tr th:each="book : ${books}" id="bookRow">
-            <td><img id = "link" th:src="${book.getLink()}"></img></td>
-            <td><span th:text="${book.getTitle()}" id="title" th:class="${book.getBookIdentifier()}"> Title </span></td>
+            <td><img id = "bookImg" th:src="${book.getLink()}"></img></td>
+            <td><span th:text="${book.getTitle()}" id="title"> Title </span></td>
             <td><span th:text="${book.getAuthor()}" id="author"> Author </span></td>
             <td><span th:text="${book.getPage()}" id="pages"> Pages </span></td>
             <td><span th:text="${book.getDescription()}" id="description"> Description </span></td>
             <td>
-                <button class="btn btn-outline-success my-2 my-sm-0" th:attr="data-book=${book.getBookIdentifier()}"id="addBookBtn">Add Book</button>
-
+                <button class="btn btn-outline-success my-2 my-sm-0" 
+                th:attr="data-book-identifier=${book.getBookIdentifier()}"
+                id="addBookBtn">Add Book</button>
             </td>
             <td>
                 <a th:href="@{/book(id=${book.getBookIdentifier()})}" button class="btn btn-outline-success my-2 my-sm-0" id= "moreInfoBtn"> More Info</a>
