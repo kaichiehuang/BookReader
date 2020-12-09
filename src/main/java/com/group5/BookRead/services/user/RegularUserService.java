@@ -83,8 +83,8 @@ public class RegularUserService implements UserService {
         return user;
     }
 
-	@Override
-	public int setDefalultBookshelf(final int userId, final String bookshelfName) {
-		return userRepository.setDefalultBookshelf(userId, bookshelfName);
-	}
+    @Override
+    public int setDefalultBookshelf(final int userId, final String bookshelfName) {
+        return userRepository.setDefalultBookshelf(userId, bookshelfName);
+    }
 }
