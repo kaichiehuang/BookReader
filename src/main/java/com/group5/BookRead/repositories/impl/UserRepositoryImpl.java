@@ -29,6 +29,7 @@ public class UserRepositoryImpl implements UserRepository {
             user.setId(rs.getInt("id"));
             user.setPassword(rs.getString("password"));
             user.setUsername(rs.getString("username"));
+            user.setDefaultBookshelf(rs.getString("default_bookshelf"));
             return user;
         }
     }
