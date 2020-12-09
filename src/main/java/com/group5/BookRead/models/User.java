@@ -24,10 +24,15 @@ public class User {
         super();
     }
 
-    public User(final int id, final String usernme, final String password) {
+    public User(final int id, final String username, final String password) {
         super();
         this.id = id;
-        this.username = usernme;
+        this.username = username;
+        this.password = password;
+    }
+
+    public User(final String username, final String password) {
+        this.username = username;
         this.password = password;
     }
 

@@ -3,11 +3,11 @@ package com.group5.BookRead.services.user;
 import com.group5.BookRead.models.User;
 import com.group5.BookRead.repositories.UserRepository;
 import com.group5.BookRead.services.BookshelfServiceSelector;
+import com.group5.BookRead.services.user.userBuilder.BuilderDirector;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 
 @Service (value = "regular")
@@ -20,6 +20,9 @@ public class RegularUserService implements UserService {
     BookshelfServiceSelector bookshelfServiceSelector;
 
     @Autowired
+    BuilderDirector builderDirector;
+
+    @Autowired
     public RegularUserService(final UserRepository userRepository) {
         this.userRepository = userRepository;
     }
@@ -27,22 +30,18 @@ public class RegularUserService implements UserService {
     /**
      * create user and added to database
      * bookshelves will be created as well when an user registers
-     * @param user
+     * @param username
+     * @param password
      * @return registered user
      */
     @Override
-    public User createUser(final User user) {
-        String[] bookshelves = new String[] {"favorites", "recommended",
-            "reading", "read", "want to read"};
+    public User createUser(final String username, final String password) throws Exception {
         try {
-            userRepository.insert(user);
-            User storedUser = userRepository.findByUsername(user.getUsername());
-            for (String bookshelf : bookshelves) {
-                bookshelfServiceSelector.create(bookshelf, storedUser.getId());
-            }
-            return storedUser;
-        } catch (SQLIntegrityConstraintViolationException exception) {
-            return null;
+            User user = builderDirector.makeUser(username, password);
+            return user;
+        } catch (Exception e) {
+            throw new Exception("cannot create user (" + username
+                    + ", " + password + ") : \n" + e.getMessage());
         }
     }
 
