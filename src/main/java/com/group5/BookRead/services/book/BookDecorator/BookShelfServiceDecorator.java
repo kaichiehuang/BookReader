@@ -98,6 +98,8 @@ public final class BookShelfServiceDecorator extends BookServiceDecorator {
                     final int userId)
             throws BookExistsOnTragetShelfException {
 
+        System.out.println("in bookshelfservicedecorator " + bookshelfName);
+
         Bookshelf bookShelf = getShelf(
                 bookshelfName,
                 userId);

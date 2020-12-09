@@ -23,6 +23,8 @@ import com.group5.BookRead.models.Book;
 public class BookRESTController extends BookController {
 
     private Settings settings;
+
+    @Autowired
     private Settings sampleSettings;
 
     @Autowired
@@ -117,12 +119,19 @@ public class BookRESTController extends BookController {
             bookServiceSelector.addBookToShelf(book, "want to read",
                     userId);
 
+
+
             if (settings == null) {
-                sampleSettings = new UserSettings(userId);
+                sampleSettings.setDefaultBookshelf(userId);
             }
 
             settings = sampleSettings.clone();
+
+            System.out.println(settings.getDefaultBookshelf());
+
+
             if (!settings.getDefaultBookshelf().equals("want to read")){
+                System.out.println("here!!! "+ settings.getDefaultBookshelf());
                 bookServiceSelector.addBookToShelf(
                     book, settings.getDefaultBookshelf(),
                     userId);
@@ -164,7 +173,7 @@ public class BookRESTController extends BookController {
     /**
      * <p> Set bookshelf as default bookshelf
      * </p>
-     * @param name new ookshelf name
+     * @param shelf new bookshelf name
      * @param response response object
      * @return response message
      */
