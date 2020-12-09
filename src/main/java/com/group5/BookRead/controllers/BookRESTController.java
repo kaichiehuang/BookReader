@@ -6,7 +6,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.group5.BookRead.services.user.Settings;
 import com.group5.BookRead.services.user.UserService;
-import com.group5.BookRead.services.user.UserSettings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.PostMapping;
