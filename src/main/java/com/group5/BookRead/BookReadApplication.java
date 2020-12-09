@@ -28,7 +28,7 @@ public class BookReadApplication {
     }
     
     @Bean(name = "basicDecoratedBookService") 
-    BookServiceDecorator decoratedService( 
+    BookServiceDecorator decoratedService(
         final BookRepository bookRepository,
         final BookshelfServiceSelector bookshelfServiceSelector,
         final BookshelfRepository bookshelfRepo,
@@ -44,7 +44,7 @@ public class BookReadApplication {
             basicBookService, excludedBookRepository);
 
         return new BookShelfServiceDecorator (
-            excludedBookService , 
+            excludedBookService, 
             bookRepository, 
             bookshelfServiceSelector,
             bookshelfRepo,

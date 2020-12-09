@@ -114,18 +114,18 @@ public final class BasicBookService implements BookService {
     }
 
     @Override
-    public List<Integer> getExcludedBooks(int userId) throws DecoratorChainException{
+    public List<Integer> getExcludedBooks(final int userId) throws DecoratorChainException{
         throw new DecoratorChainException(
-            "Error: decorator is not correctly chained. " + 
-            "Please check decorator declaration."
+            "Error: decorator is not correctly chained. "  
+            + "Please check decorator declaration."
         );
     }
 
     @Override
-    public void addToExcluded(int bookId, int userId) throws DecoratorChainException{
+    public void addToExcluded(final int bookId, final int userId) throws DecoratorChainException{
         throw new DecoratorChainException(
-            "Error: decorator is not correctly chained. " + 
-            "Please check decorator declaration."
+            "Error: decorator is not correctly chained. "  
+            + "Please check decorator declaration."
         );
     }
 
@@ -133,8 +133,8 @@ public final class BasicBookService implements BookService {
     public Bookshelf getShelf(final String bookshelf, final int userId) 
         throws DecoratorChainException{
         throw new DecoratorChainException(
-            "Error: decorator is not correctly chained. " + 
-            "Please check decorator declaration."
+            "Error: decorator is not correctly chained. "  
+            + "Please check decorator declaration."
         );
     }
     
@@ -143,8 +143,8 @@ public final class BasicBookService implements BookService {
                           final int userId,
                           final String bookshelf) throws DecoratorChainException{
         throw new DecoratorChainException(
-            "Error: decorator is not correctly chained. " + 
-            "Please check decorator declaration."
+            "Error: decorator is not correctly chained. "  
+            + "Please check decorator declaration."
         );
     }
 
@@ -153,8 +153,8 @@ public final class BasicBookService implements BookService {
                        final String bookshelf,
                        final int userId) throws DecoratorChainException{
         throw new DecoratorChainException(
-            "Error: decorator is not correctly chained. " + 
-            "Please check decorator declaration."
+            "Error: decorator is not correctly chained. "  
+            + "Please check decorator declaration."
         );
     }
     
@@ -162,8 +162,8 @@ public final class BasicBookService implements BookService {
     public List<MyBook> getMyBooks(final String bookshelfName,
                                    final int userId) throws DecoratorChainException{
         throw new DecoratorChainException(
-            "Error: decorator is not correctly chained. " + 
-            "Please check decorator declaration."
+            "Error: decorator is not correctly chained. "  
+            + "Please check decorator declaration."
         );
     }
 
@@ -173,48 +173,48 @@ public final class BasicBookService implements BookService {
                     final int userId)
             throws BookExistsOnTragetShelfException, DecoratorChainException{
         throw new DecoratorChainException(
-            "Error: decorator is not correctly chained. " + 
-            "Please check decorator declaration."
+            "Error: decorator is not correctly chained. "  
+            + "Please check decorator declaration."
         );
     }
 
     @Override
     public boolean addToShelf(final MyBook book) throws DecoratorChainException{
         throw new DecoratorChainException(
-            "Error: decorator is not correctly chained. " + 
-            "Please check decorator declaration."
+            "Error: decorator is not correctly chained. "  
+            + "Please check decorator declaration."
         );
     }
 
     @Override
     public List<Book> getBooks(final String bookshelfName, final int userId) throws DecoratorChainException{
         throw new DecoratorChainException(
-            "Error: decorator is not correctly chained. " + 
-            "Please check decorator declaration."
+            "Error: decorator is not correctly chained. "  
+            + "Please check decorator declaration."
         );
     }
 
     @Override
     public HashMap<String, List<Book>> getBooksOnBookshelves(final int userId) throws DecoratorChainException{
         throw new DecoratorChainException(
-            "Error: decorator is not correctly chained. " + 
-            "Please check decorator declaration."
+            "Error: decorator is not correctly chained. "  
+            + "Please check decorator declaration."
         );
     }
 
     @Override
     public List<Bookshelf> getBookShelves(final int userId) throws DecoratorChainException{
         throw new DecoratorChainException(
-            "Error: decorator is not correctly chained. " + 
-            "Please check decorator declaration."
+            "Error: decorator is not correctly chained. "  
+            + "Please check decorator declaration."
         );
     }
 
     @Override
     public Bookshelf getReadingShelf(final int userId, final int bookId) throws DecoratorChainException{
         throw new DecoratorChainException(
-            "Error: decorator is not correctly chained. " + 
-            "Please check decorator declaration."
+            "Error: decorator is not correctly chained. "  
+            + "Please check decorator declaration."
         );
     }
 
@@ -222,8 +222,8 @@ public final class BasicBookService implements BookService {
     public void moveBook(final String srcShelf, final String dstShelf,
         final int userId, final int bookId) throws DecoratorChainException{
         throw new DecoratorChainException(
-            "Error: decorator is not correctly chained. " + 
-            "Please check decorator declaration."
+            "Error: decorator is not correctly chained. "  
+            + "Please check decorator declaration."
         );
     }
 }

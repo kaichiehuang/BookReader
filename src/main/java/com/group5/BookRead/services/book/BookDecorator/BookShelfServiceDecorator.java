@@ -41,7 +41,7 @@ public final class BookShelfServiceDecorator extends BookServiceDecorator {
         this.myBookRepository = myBookRepository;
     }
     @Override
-	public Bookshelf getShelf(final String bookshelf, final int userId) {
+    public Bookshelf getShelf(final String bookshelf, final int userId) {
         return bookshelfServiceSelector.getBookShelf(userId, bookshelf);
     }
     @Override

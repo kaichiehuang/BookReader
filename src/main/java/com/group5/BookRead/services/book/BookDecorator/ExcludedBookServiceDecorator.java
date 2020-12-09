@@ -2,7 +2,6 @@ package com.group5.BookRead.services.book.BookDecorator;
 
 import com.group5.BookRead.models.ExcludedBook;
 import com.group5.BookRead.repositories.ExcludedBookRepository;
-import com.group5.BookRead.repositories.UserRepository;
 import com.group5.BookRead.services.book.BookService;
 
 import java.sql.SQLIntegrityConstraintViolationException;
@@ -10,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 public class ExcludedBookServiceDecorator extends BookServiceDecorator  {
     private ExcludedBookRepository excludedBookRepository;

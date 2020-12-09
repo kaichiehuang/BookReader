@@ -12,17 +12,17 @@ public class HTMLRenderServiceStrategyFactory {
     private Map<StrategyName, HTMLRenderService> strategies;
     
     @Autowired
-    public HTMLRenderServiceStrategyFactory(Set<HTMLRenderService> strategySet) {
+    public HTMLRenderServiceStrategyFactory(final Set<HTMLRenderService> strategySet) {
         createStrategy(strategySet);
     }
     
-    public HTMLRenderService findStrategy(StrategyName strategyName) {
+    public HTMLRenderService findStrategy(final StrategyName strategyName) {
         return strategies.get(strategyName);
     }
     
-    private void createStrategy(Set<HTMLRenderService> strategySet) {
+    private void createStrategy(final Set<HTMLRenderService> strategySet) {
         strategies = new HashMap<StrategyName, HTMLRenderService>();
-        strategySet.forEach( 
+        strategySet.forEach(
             strategy -> strategies.put(strategy.getStrategyName(), strategy)
         );
     }

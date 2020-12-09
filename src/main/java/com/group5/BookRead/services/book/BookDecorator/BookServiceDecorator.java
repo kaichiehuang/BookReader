@@ -16,7 +16,7 @@ public class BookServiceDecorator implements BookService {
 
     private BookService wrappee;
 
-    public BookServiceDecorator(BookService service){
+    public BookServiceDecorator(final BookService service){
         this.wrappee = service;
     }
 
@@ -64,12 +64,13 @@ public class BookServiceDecorator implements BookService {
     }
 
     @Override
-    public List<Integer> getExcludedBooks(int userId) throws DecoratorChainException {
+    public List<Integer> getExcludedBooks(final int userId) throws DecoratorChainException {
         return wrappee.getExcludedBooks(userId);
     }
 
     @Override
-    public void addToExcluded(int bookId, int userId) throws DecoratorChainException {
+    public void addToExcluded(final int bookId, final int userId) 
+        throws DecoratorChainException {
         wrappee.addToExcluded(bookId, userId);
     }
 
