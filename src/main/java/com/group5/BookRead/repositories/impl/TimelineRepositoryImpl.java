@@ -14,6 +14,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -125,6 +126,9 @@ public class TimelineRepositoryImpl implements TimelineRepository {
      */
     @Override
     public List<Timeline> getTimelinesByUserIds(final List<Integer> ids) {
+        if (ids.size() == 0) {
+            return new ArrayList<Timeline>();
+        }
         try {
             String inSql = String.join(",", Collections.nCopies(ids.size(), "?"));
             List<Timeline> timelines = jdbcTemplate.query(
@@ -132,8 +136,12 @@ public class TimelineRepositoryImpl implements TimelineRepository {
                             + "where user_id in (%s) ORDER BY time_created DESC", inSql),
                     ids.toArray(),
                     new TimelineRowMapper());
+//            System.out.println(String.format("select * from Timeline "
+//                    + "where user_id in (%s) ORDER BY time_created DESC", inSql));
+//            System.out.println("timeline: "+ timelines);timelines
             return timelines;
         } catch (Exception e) {
+            e.printStackTrace();
             return null;
         }
     }

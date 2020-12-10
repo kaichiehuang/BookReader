@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.SQLIntegrityConstraintViolationException;
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -120,13 +119,13 @@ public class RegularTimelineService implements TimelineService {
 
 
         List<Integer> friendsIds = friendshipService.getFriendIds(userId);
+        // include current user;
+        friendsIds.add(userId);
         List<Timeline> ls = timelineRepository.getTimelinesByUserIds(friendsIds);
         if (ls == null) {
             throw new Exception("Error in getting timelines in DB");
         }
 
         return convert(ls, userId);
-
-
     }
 }

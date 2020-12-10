@@ -342,7 +342,6 @@ public class MyController {
             System.out.println(bookFromDB);
 
 
-
             Comment comment = new Comment(
                     userId,
                     bookFromDB.getId(),
@@ -372,46 +371,6 @@ public class MyController {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             return res;
         }
-
     }
-
-
-//    @PostMapping ("/book/progress")
-//    public String postProgress(@RequestBody final Map<String, Object> body,
-//                              @RequestParam final int bookId,
-//                              final HttpServletResponse response) {
-//        SecurityContext context = SecurityContextHolder.getContext();
-//        int userId = Integer.parseInt(context.getAuthentication()
-//                .getPrincipal().toString());
-//
-//        int progress = (int) body.get("progress");
-//
-//
-//        System.out.printf("progress: %d : %s userId:%d\n",
-//                userId);
-//        try {
-//            Comment comment = new Comment(userId, bookId, rating, text);
-//            Comment savedComment = commentService.save(comment);
-//
-//            // store to a timeline
-//            Book book = bookServiceSelector.getBook(bookId);
-//            User user = userService.findByUserId(userId);
-//            String content = String.format("%s writes on book \"%s\": %s | "
-//                            + "score:%d",
-//                    user.getUsername(),
-//                    book.getTitle(),
-//                    savedComment.getText(),
-//                    savedComment.getRating());
-//
-//            Timeline timeline = new Timeline(userId, content, "review");
-//            timelineService.store(timeline);
-//
-//            response.setStatus(HttpServletResponse.SC_CREATED);
-//            return "{\"msg\":\"success\"}";
-//        } catch (Exception  e) {
-//            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-//            return "{\"msg\":\"failure\"}";
-//        }
-//    }
 
 }
