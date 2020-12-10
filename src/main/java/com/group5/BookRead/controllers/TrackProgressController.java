@@ -132,7 +132,8 @@ public class TrackProgressController {
             String content = String.format("%s read %s%% of %s",
                                user.getUsername(),
                                Double.toString(
-                                   Math.round(curProgress * 100.0) / 100.0),
+                                    Math.round(curProgress 
+                                    * PROGRESS_PERCENTAGE) / PROGRESS_PERCENTAGE),
                                book.getTitle());
             
             Timeline timeline = new Timeline(userId, content, "progress");
