@@ -180,7 +180,9 @@ $(function() {
         headers: {'Authorization': 'Bearer ' + getCookie("jwt")},
         success: (res) => {
             curDefaultShelf = res.defaultBookshelf;
-            $("h1:contains('"+curDefaultShelf+"')").parent().parent().parent().css({border:"2px solid #28a745"})
+            console.log(curDefaultShelf);
+            // $("h1:contains('"+curDefaultShelf+"')").parent().parent().parent().css({border:"2px solid #28a745"})
+            $("#heading_"+curDefaultShelf).parent().parent().parent().css({border:"2px solid #28a745"})
         },
         error: (xhr, resp, text) => console.log(xhr),
     })
@@ -188,8 +190,9 @@ $(function() {
     $("body").on("click", "#setDefaultBtn", function(){
         let defaultShelf = $(this).attr('data-shelfname')
         if (curDefaultShelf != defaultShelf){
+            $("#heading_"+curDefaultShelf).parent().parent().parent().css({border:"0px"})
             $(this).parent().parent().css({border:"2px solid #28a745"})
-            $("h1:contains('"+curDefaultShelf+"')").parent().parent().parent().css({border:"0px"})
+            // $("h1:contains('"+curDefaultShelf+"')").parent().parent().parent().css({border:"0px"})
             curDefaultShelf = defaultShelf
         }
         $.ajax({
