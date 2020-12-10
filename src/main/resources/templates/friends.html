@@ -43,14 +43,13 @@
                             class="media-body valign-middle text-right overflow-visible"
                           >
                             <!-- TODO: replace with the action of access corresponding user's timeline -->
-                            <button
+                            <a
                               id="reqBtn"
-                              th:attr="data-friend-name=${user}"
-                              type="button"
+                              th:href="@{/timeline/{userName}(userName=${friend})}"
                               class="btn btn-primary"
                             >
                               View Timeline
-                            </button>
+                            </a>
                           </div>
                         </div>
                       </div>

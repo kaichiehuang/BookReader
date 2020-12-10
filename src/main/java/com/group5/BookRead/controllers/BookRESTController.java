@@ -7,9 +7,10 @@ import javax.servlet.http.HttpServletResponse;
 import com.group5.BookRead.services.user.Settings;
 import com.group5.BookRead.services.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PathVariable;
 
@@ -146,7 +147,7 @@ public class BookRESTController extends BookController {
     /**
      * <p> add customized book shelf
      * </p>
-     * @param name new ookshelf name
+     * @param json
      * @param response response object
      * @return response message
      */
@@ -196,6 +197,34 @@ public class BookRESTController extends BookController {
             response.setStatus(HttpServletResponse.SC_OK);
 
             return "{\"msg\":\"success\"}";
+        } catch (Exception e) {
+            throw e;
+        }
+    }
+
+
+    /**
+     * <p> Get default bookshelf
+     * </p>
+     * @param response response object
+     * @return response message
+     */
+    @GetMapping(value = "/book/shelf/getDefault",
+            consumes = "application/json", produces = "application/json")
+    public String getDefaultBookshelf(
+            final HttpServletResponse response) throws Exception {
+        try {
+            SecurityContext context = SecurityContextHolder.getContext();
+            int userId = Integer.parseInt(context.getAuthentication()
+                    .getPrincipal().toString());
+
+            sampleSettings.setDefaultBookshelf(userId);
+            settings = sampleSettings.clone();
+            String defaultBookshelf = settings.getDefaultBookshelf();
+
+            response.setStatus(HttpServletResponse.SC_OK);
+
+            return "{\"defaultBookshelf\":\""+defaultBookshelf+"\"}";
         } catch (Exception e) {
             throw e;
         }

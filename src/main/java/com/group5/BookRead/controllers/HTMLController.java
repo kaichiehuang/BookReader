@@ -108,4 +108,9 @@ public class HTMLController extends BookController {
         System.out.println(strategy.renderPage(model));
         return strategy.renderPage(model);
     }
+
+
+
+
+
 }

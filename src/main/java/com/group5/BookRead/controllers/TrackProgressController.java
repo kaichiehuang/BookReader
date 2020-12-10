@@ -15,8 +15,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.group5.BookRead.models.Book;
 import com.group5.BookRead.models.MyBook;
+import com.group5.BookRead.models.Timeline;
+import com.group5.BookRead.models.User;
 import com.group5.BookRead.services.BookServiceSelector;
 import com.group5.BookRead.services.book.BookDecorator.BookServiceDecorator;
+import com.group5.BookRead.services.timeline.TimelineService;
+import com.group5.BookRead.services.user.UserService;
 
 
 @RestController
@@ -27,6 +31,12 @@ public class TrackProgressController {
 
     @Autowired
     BookServiceSelector bookServiceSelector;
+
+    @Autowired
+    UserService userService;
+
+    @Autowired
+    TimelineService timelineService;
 
     public static final double PROGRESS_PERCENTAGE = 100.0;
 
@@ -83,7 +93,10 @@ public class TrackProgressController {
             // get parameters
             int userId = Integer.parseInt(context.getAuthentication()
                 .getPrincipal().toString());
+            User user = userService.findByUserId(userId);
             int bookId = Integer.parseInt(json.get("bookId"));
+            Book book = bookServiceSelector.getBook(bookId);
+            
             int curPage = Integer.parseInt(json.get("curPage"));
 
             // get total page and current progress
@@ -115,6 +128,16 @@ public class TrackProgressController {
             // update progress
             bookServiceDecorator.updateProgress(
                 userId, bookId, curProgress);
+
+            String content = String.format("%s read %s%% of %s",
+                               user.getUsername(),
+                               Double.toString(
+                                    Math.round(curProgress 
+                                    * PROGRESS_PERCENTAGE) / PROGRESS_PERCENTAGE),
+                               book.getTitle());
+            
+            Timeline timeline = new Timeline(userId, content, "progress");
+            timelineService.store(timeline);
 
             response.setStatus(HttpServletResponse.SC_OK);
 
