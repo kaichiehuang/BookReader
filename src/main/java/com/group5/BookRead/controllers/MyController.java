@@ -131,16 +131,16 @@ public class MyController {
      * @param response
      * @return
      */
-    @GetMapping("/timeline/{userId}")
+    @GetMapping("/timeline/{userName}")
     public String timelineForUser(
             final Model model,
-            @PathVariable final String userId,
+            @PathVariable final String userName,
             final HttpServletResponse response) {
         try {
             SecurityContext context = SecurityContextHolder.getContext();
             int currentUser = Integer.parseInt(context.getAuthentication()
                     .getPrincipal().toString());
-            int id = Integer.parseInt(userId);
+            int id = userService.findByUsername(userName).getId();
             List<ResponseTimeline> timelines = timelineService
                     .getTimelinesByUser(id, currentUser);
             for (ResponseTimeline t : timelines) {

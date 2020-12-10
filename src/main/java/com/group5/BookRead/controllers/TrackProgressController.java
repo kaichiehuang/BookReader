@@ -37,7 +37,7 @@ public class TrackProgressController {
 
     @Autowired
     TimelineService timelineService;
-    
+
     public static final double PROGRESS_PERCENTAGE = 100.0;
 
     
@@ -129,12 +129,13 @@ public class TrackProgressController {
             bookServiceDecorator.updateProgress(
                 userId, bookId, curProgress);
 
-            String content = String.format("%s read %d\\% of %s",
+            String content = String.format("%s read %s%% of %s",
                                user.getUsername(),
-                               curProgress,
+                               Double.toString(
+                                   Math.round(curProgress * 100.0) / 100.0),
                                book.getTitle());
             
-            Timeline timeline = new Timeline(userId, content, "review");
+            Timeline timeline = new Timeline(userId, content, "progress");
             timelineService.store(timeline);
 
             response.setStatus(HttpServletResponse.SC_OK);
