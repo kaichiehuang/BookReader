@@ -28,6 +28,7 @@ public class FriendshipService {
         this.friendshipRepository = friendshipRepository;
     }
     
+    @Autowired
     public FriendshipService(final FriendshipRepository friendshipRepository, final UserRepository userRepository) {
         this.friendshipRepository = friendshipRepository;
         this.userRepository = userRepository;
