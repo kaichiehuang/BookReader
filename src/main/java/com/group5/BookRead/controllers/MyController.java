@@ -124,6 +124,37 @@ public class MyController {
         }
     }
 
+
+    /**
+     *  get all activities to post on timeline
+     * @param model
+     * @param response
+     * @return
+     */
+    @GetMapping("/timeline/{userId}")
+    public String timelineForUser(
+            final Model model,
+            @PathVariable final String userId,
+            final HttpServletResponse response) {
+        try {
+            SecurityContext context = SecurityContextHolder.getContext();
+            int currentUser = Integer.parseInt(context.getAuthentication()
+                    .getPrincipal().toString());
+            int id = Integer.parseInt(userId);
+            List<ResponseTimeline> timelines = timelineService
+                    .getTimelinesByUser(id, currentUser);
+            for (ResponseTimeline t : timelines) {
+                System.out.println(t);
+            }
+            model.addAttribute("timelines", timelines);
+            return "timeline";
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            return "{\"msg\":\"failure\"}";
+        }
+    }
+
     /**
      * adding a like
      */
@@ -311,7 +342,6 @@ public class MyController {
             System.out.println(bookFromDB);
 
 
-
             Comment comment = new Comment(
                     userId,
                     bookFromDB.getId(),
@@ -341,38 +371,5 @@ public class MyController {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             return res;
         }
-
     }
-
-
-//    @PostMapping ("/book/progress")
-//    public String postProgress(@RequestBody final Map<String, Object> body,
-//                              @RequestParam final int bookId,
-//                              final HttpServletResponse response) {
-//        SecurityContext context = SecurityContextHolder.getContext();
-//        int userId = Integer.parseInt(context.getAuthentication()
-//                .getPrincipal().toString());
-//
-//        int progress = (int) body.get("progress");
-//
-//
-//        System.out.printf("progress: %d : %s userId:%d\n",
-//                userId);
-//        try {
-//            Comment comment = new Comment(userId, bookId, rating, text);
-//            Comment savedComment = commentService.save(comment);
-//
-//            // store to a timeline
-//            Book book = bookServiceSelector.getBook(bookId);
-//            User user = userService.findByUserId(userId);
-//            
-//
-//            response.setStatus(HttpServletResponse.SC_CREATED);
-//            return "{\"msg\":\"success\"}";
-//        } catch (Exception  e) {
-//            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-//            return "{\"msg\":\"failure\"}";
-//        }
-//    }
-
 }
