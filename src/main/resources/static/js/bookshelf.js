@@ -171,8 +171,19 @@ $(function() {
         })
     })
     
-    let curDefaultShelf = 'want to read'
-    $("h1:contains('"+curDefaultShelf+"')").parent().parent().parent().css({border:"2px solid #28a745"})
+    let curDefaultShelf;
+    $.ajax({
+        url: "/book/shelf/getDefault",
+        type: 'GET',
+        cache: false,
+        contentType: 'application/json; charset=utf-8',
+        headers: {'Authorization': 'Bearer ' + getCookie("jwt")},
+        success: (res) => {
+            curDefaultShelf = res.defaultBookshelf;
+            $("h1:contains('"+curDefaultShelf+"')").parent().parent().parent().css({border:"2px solid #28a745"})
+        },
+        error: (xhr, resp, text) => console.log(xhr),
+    })
 
     $("body").on("click", "#setDefaultBtn", function(){
         let defaultShelf = $(this).attr('data-shelfname')
