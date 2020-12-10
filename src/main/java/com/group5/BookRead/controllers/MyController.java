@@ -365,15 +365,7 @@ public class MyController {
 //            // store to a timeline
 //            Book book = bookServiceSelector.getBook(bookId);
 //            User user = userService.findByUserId(userId);
-//            String content = String.format("%s writes on book \"%s\": %s | "
-//                            + "score:%d",
-//                    user.getUsername(),
-//                    book.getTitle(),
-//                    savedComment.getText(),
-//                    savedComment.getRating());
-//
-//            Timeline timeline = new Timeline(userId, content, "review");
-//            timelineService.store(timeline);
+//            
 //
 //            response.setStatus(HttpServletResponse.SC_CREATED);
 //            return "{\"msg\":\"success\"}";
