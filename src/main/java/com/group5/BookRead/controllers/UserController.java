@@ -53,12 +53,13 @@ public class UserController {
             throw new Exception("Incorrect username or password", e);
         }
 
+        
         final UserDetails userDetails = new MyUserPrincipal(
                 userService.findByUsername(
                         authenticationRequest.getUsername()));
 
         final String jwt = jwtTokenUtil.generateToken(userDetails);
-
+        System.out.println(jwt);
         return ResponseEntity.ok(new AuthenticationResponse(jwt));
     }
 

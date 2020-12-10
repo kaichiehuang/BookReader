@@ -61,7 +61,9 @@ public class RegularUserService implements UserService {
     @Override
     public User findByUserId(final int userId)
             throws UsernameNotFoundException {
+
         User user = userRepository.findById(userId);
+
         if (user == null) {
             throw new UsernameNotFoundException("" + userId);
         }
