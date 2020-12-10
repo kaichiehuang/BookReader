@@ -12,5 +12,7 @@ public interface TimelineRepository {
     List<Timeline> getTimelines();
 
     Timeline findByAll(String content, String type, int userId);
+    List<Timeline> getTimelinesByUserIds(List<Integer> ids);
+    List<Timeline> getTimelinesByUserId(int id);
 
 }
