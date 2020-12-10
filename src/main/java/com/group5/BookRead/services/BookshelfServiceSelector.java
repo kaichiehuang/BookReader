@@ -1,53 +1,42 @@
 package com.group5.BookRead.services;
 
 import com.group5.BookRead.models.Bookshelf;
+import com.group5.BookRead.repositories.BookshelfRepository;
 import com.group5.BookRead.services.bookshelf.BookshelfService;
+import com.group5.BookRead.services.bookshelf.BookshelfFactory.BookshelfServiceCreator;
+import com.group5.BookRead.services.bookshelf.BookshelfFactory.FavoriteBookshelfServiceCreator;
+import com.group5.BookRead.services.bookshelf.BookshelfFactory.ReadBookshelfServiceCreator;
+import com.group5.BookRead.services.bookshelf.BookshelfFactory.ReadingBookshelfServiceCreator;
+import com.group5.BookRead.services.bookshelf.BookshelfFactory.RecommendBookshelfServiceCreator;
+import com.group5.BookRead.services.bookshelf.BookshelfFactory.RegularBookshelfServiceCreator;
+import com.group5.BookRead.services.bookshelf.BookshelfFactory.WantToReadBookshelfServiceCreator;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
 public class BookshelfServiceSelector {
 
-    @Autowired
-    @Qualifier("reading")
-    BookshelfService readingBookshelfService;
+    private static BookshelfServiceCreator bookshelfServiceCreator;
 
     @Autowired
-    @Qualifier("read")
-    BookshelfService readBookshelfService;
-
-    @Autowired
-    @Qualifier("favorites")
-    BookshelfService favoriteBookshelfService;
-
-    @Autowired
-    @Qualifier("recommend")
-    BookshelfService recommendBookshelfService;
-
-    @Autowired
-    @Qualifier("want-to-read")
-    BookshelfService wantToReadBookshelfService;
-
-    @Autowired
-    @Qualifier("myshelf")
-    BookshelfService regularBookshelfService;
-
+    private BookshelfRepository bookshelfRepo;
 
     private BookshelfService getService(final String type) {
         if (type.equals("read")) {
-            return readBookshelfService;
+            bookshelfServiceCreator = new ReadBookshelfServiceCreator();
         } else if (type.equals("reading")) {
-            return readingBookshelfService;
+            bookshelfServiceCreator = new ReadingBookshelfServiceCreator();
         } else if (type.equals("want-to-read")) {
-            return wantToReadBookshelfService;
+            bookshelfServiceCreator = new WantToReadBookshelfServiceCreator();
         } else if (type.equals("recommend")) {
-            return recommendBookshelfService;
+            bookshelfServiceCreator = new RecommendBookshelfServiceCreator();
         } else if (type.equals("favorites")) {
-            return favoriteBookshelfService;
+            bookshelfServiceCreator = new FavoriteBookshelfServiceCreator();
         }
-        return regularBookshelfService;
+        bookshelfServiceCreator = new RegularBookshelfServiceCreator();
+        return bookshelfServiceCreator.createBookshelfService(bookshelfRepo);
     }
 
     /**  get the bookshelf of type (bookshelfName) for user

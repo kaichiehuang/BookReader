@@ -168,9 +168,8 @@ public final class BasicBookService implements BookService {
     }
 
     @Override
-    public Book addBookToShelf(final Book book,
-                    final String bookshelfName,
-                    final int userId)
+    public Book save(final Book book,
+            final String bookshelfName, final int userId)
             throws BookExistsOnTragetShelfException, DecoratorChainException{
         throw new DecoratorChainException(
             "Error: decorator is not correctly chained. "  

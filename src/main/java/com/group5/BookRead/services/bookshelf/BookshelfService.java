@@ -1,16 +1,8 @@
 package com.group5.BookRead.services.bookshelf;
 import com.group5.BookRead.models.Bookshelf;
-import com.group5.BookRead.repositories.BookshelfRepository;
-
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 
-public abstract class BookshelfService {
-
-    private BookshelfRepository bookshelfRepository;
-    BookshelfService(final BookshelfRepository bookshelfRepository) {
-        this.bookshelfRepository = bookshelfRepository;
-    }
+public interface BookshelfService {
 
     /**
      *  Find the Bookshelf object based onthe type and the onwer
@@ -18,11 +10,7 @@ public abstract class BookshelfService {
      * @param user username
      * @return BookShelf object
      */
-    public Bookshelf findBookshelf(final String bookshelf, final String user) {
-        return bookshelfRepository.findByBookshelfNameAndUsername(
-                bookshelf,
-                user);
-    }
+    Bookshelf findBookshelf(String bookshelf, String user);
 
     /**
      * Find the Bookshelf object based onthe type and the onwer
@@ -30,22 +18,14 @@ public abstract class BookshelfService {
      * @param user
      * @return
      */
-    public Bookshelf findBookshelf(final String bookshelf, final int user) {
-        Bookshelf shelf = bookshelfRepository.findByBookshelfNameAndUserId(
-            bookshelf,
-            user);
-        return shelf;
-    }
+    Bookshelf findBookshelf(String bookshelf, int user);
 
     /**
      *  find all bookshelves of an given user
      * @param userId
      * @return a list of bookshelves
      */
-    public List<Bookshelf> findBookshelves(final int userId) {
-        //System.out.println(bookshelfRepository.findAllByUserId(userId));
-        return bookshelfRepository.findAllByUserId(userId);
-    }
+    List<Bookshelf> findBookshelves(int userId);
 
     /**
      *  create a new shelf
@@ -53,13 +33,6 @@ public abstract class BookshelfService {
      * @param userId
      * @return
      */
-    public boolean create(final String bookshelf, final int userId) {
-        Bookshelf shelf = new Bookshelf(userId, bookshelf);
-        try {
-            return bookshelfRepository.insert(shelf) == 1;
-        } catch (SQLIntegrityConstraintViolationException exception) {
-            return false;
-        }
-    }
+    boolean create(String bookshelf, int userId);
 }
 

@@ -101,11 +101,11 @@ public class BookServiceDecorator implements BookService {
     }
 
     @Override
-    public Book addBookToShelf(final Book book,
+    public Book save(final Book book,
                     final String bookshelfName,
                     final int userId)
             throws BookExistsOnTragetShelfException, DecoratorChainException{
-        return wrappee.addBookToShelf(book, bookshelfName, userId);
+        return wrappee.save(book, bookshelfName, userId);
     }
 
     @Override

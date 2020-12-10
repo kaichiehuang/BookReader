@@ -34,9 +34,7 @@ public interface BookService {
         int userId) throws DecoratorChainException;
     List<MyBook> getMyBooks(String bookshelfName,
         int userId) throws DecoratorChainException;
-    Book addBookToShelf(Book book,
-                    String bookshelfName,
-                    int userId)
+    Book save(Book book, String bookshelfName, int userId)
             throws BookExistsOnTragetShelfException, DecoratorChainException;
     boolean addToShelf(MyBook book) 
         throws DecoratorChainException;

@@ -93,12 +93,10 @@ public final class BookShelfServiceDecorator extends BookServiceDecorator {
      * @return
      */
     @Override
-    public Book addBookToShelf(final Book book,
+    public Book save(final Book book,
                     final String bookshelfName,
                     final int userId)
             throws BookExistsOnTragetShelfException {
-
-        System.out.println("in bookshelfservicedecorator " + bookshelfName);
 
         Bookshelf bookShelf = getShelf(
                 bookshelfName,

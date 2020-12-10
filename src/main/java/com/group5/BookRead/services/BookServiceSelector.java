@@ -56,7 +56,7 @@ public class BookServiceSelector {
 
         // The curBook is the current book
         // now here, we actually need to check if the bookshelf is not favorites
-        Book addedBook = bookServiceDecorator.addBookToShelf(curBook, bookshelf, userId);
+        Book addedBook = bookServiceDecorator.save(curBook, bookshelf, userId);
         if (addedBook != null) {
             return addedBook;
         }

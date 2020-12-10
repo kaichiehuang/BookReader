@@ -18,7 +18,7 @@ public class RegularTimelineCommentService implements TimelineCommentService {
     
 
 
-    public RegularTimelineCommentService(TimelineCommentRepository timelineCommentRepository) {
+    public RegularTimelineCommentService(final TimelineCommentRepository timelineCommentRepository) {
         this.timelineCommentRepository = timelineCommentRepository;
     }
 

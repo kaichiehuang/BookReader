@@ -7,11 +7,11 @@ import com.group5.BookRead.models.Bookshelf;
 import com.group5.BookRead.repositories.BookshelfRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
-public final class ReadBookshelfService implements BookshelfService {
+public final class RecommendBookshelfService implements BookshelfService {
     private BookshelfRepository bookshelfRepository;
 
     @Autowired
-    public ReadBookshelfService(final BookshelfRepository bookshelfRepository) {
+    public RecommendBookshelfService(final BookshelfRepository bookshelfRepository) {
         this.bookshelfRepository = bookshelfRepository;
     }
 
