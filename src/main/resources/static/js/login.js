@@ -62,7 +62,7 @@ $(()=>{
                 $("#noSuchUserMsg")[0].style.display = "none";
                 document.cookie = "jwt="+response["jwt"];
                 console.log(getCookie("jwt"));
-                window.location.replace("/");
+                window.location.replace("/book/shelf");
             },
             error : function (jqXHR, exception) {
                 $("#noSuchUserMsg")[0].style.display = "block";
@@ -95,7 +95,7 @@ $(()=>{
                 console.log(response);
                 document.cookie = "jwt="+response["jwt"];
                 console.log(getCookie("jwt"));
-                window.location.replace("/");
+                window.location.replace("/book/shelf");
             },
             error : function (jqXHR, exception) {
                 $("#userExistsMsg")[0].style.display = "block";
