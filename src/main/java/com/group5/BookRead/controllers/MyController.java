@@ -1,10 +1,10 @@
 package com.group5.BookRead.controllers;
 
 import com.group5.BookRead.models.Timeline;
-import com.group5.BookRead.models.TimelineComment;
+import com.group5.BookRead.models.comment.TimelineComment;
 import com.group5.BookRead.models.Book;
 import com.group5.BookRead.models.User;
-import com.group5.BookRead.models.Comment;
+import com.group5.BookRead.models.comment.Comment;
 import com.group5.BookRead.services.BookServiceSelector;
 import com.group5.BookRead.services.bookAPI.BookAPI;
 import com.group5.BookRead.services.bookAPI.BookFromAPI;
@@ -302,8 +302,14 @@ public class MyController {
 
         try {
             String str = (String) body.get("rating");
-            int rating = Integer.parseInt(str);
+            int rating = 0;
+            if (str != null && !str.isEmpty()) {
+                rating = Integer.parseInt(str);
+            }
             String text = (String) body.get("review");
+            if (text == null || text.isEmpty()) {
+                text = "";
+            }
             System.out.println(rating + " " + text);
             Book bookFromDB = bookServiceSelector.getBook(bookId);
             if (bookFromDB == null) {
@@ -314,8 +320,6 @@ public class MyController {
 
                 int page = Integer.parseInt((String) body.get("page"));
                 String link = body.get("link").toString();
-                System.out.println(description);
-                System.out.println(link);
 
                 link = StringEscapeUtils.unescapeHtml(link);
                 description = StringEscapeUtils.unescapeHtml(description);

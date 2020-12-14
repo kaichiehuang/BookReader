@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 
 import com.group5.BookRead.models.Book;
 import com.group5.BookRead.repositories.BookRepository;
+import org.springframework.transaction.annotation.Transactional;
 
 
 @Repository
@@ -44,6 +45,7 @@ public class BookRepositoryImpl implements BookRepository {
      * @return status code
      */
     @Override
+    @Transactional
     public int insert(final Book book) {
         return jdbcTemplate.update("insert into Book (title, author, "
                         + "page, summary,book_identifier, link) "
@@ -159,6 +161,7 @@ public class BookRepositoryImpl implements BookRepository {
      * @return status code
      */
     @Override
+    @Transactional
     public int deleteById(final int id) {
         return jdbcTemplate.update("delete from Book where id = ?",
                 new Object[]{id});

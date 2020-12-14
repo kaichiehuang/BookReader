@@ -7,6 +7,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 
 import java.sql.ResultSet;
@@ -48,6 +49,7 @@ public class TimelineRepositoryImpl implements TimelineRepository {
      * @throws SQLIntegrityConstraintViolationException
      */
     @Override
+    @Transactional
     public int insert(final Timeline timeline)
             throws SQLIntegrityConstraintViolationException {
         return jdbcTemplate.update(
