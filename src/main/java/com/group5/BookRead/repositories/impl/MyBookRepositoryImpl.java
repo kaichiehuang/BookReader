@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 
 import com.group5.BookRead.models.MyBook;
 import com.group5.BookRead.repositories.MyBookRepository;
+import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 public class MyBookRepositoryImpl implements MyBookRepository {
@@ -173,6 +174,7 @@ public class MyBookRepositoryImpl implements MyBookRepository {
      * @return status code
      */
     @Override
+    @Transactional
     public int deleteById(final int id) {
         return jdbcTemplate.update("delete from MyBook where id = ?",
                 new Object[] {id});
