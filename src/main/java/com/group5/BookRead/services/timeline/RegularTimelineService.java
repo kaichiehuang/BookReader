@@ -1,7 +1,7 @@
 package com.group5.BookRead.services.timeline;
 
 import com.group5.BookRead.models.Timeline;
-import com.group5.BookRead.models.TimelineComment;
+import com.group5.BookRead.models.comment.TimelineComment;
 import com.group5.BookRead.models.User;
 import com.group5.BookRead.repositories.TimelineRepository;
 import com.group5.BookRead.services.friend.FriendshipService;
