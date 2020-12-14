@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 
 import com.group5.BookRead.models.User;
 import com.group5.BookRead.repositories.UserRepository;
+import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 public class UserRepositoryImpl implements UserRepository {
@@ -39,6 +40,7 @@ public class UserRepositoryImpl implements UserRepository {
      * @return status code
      */
     @Override
+    @Transactional
     public int insert(final User user) throws
 
         SQLIntegrityConstraintViolationException {
@@ -138,6 +140,7 @@ public class UserRepositoryImpl implements UserRepository {
      * @return status code
      */
     @Override
+    @Transactional
     public int deleteById(final int id) {
         return jdbcTemplate.update("delete from User where id = ?",
                 new Object[] {id});

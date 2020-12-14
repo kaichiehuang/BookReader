@@ -12,6 +12,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 public class BookshelfRepositoryImpl implements BookshelfRepository {
@@ -39,6 +40,7 @@ public class BookshelfRepositoryImpl implements BookshelfRepository {
      * @return status code
      */
     @Override
+    @Transactional
     public int insert(final Bookshelf shelf) throws
         SQLIntegrityConstraintViolationException {
         return jdbcTemplate.update("insert into Bookshelf (user_id, name) "
@@ -117,6 +119,7 @@ public class BookshelfRepositoryImpl implements BookshelfRepository {
      * @return status code
      */
     @Override
+    @Transactional
     public int deleteById(final int id) {
         return jdbcTemplate.update("delete from Bookshelf where id = ?",
             new Object[] {id});

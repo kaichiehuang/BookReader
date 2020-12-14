@@ -10,6 +10,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -62,6 +63,7 @@ public class TimelineCommentRepositoryImpl
      * @throws SQLIntegrityConstraintViolationException
      */
     @Override
+    @Transactional
     public int insert(
             final TimelineComment timelineComment)
             throws SQLIntegrityConstraintViolationException {
@@ -167,6 +169,7 @@ public class TimelineCommentRepositoryImpl
      * @return
      */
     @Override
+    @Transactional
     public int removeById(final int id) {
         return jdbcTemplate.update(
                 "delete from TimelineComment where id = ?",
