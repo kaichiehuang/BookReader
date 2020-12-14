@@ -6,11 +6,10 @@ import org.junit.jupiter.api.Test;
 
 
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-
 import com.group5.BookRead.models.Book;
 import com.group5.BookRead.models.Friendship;
 import com.group5.BookRead.models.MyBook;
-import com.group5.BookRead.models.TimelineComment;
+import com.group5.BookRead.models.comment.TimelineComment;
 import com.group5.BookRead.models.User;
 import com.group5.BookRead.repositories.BookRepository;
 import com.group5.BookRead.repositories.FriendshipRepository;
@@ -19,11 +18,8 @@ import com.group5.BookRead.repositories.TimelineCommentRepository;
 import com.group5.BookRead.repositories.UserRepository;
 import com.group5.BookRead.services.book.BasicBookService;
 import com.group5.BookRead.services.friend.FriendshipService;
-
 import com.group5.BookRead.services.timelineComment.RegularTimelineCommentService;
 import com.group5.BookRead.services.user.RegularUserService;
-
-
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.anyInt;

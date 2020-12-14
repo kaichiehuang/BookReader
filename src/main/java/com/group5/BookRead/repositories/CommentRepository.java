@@ -1,7 +1,7 @@
 package com.group5.BookRead.repositories;
 
 
-import com.group5.BookRead.models.Comment;
+import com.group5.BookRead.models.comment.Comment;
 
 import java.util.List;
 

@@ -1,6 +1,6 @@
 package com.group5.BookRead.repositories.impl;
 
-import com.group5.BookRead.models.TimelineComment;
+import com.group5.BookRead.models.comment.TimelineComment;
 import com.group5.BookRead.repositories.TimelineCommentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;

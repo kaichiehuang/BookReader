@@ -1,6 +1,6 @@
 package com.group5.BookRead.services.comment;
 
-import com.group5.BookRead.models.Comment;
+import com.group5.BookRead.models.comment.Comment;
 import com.group5.BookRead.repositories.CommentRepository;
 import com.group5.BookRead.services.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
