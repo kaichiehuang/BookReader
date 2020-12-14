@@ -1,5 +1,5 @@
 package com.group5.BookRead.repositories.impl;
-import com.group5.BookRead.models.Comment;
+import com.group5.BookRead.models.comment.Comment;
 import com.group5.BookRead.repositories.CommentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;

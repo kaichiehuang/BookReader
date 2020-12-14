@@ -48,13 +48,14 @@ public final class BookShelfServiceDecorator extends BookServiceDecorator {
     public boolean remove(final int bookId,
                           final int userId,
                           final String bookshelf) {
-        Bookshelf shelf = bookshelfServiceSelector.getBookShelf(userId,
-                bookshelf);
-        int status = myBookRepository.deleteByUserIdAndBookshelfIdAndBookId(
-                userId,
-                shelf.getId(),
-                bookId);
-        return  status == 1;
+//        Bookshelf shelf = bookshelfServiceSelector.getBookShelf(userId,
+//                bookshelf);
+//        int status = myBookRepository.deleteByUserIdAndBookshelfIdAndBookId(
+//                userId,
+//                shelf.getId(),
+//                bookId);
+//        return  status == 1;
+        return bookshelfServiceSelector.removeBook(bookId, userId, bookshelf);
     }
     @Override
     public Book remove(final int bookId,
@@ -76,12 +77,13 @@ public final class BookShelfServiceDecorator extends BookServiceDecorator {
     @Override
     public List<MyBook> getMyBooks(final String bookshelfName,
                                    final int userId) {
-        Bookshelf bookshelf = bookshelfServiceSelector.getBookShelf(
-                userId,
-                bookshelfName);
-        return myBookRepository.findAllByUserIdAndShelfId(
-                userId,
-                bookshelf.getId());
+//        Bookshelf bookshelf = bookshelfServiceSelector.getBookShelf(
+//                userId,
+//                bookshelfName);
+//        return myBookRepository.findAllByUserIdAndShelfId(
+//                userId,
+//                bookshelf.getId());
+        return bookshelfServiceSelector.getBooksOnShelf(bookshelfName, userId);
     }
     
 

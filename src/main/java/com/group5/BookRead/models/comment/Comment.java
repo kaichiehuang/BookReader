@@ -12,9 +12,9 @@ public class Comment {
     private Timestamp timestamp;
 
     public Comment(final int userId,
-                   final int bookId,
-                   final int rating,
-                   final String text) {
+                       final int bookId,
+                       final int rating,
+                       final String text) {
         this.userId = userId;
         this.bookId = bookId;
         this.rating = rating;
@@ -22,11 +22,11 @@ public class Comment {
     }
 
     public Comment(final int id,
-                   final int userId,
-                   final int bookId,
-                   final int rating,
-                   final String text,
-                   final Timestamp timestamp) {
+                       final int userId,
+                       final int bookId,
+                       final int rating,
+                       final String text,
+                       final Timestamp timestamp) {
         this.id = id;
         this.userId = userId;
         this.bookId = bookId;

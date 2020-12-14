@@ -5,21 +5,11 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.web.server.LocalServerPort;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import com.group5.BookRead.models.AuthenticationRequest;
-import com.group5.BookRead.models.AuthenticationResponse;
 import com.group5.BookRead.models.Book;
 import com.group5.BookRead.models.Friendship;
 import com.group5.BookRead.models.MyBook;
-import com.group5.BookRead.models.TimelineComment;
+import com.group5.BookRead.models.comment.TimelineComment;
 import com.group5.BookRead.models.User;
 import com.group5.BookRead.repositories.BookRepository;
 import com.group5.BookRead.repositories.FriendshipRepository;
@@ -28,11 +18,8 @@ import com.group5.BookRead.repositories.TimelineCommentRepository;
 import com.group5.BookRead.repositories.UserRepository;
 import com.group5.BookRead.services.book.BasicBookService;
 import com.group5.BookRead.services.friend.FriendshipService;
-import com.group5.BookRead.services.friend.UserDidNotRequestToBeFriendException;
 import com.group5.BookRead.services.timelineComment.RegularTimelineCommentService;
 import com.group5.BookRead.services.user.RegularUserService;
-
-import antlr.collections.List;
 
 import static org.mockito.Mockito.*;
 
