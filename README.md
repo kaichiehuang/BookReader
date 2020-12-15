@@ -1,7 +1,7 @@
 # F20-T05-BookReader
 Currently, people have a difficult time organizing and keeping track of their books, and discovering new books to read. They also lack a social network of fellow book readers. Our goal is to create a user friendly application that supports users’ readings by providing an easy way to track and organize their library of books along with a way to connect with friends and discover new books. Our system allows users to recommend books to their friends and see their friends’ book reviews and book progresses on timelines as well as their own reviews and book progresses. Our system is specifically focused on the aspect of library management since we want to support users’ ability to organize their books in customized bookshelves. 
 
-## Prerequiste
+## Prerequisites:
 * maven(https://maven.apache.org/guides/getting-started/maven-in-five-minutes.html)
 * MySql(https://www.mysql.com/)
 
