@@ -11,7 +11,8 @@ public final class FavoriteBookshelfService implements BookshelfService {
     private BookshelfRepository bookshelfRepository;
 
     @Autowired
-    public FavoriteBookshelfService(final BookshelfRepository bookshelfRepository) {
+    public FavoriteBookshelfService(
+            final BookshelfRepository bookshelfRepository) {
         this.bookshelfRepository = bookshelfRepository;
     }
 

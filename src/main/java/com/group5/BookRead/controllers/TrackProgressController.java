@@ -17,7 +17,6 @@ import com.group5.BookRead.models.Book;
 import com.group5.BookRead.models.MyBook;
 import com.group5.BookRead.models.Timeline;
 import com.group5.BookRead.models.User;
-import com.group5.BookRead.services.BookServiceSelector;
 import com.group5.BookRead.services.book.BookDecorator.BookServiceDecorator;
 import com.group5.BookRead.services.timeline.TimelineService;
 import com.group5.BookRead.services.user.UserService;
@@ -30,9 +29,6 @@ public class TrackProgressController {
     BookServiceDecorator bookServiceDecorator;
 
     @Autowired
-    BookServiceSelector bookServiceSelector;
-
-    @Autowired
     UserService userService;
 
     @Autowired
@@ -40,7 +36,7 @@ public class TrackProgressController {
 
     public static final double PROGRESS_PERCENTAGE = 100.0;
 
-    
+
     /**
      * get current progress of mybook
      * @param json param object
@@ -95,14 +91,12 @@ public class TrackProgressController {
                 .getPrincipal().toString());
             User user = userService.findByUserId(userId);
             int bookId = Integer.parseInt(json.get("bookId"));
-            Book book = bookServiceSelector.getBook(bookId);
-            
+            Book book = bookServiceDecorator.getBook(bookId);
             int curPage = Integer.parseInt(json.get("curPage"));
 
             // get total page and current progress
-            Book bookFromDb = bookServiceSelector.getBook(bookId);
+            Book bookFromDb = bookServiceDecorator.getBook(bookId);
             int totalPage = bookFromDb.getPage();
-
             double curProgress = PROGRESS_PERCENTAGE * curPage / totalPage;
 
             // manage shelves
@@ -122,7 +116,8 @@ public class TrackProgressController {
                 } else {
                     dstShelf = "reading";
                 }
-                bookServiceDecorator.moveBook(srcShelf, dstShelf, userId, bookId);
+                bookServiceDecorator.moveBook(
+                        srcShelf, dstShelf, userId, bookId);
             }
 
             // update progress
@@ -132,10 +127,11 @@ public class TrackProgressController {
             String content = String.format("%s read %s%% of %s",
                                user.getUsername(),
                                Double.toString(
-                                    Math.round(curProgress 
-                                    * PROGRESS_PERCENTAGE) / PROGRESS_PERCENTAGE),
+                                    Math.round(curProgress
+                                            * PROGRESS_PERCENTAGE)
+                                            / PROGRESS_PERCENTAGE),
                                book.getTitle());
-            
+
             Timeline timeline = new Timeline(userId, content, "progress");
             timelineService.store(timeline);
 

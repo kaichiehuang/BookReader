@@ -5,7 +5,6 @@ import java.util.Map;
 
 import com.group5.BookRead.models.Book;
 
-import com.group5.BookRead.services.BookServiceSelector;
 import com.group5.BookRead.services.HTMLRender.HTMLRenderService;
 import com.group5.BookRead.services.HTMLRender.StrategyName;
 import com.group5.BookRead.services.book.DecoratorChainException;
@@ -24,22 +23,27 @@ public class BookshelfHTMLStrategy implements HTMLRenderService {
     @Qualifier("basicDecoratedBookService")
     BookServiceDecorator bookServiceDecorator;
 
-    @Autowired
-    BookServiceSelector bookServiceSelector;
 
+    /**
+     * @return
+     */
     @Override
-    public String renderPage(final Model model) throws DecoratorChainException{
+    public String renderPage(final Model model) throws DecoratorChainException {
         SecurityContext context = SecurityContextHolder.getContext();
         int userId = Integer.parseInt(context.getAuthentication()
             .getPrincipal().toString());
 
 
         Map<String, List<Book>> bookshelfs =
-            bookServiceSelector.getBooksFromShelves(userId);
+            bookServiceDecorator.getBooksOnBookshelves(userId);
+
         model.addAttribute("bookshelfs", bookshelfs);
         return "bookshelf";
     }
 
+    /**
+     * @return
+     */
     @Override
     public StrategyName getStrategyName() {
         return StrategyName.BookshelfHTMLStrategy;

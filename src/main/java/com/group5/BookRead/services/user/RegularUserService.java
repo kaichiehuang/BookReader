@@ -35,7 +35,8 @@ public class RegularUserService implements UserService {
      * @return registered user
      */
     @Override
-    public User createUser(final String username, final String password) throws Exception {
+    public User createUser(final String username,
+            final String password) throws Exception {
         try {
             User user = builderDirector.makeUser(username, password);
             return user;
@@ -85,8 +86,12 @@ public class RegularUserService implements UserService {
         return user;
     }
 
+    /**
+     * @return
+     */
     @Override
-    public int setDefalultBookshelf(final int userId, final String bookshelfName) {
+    public int setDefalultBookshelf(final int userId,
+            final String bookshelfName) {
         return userRepository.setDefalultBookshelf(userId, bookshelfName);
     }
 }

@@ -26,29 +26,38 @@ public class BookReadApplication {
     public static RestTemplate restTemplate() {
         return new RestTemplate();
     }
-    
-    @Bean(name = "basicDecoratedBookService") 
+
+    /**
+     *  bean for basicDecoratedBookService
+     * @param bookRepository
+     * @param bookshelfServiceSelector
+     * @param bookshelfRepository
+     * @param myBookRepository
+     * @param ecludedBookRepository
+     * @return bookshelfServiceDecorator
+     */
+    @Bean(name = "basicDecoratedBookService")
     BookServiceDecorator decoratedService(
         final BookRepository bookRepository,
         final BookshelfServiceSelector bookshelfServiceSelector,
         final BookshelfRepository bookshelfRepo,
         final MyBookRepository myBookRepository,
         final ExcludedBookRepository excludedBookRepository
-    ) { 
+    ) {
         BookService basicBookService = new BasicBookService(
-            bookRepository, 
+            bookRepository,
             myBookRepository
-        ); 
+        );
 
         BookService excludedBookService = new ExcludedBookServiceDecorator(
             basicBookService, excludedBookRepository);
 
-        return new BookShelfServiceDecorator (
-            excludedBookService, 
-            bookRepository, 
+        return new BookShelfServiceDecorator(
+            excludedBookService,
+            bookRepository,
             bookshelfServiceSelector,
             bookshelfRepo,
             myBookRepository
-        ); 
+        );
     }
 }

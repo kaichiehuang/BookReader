@@ -18,6 +18,9 @@ public class FriendRequestHTMLStrategy implements HTMLRenderService {
     @Autowired
     FriendshipService friendshipService;
 
+    /**
+     * @return
+     */
     @Override
     public String renderPage(final Model model) {
         SecurityContext context = SecurityContextHolder.getContext();
@@ -32,6 +35,9 @@ public class FriendRequestHTMLStrategy implements HTMLRenderService {
         return "request";
     }
 
+    /**
+     * @return
+     */
     @Override
     public StrategyName getStrategyName() {
         return StrategyName.FriendRequestHTMLStrategy;

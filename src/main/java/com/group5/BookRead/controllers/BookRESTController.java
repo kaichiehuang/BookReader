@@ -27,7 +27,7 @@ public class BookRESTController extends BookController {
 
     @Autowired
     UserService userService;
-  
+
     /**
      * <p> move book between shelf restful api
      * </p>
@@ -49,10 +49,6 @@ public class BookRESTController extends BookController {
                 .getPrincipal().toString());
             int bookId = Integer.parseInt(json.get("bookId"));
             String srcShelf = json.get("srcShelf");
-
-            // Book bookFromDb = bookServiceSelector.getBook(bookId);
-            // bookServiceSelector.removeBook(bookId, srcShelf, userId);
-            // bookServiceSelector.addBookToShelf(bookFromDb, dstShelf, userId);
 
             bookServiceDecorator.moveBook(srcShelf, dstShelf, userId, bookId);
             response.setStatus(HttpServletResponse.SC_OK);
@@ -83,7 +79,7 @@ public class BookRESTController extends BookController {
             int userId = Integer.parseInt(context.getAuthentication()
                 .getPrincipal().toString());
 
-            bookServiceSelector.addBookToShelf(book, dstShelf.toLowerCase(),
+            bookServiceDecorator.addBookToShelf(book, dstShelf.toLowerCase(),
                 userId);
 
             response.setStatus(HttpServletResponse.SC_OK);
@@ -112,7 +108,7 @@ public class BookRESTController extends BookController {
             int userId = Integer.parseInt(context.getAuthentication()
                     .getPrincipal().toString());
 
-            bookServiceSelector.addBookToShelf(book, "want to read",
+            bookServiceDecorator.addBookToShelf(book, "want to read",
                     userId);
 
             settings = new UserSettings(userService, userId);
@@ -120,7 +116,7 @@ public class BookRESTController extends BookController {
             UserSettings cloneSettings = (UserSettings) settings.clone();
 
             if (!cloneSettings.defaultBookshelf.equals("want to read")){
-                bookServiceSelector.addBookToShelf(
+                bookServiceDecorator.addBookToShelf(
                     book, cloneSettings.defaultBookshelf,
                     userId);
             }
@@ -141,7 +137,7 @@ public class BookRESTController extends BookController {
      */
     @PostMapping(value = "/book/shelf/new",
         consumes = "application/json", produces = "application/json")
-    public String addCustomizedBookshelf (
+    public String addCustomizedBookshelf(
                 @RequestBody final Map<String, String> json,
                 final HttpServletResponse response) throws Exception {
         try {
@@ -210,10 +206,9 @@ public class BookRESTController extends BookController {
 
             response.setStatus(HttpServletResponse.SC_OK);
 
-            return "{\"defaultBookshelf\":\""+defaultBookshelf+"\"}";
+            return "{\"defaultBookshelf\":\"" + defaultBookshelf + "\"}";
         } catch (Exception e) {
             throw e;
         }
     }
-
 }
