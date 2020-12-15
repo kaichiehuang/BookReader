@@ -1,6 +1,10 @@
 # F20-T05-BookReader
 Currently, people have a difficult time organizing and keeping track of their books, and discovering new books to read. They also lack a social network of fellow book readers. Our goal is to create a user friendly application that supports users’ readings by providing an easy way to track and organize their library of books along with a way to connect with friends and discover new books. Our system allows users to recommend books to their friends and see their friends’ book reviews and book progresses on timelines as well as their own reviews and book progresses. Our system is specifically focused on the aspect of library management since we want to support users’ ability to organize their books in customized bookshelves. 
 
+## Prerequiste
+* maven(https://maven.apache.org/guides/getting-started/maven-in-five-minutes.html)
+* MySql(https://www.mysql.com/)
+
 ## Installation Guide:
 1. Import `data.sql` file that contains our database schemas and dump data to the localhost database. One way to achieve this is to use MySql Workbench to import the `data.sql` file. Or you can choose the way you are familiar with to import data to the local database. 
 2. Set environment variables to connect with your local database. The following variables need to be filled in correspondingly: 
