@@ -18,7 +18,7 @@ import com.group5.BookRead.repositories.TimelineCommentRepository;
 import com.group5.BookRead.repositories.UserRepository;
 import com.group5.BookRead.services.book.BasicBookService;
 import com.group5.BookRead.services.friend.FriendshipService;
-import com.group5.BookRead.services.timelineComment.RegularTimelineCommentService;
+import com.group5.BookRead.services.comment.timelineComment.RegularTimelineCommentService;
 import com.group5.BookRead.services.user.RegularUserService;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.doReturn;
