@@ -4,7 +4,8 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
-import com.group5.BookRead.services.user.Settings;
+import com.group5.BookRead.services.settings.Settings;
+import com.group5.BookRead.services.settings.UserSettings;
 import com.group5.BookRead.services.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,9 +24,6 @@ import com.group5.BookRead.models.Book;
 public class BookRESTController extends BookController {
 
     private Settings settings;
-
-    @Autowired
-    private Settings sampleSettings;
 
     @Autowired
     UserService userService;
@@ -117,17 +115,13 @@ public class BookRESTController extends BookController {
             bookServiceSelector.addBookToShelf(book, "want to read",
                     userId);
 
+            settings = new UserSettings(userService, userId);
 
+            UserSettings cloneSettings = (UserSettings) settings.clone();
 
-            if (settings == null) {
-                sampleSettings.setDefaultBookshelf(userId);
-            }
-
-            settings = sampleSettings.clone();
-
-            if (!settings.getDefaultBookshelf().equals("want to read")){
+            if (!cloneSettings.defaultBookshelf.equals("want to read")){
                 bookServiceSelector.addBookToShelf(
-                    book, settings.getDefaultBookshelf(),
+                    book, cloneSettings.defaultBookshelf,
                     userId);
             }
             response.setStatus(HttpServletResponse.SC_OK);
@@ -184,7 +178,6 @@ public class BookRESTController extends BookController {
                     .getPrincipal().toString());
 
             userService.setDefalultBookshelf(userId, shelf);
-            sampleSettings.setDefaultBookshelf(userId);
 
             response.setStatus(HttpServletResponse.SC_OK);
 
@@ -210,9 +203,10 @@ public class BookRESTController extends BookController {
             int userId = Integer.parseInt(context.getAuthentication()
                     .getPrincipal().toString());
 
-            sampleSettings.setDefaultBookshelf(userId);
-            settings = sampleSettings.clone();
-            String defaultBookshelf = settings.getDefaultBookshelf();
+            settings = new UserSettings(userService, userId);
+
+            UserSettings cloneSettings = (UserSettings) settings.clone();
+            String defaultBookshelf = cloneSettings.defaultBookshelf;
 
             response.setStatus(HttpServletResponse.SC_OK);
 
