@@ -1,19 +1,19 @@
 package com.group5.BookRead.controllers;
 
 import com.group5.BookRead.models.Timeline;
-import com.group5.BookRead.models.TimelineComment;
+import com.group5.BookRead.models.comment.TimelineComment;
 import com.group5.BookRead.models.Book;
 import com.group5.BookRead.models.User;
-import com.group5.BookRead.models.Comment;
-import com.group5.BookRead.services.BookServiceSelector;
+import com.group5.BookRead.models.comment.Comment;
+import com.group5.BookRead.services.book.BookDecorator.BookServiceDecorator;
 import com.group5.BookRead.services.bookAPI.BookAPI;
 import com.group5.BookRead.services.bookAPI.BookFromAPI;
-import com.group5.BookRead.services.comment.CommentService;
-import com.group5.BookRead.services.comment.ResponseComment;
+import com.group5.BookRead.services.comment.bookComment.CommentService;
+import com.group5.BookRead.services.comment.bookComment.ResponseComment;
 import com.group5.BookRead.services.timeline.ResponseTimeline;
 import com.group5.BookRead.services.timeline.TimelineService;
-import com.group5.BookRead.services.timelineComment.TimelineCommentResponse;
-import com.group5.BookRead.services.timelineComment.TimelineCommentService;
+import com.group5.BookRead.services.comment.timelineComment.TimelineCommentResponse;
+import com.group5.BookRead.services.comment.timelineComment.TimelineCommentService;
 import com.group5.BookRead.services.user.UserService;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +28,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.beans.factory.annotation.Qualifier;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,10 +36,9 @@ import java.util.Map;
 
 @Controller
 public class MyController {
-
-
     @Autowired
-    BookServiceSelector bookServiceSelector;
+    @Qualifier("basicDecoratedBookService")
+    BookServiceDecorator bookServiceDecorator;
 
     @Autowired
     BookAPI bookAPI;
@@ -56,24 +56,12 @@ public class MyController {
     TimelineCommentService timelineCommentService;
 
 
-//    /**
-//     *
-//     */
-//    @GetMapping("/timeline/comments)  // get comments
-//    public String bookPage(@RequestParam("id") final String identifier,
-//                           final Model model,
-//                           final HttpServletResponse response) {
-//    }
-
-
-
-
-        /**
-         * populate viewBook page woth book ionfo and comments
-         * @param identifier
-         * @param model
-         * @return
-         */
+    /**
+     * populate viewBook page with book info and comments
+     * @param identifier
+     * @param model
+     * @return
+     */
     @GetMapping("/book")
     public String bookPage(@RequestParam("id") final String identifier,
                          final Model model,
@@ -83,7 +71,8 @@ public class MyController {
 
         try {
             //
-            Book book = bookServiceSelector.getBook(identifier);
+            Book book = bookServiceDecorator.getBook(identifier);
+
             if (book != null) {
                 List<ResponseComment> comments = commentService.getComments(
                         book.getId());
@@ -105,28 +94,28 @@ public class MyController {
         }
     }
 
+
     /**
      *  get all activities to post on timeline
      * @param model
      * @param response
      * @return
      */
-    @GetMapping("/timeline")
-    public String bookPage(
-                           final Model model,
-                           final HttpServletResponse response) {
+    @GetMapping("/timeline/{userName}")
+    public String timelineForUser(
+            final Model model,
+            @PathVariable final String userName,
+            final HttpServletResponse response) {
         try {
             SecurityContext context = SecurityContextHolder.getContext();
-            int userId = Integer.parseInt(context.getAuthentication()
+            int currentUser = Integer.parseInt(context.getAuthentication()
                     .getPrincipal().toString());
-
+            int id = userService.findByUsername(userName).getId();
             List<ResponseTimeline> timelines = timelineService
-                    .getTimelines(userId);
-            System.out.println("currentUser: " + userId + " timeline page:");
+                    .getTimelinesByUser(id, currentUser);
             for (ResponseTimeline t : timelines) {
                 System.out.println(t);
             }
-//            System.out.printf("acquired timelines: %s\n", timelines);
             model.addAttribute("timelines", timelines);
             return "timeline";
         } catch (Exception e) {
@@ -283,10 +272,17 @@ public class MyController {
 
         try {
             String str = (String) body.get("rating");
-            int rating = Integer.parseInt(str);
+            int rating = 0;
+            if (str != null && !str.isEmpty()) {
+                rating = Integer.parseInt(str);
+            }
             String text = (String) body.get("review");
+            if (text == null || text.isEmpty()) {
+                text = "";
+            }
             System.out.println(rating + " " + text);
-            Book bookFromDB = bookServiceSelector.getBook(bookId);
+            Book bookFromDB = bookServiceDecorator.getBook(bookId);
+
             if (bookFromDB == null) {
 
                 String title = (String) body.get("title");
@@ -295,8 +291,6 @@ public class MyController {
 
                 int page = Integer.parseInt((String) body.get("page"));
                 String link = body.get("link").toString();
-                System.out.println(description);
-                System.out.println(link);
 
                 link = StringEscapeUtils.unescapeHtml(link);
                 description = StringEscapeUtils.unescapeHtml(description);
@@ -312,7 +306,9 @@ public class MyController {
                         bookId,
                         link);
 
-                bookFromDB = bookServiceSelector.storeBook(newBook);
+                bookFromDB = bookServiceDecorator.chooseBook(newBook);
+
+
             }
 
 
@@ -323,7 +319,6 @@ public class MyController {
             System.out.println(bookFromDB);
 
 
-
             Comment comment = new Comment(
                     userId,
                     bookFromDB.getId(),
@@ -332,7 +327,7 @@ public class MyController {
             Comment savedComment = commentService.save(comment);
 
             // store to a timeline
-            Book book = bookServiceSelector.getBook(bookFromDB.getId());
+            Book book = bookServiceDecorator.getBook(bookFromDB.getId());
             User user = userService.findByUserId(userId);
             String content = String.format("%s writes on book \"%s\": %s | "
                             + "score:%d",
@@ -353,46 +348,5 @@ public class MyController {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             return res;
         }
-
     }
-
-
-//    @PostMapping ("/book/progress")
-//    public String postProgress(@RequestBody final Map<String, Object> body,
-//                              @RequestParam final int bookId,
-//                              final HttpServletResponse response) {
-//        SecurityContext context = SecurityContextHolder.getContext();
-//        int userId = Integer.parseInt(context.getAuthentication()
-//                .getPrincipal().toString());
-//
-//        int progress = (int) body.get("progress");
-//
-//
-//        System.out.printf("progress: %d : %s userId:%d\n",
-//                userId);
-//        try {
-//            Comment comment = new Comment(userId, bookId, rating, text);
-//            Comment savedComment = commentService.save(comment);
-//
-//            // store to a timeline
-//            Book book = bookServiceSelector.getBook(bookId);
-//            User user = userService.findByUserId(userId);
-//            String content = String.format("%s writes on book \"%s\": %s | "
-//                            + "score:%d",
-//                    user.getUsername(),
-//                    book.getTitle(),
-//                    savedComment.getText(),
-//                    savedComment.getRating());
-//
-//            Timeline timeline = new Timeline(userId, content, "review");
-//            timelineService.store(timeline);
-//
-//            response.setStatus(HttpServletResponse.SC_CREATED);
-//            return "{\"msg\":\"success\"}";
-//        } catch (Exception  e) {
-//            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-//            return "{\"msg\":\"failure\"}";
-//        }
-//    }
-
 }

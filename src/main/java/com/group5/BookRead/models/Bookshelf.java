@@ -1,27 +1,24 @@
 package com.group5.BookRead.models;
 
-public class Bookshelf {
+public class Bookshelf  {
 
     private int id;
     private int userId;
     private String name;
 
     public Bookshelf() {
-        super();
         this.id = 0;
         this.userId = 0;
         this.name = "";
-
     }
 
     public Bookshelf(final int userId, final String name) {
-        super();
         this.userId = userId;
         this.name = name;
     }
 
-    public Bookshelf(final int id, final int userId, final String name) {
-        super();
+    public Bookshelf(final int id, final int userId,
+            final String name) {
         this.id = id;
         this.userId = userId;
         this.name = name;
@@ -72,7 +69,4 @@ public class Bookshelf {
         return "Bookshelf [id=" + id + ", user_id=" + userId + ", "
                 + "name=" + name + "]";
     }
-
-
-
 }

@@ -53,12 +53,13 @@ public class UserController {
             throw new Exception("Incorrect username or password", e);
         }
 
+
         final UserDetails userDetails = new MyUserPrincipal(
                 userService.findByUsername(
                         authenticationRequest.getUsername()));
 
         final String jwt = jwtTokenUtil.generateToken(userDetails);
-
+        System.out.println(jwt);
         return ResponseEntity.ok(new AuthenticationResponse(jwt));
     }
 
@@ -71,7 +72,9 @@ public class UserController {
     @PostMapping("/signup")
     public ResponseEntity<?> signup(@RequestBody final User newUser)
             throws Exception {
-        User user = userService.createUser(newUser);
+        User user = userService.createUser(
+                newUser.getUsername(),
+                newUser.getPassword());
         if (user != null) {
             final UserDetails userDetails = new MyUserPrincipal(user);
             final String jwt = jwtTokenUtil.generateToken(userDetails);

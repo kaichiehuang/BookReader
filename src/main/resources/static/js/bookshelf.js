@@ -1,6 +1,7 @@
 $(function() {
     let srcShelf;
 
+
     //setup popovers
     let bookOnSelf = document.getElementsByClassName("bookOnSelf");
     for (let i = 0; i < bookOnSelf.length; i++) {
@@ -128,9 +129,7 @@ $(function() {
             let dstShelf = $(this).find('.heading').text()
             let bookId = ui.draggable.attr("data-book-id")
 
-            // console.log(bookId); 
-            // console.log(srcShelf);
-            // console.log(dstShelf)
+
             $.ajax({
                 url: '/book/shelf/' + dstShelf,
                 type: 'PUT',
@@ -156,4 +155,57 @@ $(function() {
 //             }
 //         })
 //     })
+    $("#addBookshelf").on("click", ()=>{
+        let customShelf = $('#customShelfName').val();
+        $.ajax({
+            url: '/book/shelf/new',
+            type: 'POST',
+            cache: false,
+            contentType: 'application/json; charset=utf-8',
+            headers: {'Authorization': 'Bearer ' + getCookie("jwt")},
+            data: JSON.stringify({customShelfName: customShelf}),
+            success: function(res) {
+                location.reload();
+            },
+            error: (xhr, resp, text) => console.log(xhr),
+        })
+    })
+    
+    let curDefaultShelf;
+    $.ajax({
+        url: "/book/shelf/getDefault",
+        type: 'GET',
+        cache: false,
+        contentType: 'application/json; charset=utf-8',
+        headers: {'Authorization': 'Bearer ' + getCookie("jwt")},
+        success: (res) => {
+            curDefaultShelf = res.defaultBookshelf;
+            console.log(curDefaultShelf);
+            // $("h1:contains('"+curDefaultShelf+"')").parent().parent().parent().css({border:"2px solid #28a745"})
+            $("#heading_"+curDefaultShelf).parent().parent().parent().css({border:"2px solid #28a745"})
+        },
+        error: (xhr, resp, text) => console.log(xhr),
+    })
+
+    $("body").on("click", "#setDefaultBtn", function(){
+        let defaultShelf = $(this).attr('data-shelfname')
+        if (curDefaultShelf != defaultShelf){
+            $("#heading_"+curDefaultShelf).parent().parent().parent().css({border:"0px"})
+            $(this).parent().parent().css({border:"2px solid #28a745"})
+            // $("h1:contains('"+curDefaultShelf+"')").parent().parent().parent().css({border:"0px"})
+            curDefaultShelf = defaultShelf
+        }
+        $.ajax({
+            url: "/book/shelf/setDefault/" + defaultShelf,
+            type: 'POST',
+            cache: false,
+            contentType: 'application/json; charset=utf-8',
+            headers: {'Authorization': 'Bearer ' + getCookie("jwt")},
+            data: JSON.stringify({defaultShelf: defaultShelf}),
+            success: (res) => {
+                window.alert("Successfully set "+ defaultShelf.toUpperCase() +" as default bookshelf!");
+            },
+            error: (xhr, resp, text) => console.log(xhr),
+        })
+    })
 });

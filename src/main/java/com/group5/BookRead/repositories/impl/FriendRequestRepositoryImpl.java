@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -35,6 +36,7 @@ public class FriendRequestRepositoryImpl implements FriendRequestRepository {
      * @return status code
      */
     @Override
+    @Transactional
     public int insert(final FriendRequest friendRequest)
             throws SQLIntegrityConstraintViolationException {
         return jdbcTemplate.update("insert into FriendRequest (user_id, "
@@ -86,6 +88,7 @@ public class FriendRequestRepositoryImpl implements FriendRequestRepository {
      * @return status code
      */
     @Override
+    @Transactional
     public int deleteByUserIdAndFriendId(
             final int friendId, final int userId) {
         return jdbcTemplate.update("delete from FriendRequest "

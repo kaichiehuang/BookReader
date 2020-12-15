@@ -1,31 +1,29 @@
-package com.group5.BookRead.services.book.excludedBook;
+package com.group5.BookRead.services.book.BookDecorator;
 
 import com.group5.BookRead.models.ExcludedBook;
 import com.group5.BookRead.repositories.ExcludedBookRepository;
-import com.group5.BookRead.repositories.UserRepository;
+import com.group5.BookRead.services.book.BookService;
 
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
-
-@Component
-public final class RegularExcludedBookService implements ExcludedBookService {
-
+public class ExcludedBookServiceDecorator extends BookServiceDecorator  {
     private ExcludedBookRepository excludedBookRepository;
-    private UserRepository userRepository;
 
     @Autowired
-    public RegularExcludedBookService(
-            final ExcludedBookRepository excludedBookRepository,
-            final UserRepository userRepository) {
+    public ExcludedBookServiceDecorator(
+        final BookService service,
+        final ExcludedBookRepository excludedBookRepository) {
+        super(service);
         this.excludedBookRepository = excludedBookRepository;
-        this.userRepository = userRepository;
     }
 
+    /**
+     * @return
+     */
     @Override
     public List<Integer> getExcludedBooks(final int userId) {
         List<ExcludedBook> excluded =
@@ -40,6 +38,9 @@ public final class RegularExcludedBookService implements ExcludedBookService {
         return result;
     }
 
+    /**
+     * @return
+     */
     @Override
     public void addToExcluded(final int bookId, final int userId) {
         int id = excludedBookRepository.findIdByOtherIds(bookId, userId);
@@ -53,6 +54,4 @@ public final class RegularExcludedBookService implements ExcludedBookService {
             System.out.println("exception: " + e);
         }
     }
-
 }
-

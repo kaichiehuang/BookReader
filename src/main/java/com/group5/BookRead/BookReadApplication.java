@@ -2,13 +2,14 @@ package com.group5.BookRead;
 
 import com.group5.BookRead.repositories.BookRepository;
 import com.group5.BookRead.repositories.BookshelfRepository;
+import com.group5.BookRead.repositories.ExcludedBookRepository;
 import com.group5.BookRead.repositories.MyBookRepository;
 import com.group5.BookRead.services.BookshelfServiceSelector;
 import com.group5.BookRead.services.book.BookService;
-import com.group5.BookRead.services.book.ConcreteBookService;
+import com.group5.BookRead.services.book.BasicBookService;
 import com.group5.BookRead.services.book.BookDecorator.BookServiceDecorator;
-import com.group5.BookRead.services.book.BookDecorator.ConcreteBookServiceDecorator;
-import com.group5.BookRead.services.book.excludedBook.ExcludedBookService;
+import com.group5.BookRead.services.book.BookDecorator.BookShelfServiceDecorator;
+import com.group5.BookRead.services.book.BookDecorator.ExcludedBookServiceDecorator;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -26,33 +27,37 @@ public class BookReadApplication {
         return new RestTemplate();
     }
 
-    // @Bean(name = "basicBookService") 
-    // BookService basicService( 
-        
-    // ) { 
-    //     return new 
-    // }  
-    
-    @Bean(name = "basicDecoratedBookService") 
-    ConcreteBookServiceDecorator decoratedService( 
+    /**
+     *  bean for basicDecoratedBookService
+     * @param bookRepository
+     * @param bookshelfServiceSelector
+     * @param bookshelfRepository
+     * @param myBookRepository
+     * @param ecludedBookRepository
+     * @return bookshelfServiceDecorator
+     */
+    @Bean(name = "basicDecoratedBookService")
+    BookServiceDecorator decoratedService(
         final BookRepository bookRepository,
         final BookshelfServiceSelector bookshelfServiceSelector,
         final BookshelfRepository bookshelfRepo,
         final MyBookRepository myBookRepository,
-        final ExcludedBookService excludedBookService
-    ) { 
-        BookService basicBookService = new ConcreteBookService(
-            bookRepository, 
+        final ExcludedBookRepository excludedBookRepository
+    ) {
+        BookService basicBookService = new BasicBookService(
+            bookRepository,
             myBookRepository
-        ); 
+        );
 
-        return new ConcreteBookServiceDecorator (
-            basicBookService, 
-            bookRepository, 
+        BookService excludedBookService = new ExcludedBookServiceDecorator(
+            basicBookService, excludedBookRepository);
+
+        return new BookShelfServiceDecorator(
+            excludedBookService,
+            bookRepository,
             bookshelfServiceSelector,
             bookshelfRepo,
-            myBookRepository,
-            excludedBookService
-        ); 
+            myBookRepository
+        );
     }
 }

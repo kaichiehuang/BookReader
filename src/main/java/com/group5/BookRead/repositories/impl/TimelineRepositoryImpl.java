@@ -7,6 +7,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 
 import java.sql.ResultSet;
@@ -14,6 +15,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Repository
@@ -46,6 +49,7 @@ public class TimelineRepositoryImpl implements TimelineRepository {
      * @throws SQLIntegrityConstraintViolationException
      */
     @Override
+    @Transactional
     public int insert(final Timeline timeline)
             throws SQLIntegrityConstraintViolationException {
         return jdbcTemplate.update(
@@ -94,6 +98,8 @@ public class TimelineRepositoryImpl implements TimelineRepository {
         }
     }
 
+
+
     /**
      * find timeline
      * @param content
@@ -111,6 +117,51 @@ public class TimelineRepositoryImpl implements TimelineRepository {
                             + "where user_id = ? and type = ? and content = ? ",
                     new Object[] {userId, type, content},
                     new TimelineRowMapper());
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    /**
+     *
+     * @return
+     */
+    @Override
+    public List<Timeline> getTimelinesByUserIds(final List<Integer> ids) {
+        if (ids.size() == 0) {
+            return new ArrayList<Timeline>();
+        }
+        try {
+            String inSql = String.join(",",
+                    Collections.nCopies(ids.size(), "?"));
+            List<Timeline> timelines = jdbcTemplate.query(
+                    String.format("select * from Timeline "
+                            + "where user_id in (%s) "
+                            + "ORDER BY time_created DESC", inSql),
+                    ids.toArray(),
+                    new TimelineRowMapper());
+
+            return timelines;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
+     * get timelines by userid
+     * @param userId
+     * @return timelines
+     */
+    @Override
+    public List<Timeline> getTimelinesByUserId(final int id) {
+        try {
+            List<Timeline> timelines = jdbcTemplate.query(
+                    "select * from Timeline where user_id = ? "
+                            + "ORDER BY time_created DESC",
+                    new Object[] {id},
+                    new TimelineRowMapper());
+            return timelines;
         } catch (Exception e) {
             return null;
         }

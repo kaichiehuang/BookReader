@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 
 import com.group5.BookRead.models.User;
 import com.group5.BookRead.repositories.UserRepository;
+import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 public class UserRepositoryImpl implements UserRepository {
@@ -29,6 +30,7 @@ public class UserRepositoryImpl implements UserRepository {
             user.setId(rs.getInt("id"));
             user.setPassword(rs.getString("password"));
             user.setUsername(rs.getString("username"));
+            user.setDefaultBookshelf(rs.getString("default_bookshelf"));
             return user;
         }
     }
@@ -38,12 +40,15 @@ public class UserRepositoryImpl implements UserRepository {
      * @return status code
      */
     @Override
+    @Transactional
     public int insert(final User user) throws
 
         SQLIntegrityConstraintViolationException {
-        return jdbcTemplate.update("insert into User (username, password) "
-        + "values(?, ?)",
-            new Object[] {user.getUsername(), user.getPassword()});
+        return jdbcTemplate.update(
+                "insert into User (username, password, default_bookshelf) "
+                        + "values(?, ?, ?)",
+            new Object[] {user.getUsername(),
+                    user.getPassword(), user.getDefaultBookshelf()});
     }
 
     /**  find all user
@@ -120,11 +125,25 @@ public class UserRepositoryImpl implements UserRepository {
                         user.getId()});
     }
 
+    /**  update user
+     * @param user
+     * @return status code
+     */
+    @Override
+    public int setDefalultBookshelf(
+            final int userId, final String bookshelfName) {
+        return jdbcTemplate.update("update User "
+                + "set default_bookshelf = ? "
+                + "where id = ?",
+                new Object[] {bookshelfName, userId});
+    }
+
     /**  delete user by id
      * @param id
      * @return status code
      */
     @Override
+    @Transactional
     public int deleteById(final int id) {
         return jdbcTemplate.update("delete from User where id = ?",
                 new Object[] {id});

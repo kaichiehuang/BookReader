@@ -21,4 +21,5 @@ public interface UserRepository {
 
     int deleteById(int id);
 
+    int setDefalultBookshelf(int userId, String bookshelfName);
 }

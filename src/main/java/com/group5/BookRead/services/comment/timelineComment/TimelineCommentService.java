@@ -1,6 +1,6 @@
-package com.group5.BookRead.services.timelineComment;
+package com.group5.BookRead.services.comment.timelineComment;
 
-import com.group5.BookRead.models.TimelineComment;
+import com.group5.BookRead.models.comment.TimelineComment;
 
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;

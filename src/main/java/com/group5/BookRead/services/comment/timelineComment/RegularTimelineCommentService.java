@@ -1,6 +1,6 @@
-package com.group5.BookRead.services.timelineComment;
+package com.group5.BookRead.services.comment.timelineComment;
 
-import com.group5.BookRead.models.TimelineComment;
+import com.group5.BookRead.models.comment.TimelineComment;
 import com.group5.BookRead.repositories.TimelineCommentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,6 +15,13 @@ public class RegularTimelineCommentService implements TimelineCommentService {
 
     @Autowired
     TimelineCommentRepository timelineCommentRepository;
+
+
+
+    public RegularTimelineCommentService(
+            final TimelineCommentRepository timelineCommentRepository) {
+        this.timelineCommentRepository = timelineCommentRepository;
+    }
 
     /**
      * save timeline comment

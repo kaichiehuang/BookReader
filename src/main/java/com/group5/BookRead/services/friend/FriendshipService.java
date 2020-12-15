@@ -28,6 +28,13 @@ public class FriendshipService {
         this.friendshipRepository = friendshipRepository;
     }
 
+    @Autowired
+    public FriendshipService(final FriendshipRepository friendshipRepository,
+            final UserRepository userRepository) {
+        this.friendshipRepository = friendshipRepository;
+        this.userRepository = userRepository;
+    }
+
     /**
      *  Get a list of user's friend by userId
      * @param userId
@@ -37,13 +44,30 @@ public class FriendshipService {
         List<Friendship> friendships =
                 friendshipRepository.findAllByUserId(userId);
 
-        System.out.println(friendships);
 
         List<String> friends = new ArrayList<>();
 
         for (Friendship friendship : friendships) {
+
             friends.add(userRepository.findById(friendship.
                     getFriendId()).getUsername());
+        }
+        return friends;
+    }
+
+
+    /**
+     *  Get a list of user's friend by userId
+     * @param userId
+     * @return List<Integer>
+     */
+    public List<Integer> getFriendIds(final int userId) {
+        List<Friendship> friendships =
+                friendshipRepository.findAllByUserId(userId);
+        List<Integer> friends = new ArrayList<>();
+
+        for (Friendship friendship : friendships) {
+            friends.add(friendship.getFriendId());
         }
         return friends;
     }

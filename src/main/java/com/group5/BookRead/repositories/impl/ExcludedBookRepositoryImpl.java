@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 
 import com.group5.BookRead.models.ExcludedBook;
 import com.group5.BookRead.repositories.ExcludedBookRepository;
+import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 public class ExcludedBookRepositoryImpl implements ExcludedBookRepository {
@@ -38,6 +39,7 @@ public class ExcludedBookRepositoryImpl implements ExcludedBookRepository {
      * @return status code
      */
     @Override
+    @Transactional
     public int insert(final ExcludedBook excluded) {
         return jdbcTemplate.update(
                 "insert into ExcludedBook (user_id, book_id) "
@@ -98,6 +100,7 @@ public class ExcludedBookRepositoryImpl implements ExcludedBookRepository {
      * @return status code
      */
     @Override
+    @Transactional
     public int deleteById(final int id) {
         return jdbcTemplate.update("delete from ExcludedBook where id = ?",
                 new Object[]{id});

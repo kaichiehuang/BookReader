@@ -5,17 +5,55 @@ public class User {
     private int id;
     private String username;
     private String password;
+    private String defaultBookshelf;
+
+    /**  get default bookshelf name
+     * @return defaultBookshelf
+     */
+    public String getDefaultBookshelf() {
+        return defaultBookshelf;
+    }
+    /**  set default bookshelf name
+     * @return defaultBookshelf
+     */
+    public void setDefaultBookshelf(final String defaultBookshelf) {
+        this.defaultBookshelf = defaultBookshelf;
+    }
 
     public User() {
         super();
     }
 
-    public User(final int id, final String usernme, final String password) {
+    public User(final int id, final String username, final String password) {
         super();
         this.id = id;
-        this.username = usernme;
+        this.username = username;
         this.password = password;
     }
+
+    public User(final String username, final String password) {
+        this.username = username;
+        this.password = password;
+    }
+
+    public User(final String username,
+        final String password, final String bookshelf) {
+        super();
+        this.username = username;
+        this.password = password;
+        this.defaultBookshelf = bookshelf;
+    }
+
+    public User(final int id, final String username,
+        final String password, final String bookshelf) {
+        super();
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.defaultBookshelf = bookshelf;
+    }
+
+
 
     /**  get user id
      * @return id
