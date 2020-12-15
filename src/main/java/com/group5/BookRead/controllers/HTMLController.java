@@ -110,6 +110,23 @@ public class HTMLController extends BookController {
 
 
 
+    /**
+     * <p>
+     * get Book shelf items
+     * </p>
+     * 
+     * @param model Thymyleaf model
+     * @return value to be outputed
+     * @throws DecoratorChainException
+     * @since 1.0
+     */
+    @GetMapping("/timeline")
+    public String timeline(final Model model) 
+        throws DecoratorChainException {
 
+        HTMLRenderService strategy = 
+            strategyFactory.findStrategy(StrategyName.TimelineHTMLStrategy);
+        return strategy.renderPage(model);
+    }
 
 }

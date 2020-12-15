@@ -85,7 +85,6 @@ public class BookRESTController extends BookController {
             int userId = Integer.parseInt(context.getAuthentication()
                 .getPrincipal().toString());
 
-            System.out.println("book " + book);
             bookServiceSelector.addBookToShelf(book, dstShelf.toLowerCase(),
                 userId);
 
@@ -115,7 +114,6 @@ public class BookRESTController extends BookController {
             int userId = Integer.parseInt(context.getAuthentication()
                     .getPrincipal().toString());
 
-            System.out.println("book " + book);
             bookServiceSelector.addBookToShelf(book, "want to read",
                     userId);
 
@@ -127,11 +125,7 @@ public class BookRESTController extends BookController {
 
             settings = sampleSettings.clone();
 
-            System.out.println(settings.getDefaultBookshelf());
-
-
             if (!settings.getDefaultBookshelf().equals("want to read")){
-                System.out.println("here!!! "+ settings.getDefaultBookshelf());
                 bookServiceSelector.addBookToShelf(
                     book, settings.getDefaultBookshelf(),
                     userId);
@@ -189,8 +183,6 @@ public class BookRESTController extends BookController {
             int userId = Integer.parseInt(context.getAuthentication()
                     .getPrincipal().toString());
 
-            System.out.println(shelf);
-
             userService.setDefalultBookshelf(userId, shelf);
             sampleSettings.setDefaultBookshelf(userId);
 
@@ -229,11 +221,5 @@ public class BookRESTController extends BookController {
             throw e;
         }
     }
-
-
-
-
-
-
 
 }

@@ -93,37 +93,6 @@ public class MyController {
         }
     }
 
-    /**
-     *  get all activities to post on timeline
-     * @param model
-     * @param response
-     * @return
-     */
-    @GetMapping("/timeline")
-    public String bookPage(
-            final Model model,
-            final HttpServletResponse response) {
-        try {
-            SecurityContext context = SecurityContextHolder.getContext();
-            int userId = Integer.parseInt(context.getAuthentication()
-                    .getPrincipal().toString());
-
-            List<ResponseTimeline> timelines = timelineService
-                    .getTimelines(userId);
-            System.out.println("currentUser: " + userId + " timeline page:");
-            for (ResponseTimeline t : timelines) {
-                System.out.println(t);
-            }
-//            System.out.printf("acquired timelines: %s\n", timelines);
-            model.addAttribute("timelines", timelines);
-            return "timeline";
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            return "{\"msg\":\"failure\"}";
-        }
-    }
-
 
     /**
      *  get all activities to post on timeline
