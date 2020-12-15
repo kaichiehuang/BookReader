@@ -1,4 +1,4 @@
-package com.group5.BookRead.services.comment;
+package com.group5.BookRead.services.comment.bookComment;
 
 import com.group5.BookRead.models.comment.Comment;
 import com.group5.BookRead.repositories.CommentRepository;

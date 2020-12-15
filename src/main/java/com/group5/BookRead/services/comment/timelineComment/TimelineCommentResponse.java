@@ -1,4 +1,4 @@
-package com.group5.BookRead.services.timelineComment;
+package com.group5.BookRead.services.comment.timelineComment;
 
 import java.sql.Timestamp;
 

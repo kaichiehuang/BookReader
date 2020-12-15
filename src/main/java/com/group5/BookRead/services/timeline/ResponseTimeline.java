@@ -1,6 +1,6 @@
 package com.group5.BookRead.services.timeline;
 
-import com.group5.BookRead.services.timelineComment.TimelineCommentResponse;
+import com.group5.BookRead.services.comment.timelineComment.TimelineCommentResponse;
 
 import java.sql.Timestamp;
 import java.util.List;
