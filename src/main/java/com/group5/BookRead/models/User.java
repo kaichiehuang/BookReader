@@ -36,7 +36,7 @@ public class User {
         this.password = password;
     }
 
-    public User(final String username, 
+    public User(final String username,
         final String password, final String bookshelf) {
         super();
         this.username = username;
@@ -44,7 +44,7 @@ public class User {
         this.defaultBookshelf = bookshelf;
     }
 
-    public User(final int id, final String username, 
+    public User(final int id, final String username,
         final String password, final String bookshelf) {
         super();
         this.id = id;
@@ -53,7 +53,7 @@ public class User {
         this.defaultBookshelf = bookshelf;
     }
 
-    
+
 
     /**  get user id
      * @return id

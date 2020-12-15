@@ -5,8 +5,12 @@ import com.group5.BookRead.services.bookshelf.BookshelfService;
 import com.group5.BookRead.services.bookshelf.FavoriteBookshelfService;
 
 public class FavoriteBookshelfServiceCreator extends BookshelfServiceCreator {
+    /**
+     * @return
+     */
     @Override
-    public BookshelfService createBookshelfService(final BookshelfRepository bookshelfRepo) {
+    public BookshelfService createBookshelfService(
+            final BookshelfRepository bookshelfRepo) {
         return new FavoriteBookshelfService(bookshelfRepo);
     }
 }

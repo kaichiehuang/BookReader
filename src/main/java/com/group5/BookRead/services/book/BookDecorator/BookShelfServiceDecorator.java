@@ -28,7 +28,7 @@ public final class BookShelfServiceDecorator extends BookServiceDecorator {
     private MyBookRepository myBookRepository;
 
     @Autowired
-    public BookShelfServiceDecorator (
+    public BookShelfServiceDecorator(
         final BookService service,
         final BookRepository bookRepository,
         final BookshelfServiceSelector bookshelfServiceSelector,
@@ -55,6 +55,7 @@ public final class BookShelfServiceDecorator extends BookServiceDecorator {
 //                shelf.getId(),
 //                bookId);
 //        return  status == 1;
+
         return bookshelfServiceSelector.removeBook(bookId, userId, bookshelf);
     }
     @Override
@@ -85,7 +86,7 @@ public final class BookShelfServiceDecorator extends BookServiceDecorator {
 //                bookshelf.getId());
         return bookshelfServiceSelector.getBooksOnShelf(bookshelfName, userId);
     }
-    
+
 
     /**
      *
@@ -154,7 +155,7 @@ public final class BookShelfServiceDecorator extends BookServiceDecorator {
         }
         return null;
     }
-    
+
     @Override
     public boolean addToShelf(final MyBook book) {
         try {
@@ -257,7 +258,7 @@ public final class BookShelfServiceDecorator extends BookServiceDecorator {
      * @return excluded book list
      */
     @Override
-    public List<Integer> getExcludedBooks(final int userId) 
+    public List<Integer> getExcludedBooks(final int userId)
         throws DecoratorChainException {
         return super.getExcludedBooks(userId);
     }
@@ -269,9 +270,38 @@ public final class BookShelfServiceDecorator extends BookServiceDecorator {
      * @param userId
      */
     @Override
-    public void addToExcluded(final int bookId, final int userId) 
+    public void addToExcluded(final int bookId, final int userId)
         throws DecoratorChainException {
         super.addToExcluded(bookId, userId);
+    }
+
+     /**
+     * add a book
+     *
+     * @param book
+     * @param bookshelf
+     * @param userId
+     * @return
+     * @throws DecoratorChainException
+     */
+    @Override
+    public Book addBookToShelf(
+            final Book book, final String bookshelf, final int userId)
+            throws BookExistsOnTragetShelfException, DecoratorChainException {
+        // check if book exists in database
+        Book curBook = super.getBookByNameAuthor(book.getTitle(),
+            book.getAuthor());
+        if (curBook == null) {
+            // the book does not exist
+            curBook = super.chooseBook(book);
+        }
+        // The curBook is the current book
+        // now here, we actually need to check if the bookshelf is not favorites
+        Book addedBook = this.save(curBook, bookshelf, userId);
+        if (addedBook != null) {
+            return addedBook;
+        }
+        return null;
     }
 }
 

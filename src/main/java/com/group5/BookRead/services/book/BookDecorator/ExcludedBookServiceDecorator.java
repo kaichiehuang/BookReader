@@ -14,13 +14,16 @@ public class ExcludedBookServiceDecorator extends BookServiceDecorator  {
     private ExcludedBookRepository excludedBookRepository;
 
     @Autowired
-    public ExcludedBookServiceDecorator (
+    public ExcludedBookServiceDecorator(
         final BookService service,
         final ExcludedBookRepository excludedBookRepository) {
         super(service);
         this.excludedBookRepository = excludedBookRepository;
     }
 
+    /**
+     * @return
+     */
     @Override
     public List<Integer> getExcludedBooks(final int userId) {
         List<ExcludedBook> excluded =
@@ -35,6 +38,9 @@ public class ExcludedBookServiceDecorator extends BookServiceDecorator  {
         return result;
     }
 
+    /**
+     * @return
+     */
     @Override
     public void addToExcluded(final int bookId, final int userId) {
         int id = excludedBookRepository.findIdByOtherIds(bookId, userId);

@@ -20,14 +20,13 @@ public class HTMLController extends BookController {
      * <p>
      * get login page
      * </p>
-     * 
      * @return view to be output
      * @since 1.0
      */
     @GetMapping("/login")
-    public String getLoginPage(final Model model) 
+    public String getLoginPage(final Model model)
         throws DecoratorChainException {
-        HTMLRenderService strategy = 
+        HTMLRenderService strategy =
             strategyFactory.findStrategy(StrategyName.LoginHTMLStrategy);
         return strategy.renderPage(model);
     }
@@ -36,13 +35,12 @@ public class HTMLController extends BookController {
      * <p>
      * logout
      * </p>
-     * 
      * @return view to be output
      * @since 1.0
      */
     @GetMapping("/logout")
     public String logout(final Model model) throws DecoratorChainException {
-        HTMLRenderService strategy = 
+        HTMLRenderService strategy =
             strategyFactory.findStrategy(StrategyName.LoginHTMLStrategy);
         return strategy.renderPage(model);
     }
@@ -54,9 +52,9 @@ public class HTMLController extends BookController {
      * @since 1.0
      */
     @GetMapping("/network")
-    public String renderNetworkPage(final Model model) 
+    public String renderNetworkPage(final Model model)
         throws DecoratorChainException {
-        HTMLRenderService strategy = 
+        HTMLRenderService strategy =
             strategyFactory.findStrategy(StrategyName.NetworkHTMLStrategy);
         return strategy.renderPage(model);
     }
@@ -68,9 +66,9 @@ public class HTMLController extends BookController {
      * @since 1.0
      */
     @GetMapping("/friends")
-    public String renderFriendsPage(final Model model) 
+    public String renderFriendsPage(final Model model)
         throws DecoratorChainException {
-        HTMLRenderService strategy = 
+        HTMLRenderService strategy =
             strategyFactory.findStrategy(StrategyName.FriendHTMLStrategy);
         return strategy.renderPage(model);
     }
@@ -82,12 +80,33 @@ public class HTMLController extends BookController {
      * @since 1.0
      */
     @GetMapping("/request")
-    public String renderFriendRequestPage(final Model model) 
+    public String renderFriendRequestPage(final Model model)
         throws DecoratorChainException {
-        HTMLRenderService strategy = 
-            strategyFactory.findStrategy(StrategyName.FriendRequestHTMLStrategy);
+        HTMLRenderService strategy =
+            strategyFactory.findStrategy(
+                    StrategyName.FriendRequestHTMLStrategy);
         return strategy.renderPage(model);
     }
+
+    /**
+     * <p>
+     * get Book shelf items
+     * </p>
+     * @param model Thymyleaf model
+     * @return value to be outputed
+     * @throws DecoratorChainException
+     * @since 1.0
+     */
+    @GetMapping("/book/shelf")
+    public String getBookBookshelf(final Model model)
+        throws DecoratorChainException {
+
+        HTMLRenderService strategy =
+            strategyFactory.findStrategy(StrategyName.BookshelfHTMLStrategy);
+        return strategy.renderPage(model);
+    }
+
+
 
     /**
      * <p>
@@ -99,17 +118,13 @@ public class HTMLController extends BookController {
      * @throws DecoratorChainException
      * @since 1.0
      */
-    @GetMapping("/book/shelf")
-    public String getBookBookshelf(final Model model) 
+    @GetMapping("/timeline")
+    public String timeline(final Model model) 
         throws DecoratorChainException {
 
         HTMLRenderService strategy = 
-            strategyFactory.findStrategy(StrategyName.BookshelfHTMLStrategy);
+            strategyFactory.findStrategy(StrategyName.TimelineHTMLStrategy);
         return strategy.renderPage(model);
     }
-
-
-
-
 
 }

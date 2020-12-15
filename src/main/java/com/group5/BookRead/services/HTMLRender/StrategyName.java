@@ -5,5 +5,6 @@ public enum StrategyName {
     FriendHTMLStrategy,
     FriendRequestHTMLStrategy,
     LoginHTMLStrategy,
-    BookshelfHTMLStrategy
+    BookshelfHTMLStrategy,
+    TimelineHTMLStrategy
 }

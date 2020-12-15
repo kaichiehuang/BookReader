@@ -1,6 +1,9 @@
 package com.group5.BookRead.controllers;
 
 import java.util.Map;
+import java.util.List;
+
+import com.group5.BookRead.models.Bookshelf;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -34,13 +37,14 @@ public class ExcludeBookController extends BookController {
             int bookId = Integer.parseInt(json.get("bookId"));
 
             // add to excluded
-            bookServiceSelector.addToExcluded(bookId, userId);
+            bookServiceDecorator.addToExcluded(bookId, userId);
             // remove from all shelves
-            bookServiceSelector.removeBook(bookId, "recommended", userId);
-            bookServiceSelector.removeBook(bookId, "want to read", userId);
-            bookServiceSelector.removeBook(bookId, "reading", userId);
-            bookServiceSelector.removeBook(bookId, "read", userId);
-            bookServiceSelector.removeBook(bookId, "favorites", userId);
+            List<Bookshelf> shelves = bookServiceDecorator
+                    .getBookShelves(userId);
+            for (int i = 0; i < shelves.size(); i++) {
+                bookServiceDecorator.remove(
+                        bookId, userId, shelves.get(i).getName());
+            }
 
             response.setStatus(HttpServletResponse.SC_OK);
 

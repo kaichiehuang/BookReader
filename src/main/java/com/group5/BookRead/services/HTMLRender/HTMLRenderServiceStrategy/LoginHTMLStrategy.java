@@ -8,11 +8,17 @@ import org.springframework.ui.Model;
 
 @Component
 public class LoginHTMLStrategy implements HTMLRenderService {
+    /**
+     * @return
+     */
     @Override
     public String renderPage(final Model model) {
         return "login";
     }
 
+    /**
+     * @return
+     */
     @Override
     public StrategyName getStrategyName() {
         return StrategyName.LoginHTMLStrategy;

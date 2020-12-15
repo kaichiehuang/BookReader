@@ -98,11 +98,6 @@ public class BookServiceSelector {
         return bookServiceDecorator.getBook(bookId);
     }
 
-    public void updateBookProgress (final int userId, final int bookId, 
-        final double progress){
-
-    }
-
 
     /**
      *  get excluded books

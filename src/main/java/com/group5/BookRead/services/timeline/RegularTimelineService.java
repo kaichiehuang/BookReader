@@ -51,11 +51,13 @@ public class RegularTimelineService implements TimelineService {
     /**
      * get all timeline actvities for one user
      * @param userId the id of the user whose acticities are pulled
-     * @param currentUser  the id of the current user who pulls the activities of another user
+     * @param currentUser  the id of the current user
+     * who pulls the activities of another user
      * @return timeline
      */
     @Override
-    public List<ResponseTimeline> getTimelinesByUser(final int userId, final int currentUser)
+    public List<ResponseTimeline> getTimelinesByUser(
+            final int userId, final int currentUser)
             throws Exception {
         List<Timeline> ls = timelineRepository.getTimelinesByUserId(userId);
         if (ls == null) {
@@ -64,7 +66,11 @@ public class RegularTimelineService implements TimelineService {
         return convert(ls, currentUser);
     }
 
-    List<ResponseTimeline> convert(final List<Timeline> ls, final int userId) {
+    /**
+     * @return
+     */
+    List<ResponseTimeline> convert(
+            final List<Timeline> ls, final int userId) {
         List<ResponseTimeline> res = new ArrayList<>();
         for (Timeline timeline : ls) {
             User user = userService.findByUserId(
@@ -121,7 +127,8 @@ public class RegularTimelineService implements TimelineService {
         List<Integer> friendsIds = friendshipService.getFriendIds(userId);
         // include current user;
         friendsIds.add(userId);
-        List<Timeline> ls = timelineRepository.getTimelinesByUserIds(friendsIds);
+        List<Timeline> ls = timelineRepository
+                .getTimelinesByUserIds(friendsIds);
         if (ls == null) {
             throw new Exception("Error in getting timelines in DB");
         }

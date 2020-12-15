@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service(value = "settings")
-public class UserSettings implements Settings{
+public class UserSettings implements Settings {
 
     private String defaultBookshelf;
 
@@ -16,6 +16,9 @@ public class UserSettings implements Settings{
         this.defaultBookshelf = null;
     };
 
+    /**
+     * @return
+     */
     public void setDefaultBookshelf(final int userId) {
         this.defaultBookshelf = userRepository.
                 findById(userId).getDefaultBookshelf();

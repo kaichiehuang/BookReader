@@ -2,7 +2,6 @@ package com.group5.BookRead.controllers;
 
 import java.util.List;
 
-import com.group5.BookRead.services.BookServiceSelector;
 import com.group5.BookRead.services.bookAPI.BookAPI;
 import com.group5.BookRead.services.bookAPI.BookFromAPI;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +15,6 @@ public class SearchBookController {
     @Autowired
     BookAPI bookAPI;
 
-    @Autowired
-    BookServiceSelector bookServiceSelector;
 
     /**
      * Redirects to searchBook page

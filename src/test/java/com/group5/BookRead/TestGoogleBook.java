@@ -13,7 +13,9 @@
 //
 //    @Test
 //    void requestGoogleAPIShouldReturnOK() throws JsonProcessingException {
-//        String GENERAL_KEYWORDS_SEARCH = "https://www.googleapis.com/books/v1/volumes?q=%s&key=AIzaSyBS_bQYbKIUs7hBTGYpQFtpNJI8hcG76ww";
+//        String GENERAL_KEYWORDS_SEARCH = "https:
+//www.googleapis.com/books/v1/volumes
+//?q=%s&key=AIzaSyBS_bQYbKIUs7hBTGYpQFtpNJI8hcG76ww";
 //
 //        RestTemplate restTemplate = new RestTemplate();
 //        String searchUrl
@@ -32,8 +34,11 @@
 //            String title = parent.path("title").textValue();
 //            String authors = parent.path("authors").toString();
 //            int page = parent.path("pageCount").asInt();
-//            String imageLink = parent.path("imageLinks").path("thumbnail").textValue();
-//            System.out.printf("title: %s\nauthors:%s\npage:%d\nimageLink:%s\n\n", title, authors, page, imageLink);
+//            String imageLink = parent.path(
+//"imageLinks").path("thumbnail").textValue();
+//            System.out.printf("title: %s\nauthors:
+//%s\npage:%d\nimageLink:%s\n\n",
+//title, authors, page, imageLink);
 //        }
 //    }
 //}

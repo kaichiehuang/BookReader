@@ -23,6 +23,9 @@ public class NetworkHTMLStrategy implements HTMLRenderService {
     @Autowired
     FriendshipService friendshipService;
 
+    /**
+     * @return
+     */
     @Override
     public String renderPage(final Model model) {
         SecurityContext context = SecurityContextHolder.getContext();
@@ -49,6 +52,9 @@ public class NetworkHTMLStrategy implements HTMLRenderService {
         return "network";
     }
 
+    /**
+     * @return
+     */
     @Override
     public StrategyName getStrategyName() {
         return StrategyName.NetworkHTMLStrategy;
