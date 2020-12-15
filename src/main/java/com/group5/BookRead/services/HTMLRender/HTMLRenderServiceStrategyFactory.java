@@ -10,16 +10,21 @@ import org.springframework.stereotype.Component;
 @Component
 public class HTMLRenderServiceStrategyFactory {
     private Map<StrategyName, HTMLRenderService> strategies;
-    
+
     @Autowired
-    public HTMLRenderServiceStrategyFactory(final Set<HTMLRenderService> strategySet) {
+    public HTMLRenderServiceStrategyFactory(
+            final Set<HTMLRenderService> strategySet) {
         createStrategy(strategySet);
     }
-    
-    public HTMLRenderService findStrategy(final StrategyName strategyName) {
+
+    /**
+     * @return
+     */
+    public HTMLRenderService findStrategy(
+            final StrategyName strategyName) {
         return strategies.get(strategyName);
     }
-    
+
     private void createStrategy(final Set<HTMLRenderService> strategySet) {
         strategies = new HashMap<StrategyName, HTMLRenderService>();
         strategySet.forEach(

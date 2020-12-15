@@ -58,8 +58,8 @@ public class RecommendBookController extends BookController {
 
             // validate excluded book
             int friendId = userService.findByUsername(username).getId();
-            List<Integer> excludedList = bookServiceSelector
-                    .getExcludedBooks(friendId);
+            List<Integer> excludedList = bookServiceDecorator
+                .getExcludedBooks(friendId);
             if (excludedList.contains(bookId)) {
                 response.setStatus(HttpServletResponse.SC_OK);
                 return "{\"msg\":\"Cannot recommend this book"
@@ -67,8 +67,9 @@ public class RecommendBookController extends BookController {
             }
 
             // check if recommended before
-            List<Book> books = bookServiceSelector.getBooks(
+            List<Book> books = bookServiceDecorator.getBooks(
                     "recommended", friendId);
+
             for (Book book: books) {
                 if (bookId == book.getId()) {
                     response.setStatus(HttpServletResponse.SC_OK);
@@ -77,8 +78,8 @@ public class RecommendBookController extends BookController {
             }
 
             // add to recommended
-            Book book = bookServiceSelector.getBook(bookId);
-            bookServiceSelector.addBookToShelf(book, "recommended", friendId);
+            Book book = bookServiceDecorator.getBook(bookId);
+            bookServiceDecorator.addBookToShelf(book, "recommended", friendId);
 
             response.setStatus(HttpServletResponse.SC_OK);
             return "{\"msg\":\"success\"}";

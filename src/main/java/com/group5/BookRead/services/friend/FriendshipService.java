@@ -27,9 +27,10 @@ public class FriendshipService {
     public FriendshipService(final FriendshipRepository friendshipRepository) {
         this.friendshipRepository = friendshipRepository;
     }
-    
+
     @Autowired
-    public FriendshipService(final FriendshipRepository friendshipRepository, final UserRepository userRepository) {
+    public FriendshipService(final FriendshipRepository friendshipRepository,
+            final UserRepository userRepository) {
         this.friendshipRepository = friendshipRepository;
         this.userRepository = userRepository;
     }
@@ -42,7 +43,7 @@ public class FriendshipService {
     public List<String> getFriends(final int userId) {
         List<Friendship> friendships =
                 friendshipRepository.findAllByUserId(userId);
-        
+
 
         List<String> friends = new ArrayList<>();
 

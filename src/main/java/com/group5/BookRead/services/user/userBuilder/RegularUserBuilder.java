@@ -47,7 +47,8 @@ public class RegularUserBuilder implements UserBuilder {
      * @param password
      */
     @Override
-    public void createUser(final String username, final String password) throws Exception {
+    public void createUser(final String username,
+            final String password) throws Exception {
         User newUser = new User(username, password, "want to read");
         userRepository.insert(newUser);
         this.user = userRepository.findByUsername(newUser.getUsername());

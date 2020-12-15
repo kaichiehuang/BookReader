@@ -9,5 +9,6 @@ public interface TimelineService {
     Timeline store(Timeline timeline)
             throws SQLIntegrityConstraintViolationException;
     List<ResponseTimeline> getTimelines(int userId) throws Exception;
-    List<ResponseTimeline> getTimelinesByUser(int userId, int current) throws Exception;
+    List<ResponseTimeline> getTimelinesByUser(
+            int userId, int current) throws Exception;
 }

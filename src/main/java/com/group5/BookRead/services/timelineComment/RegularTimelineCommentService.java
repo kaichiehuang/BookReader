@@ -15,10 +15,11 @@ public class RegularTimelineCommentService implements TimelineCommentService {
 
     @Autowired
     TimelineCommentRepository timelineCommentRepository;
-    
 
 
-    public RegularTimelineCommentService(final TimelineCommentRepository timelineCommentRepository) {
+
+    public RegularTimelineCommentService(
+            final TimelineCommentRepository timelineCommentRepository) {
         this.timelineCommentRepository = timelineCommentRepository;
     }
 

@@ -16,6 +16,9 @@ public class ResponseTimeline {
     private boolean isLiked;
     private int likes;
 
+    /**
+     * @return
+     */
     public ResponseTimeline(
             final int id,
             final int userId,

@@ -23,9 +23,10 @@ public interface BookService {
         int bookshelfId, int bookId);
     double updateProgress(int userId,
         int bookId, double progress);
-    
-    Bookshelf getShelf(String bookshelf, int userId) throws DecoratorChainException;
-    
+
+    Bookshelf getShelf(String bookshelf, int userId)
+            throws DecoratorChainException;
+
     boolean remove(int bookId,
         int userId,
         String bookshelf) throws DecoratorChainException;
@@ -36,19 +37,23 @@ public interface BookService {
         int userId) throws DecoratorChainException;
     Book save(Book book, String bookshelfName, int userId)
             throws BookExistsOnTragetShelfException, DecoratorChainException;
-    boolean addToShelf(MyBook book) 
+    boolean addToShelf(MyBook book)
         throws DecoratorChainException;
-    List<Book> getBooks(String bookshelfName, int userId) 
+    List<Book> getBooks(String bookshelfName, int userId)
         throws DecoratorChainException;
-    HashMap<String, List<Book>> getBooksOnBookshelves(int userId) 
+    HashMap<String, List<Book>> getBooksOnBookshelves(int userId)
         throws DecoratorChainException;
-    List<Bookshelf> getBookShelves(int userId) 
+    List<Bookshelf> getBookShelves(int userId)
         throws DecoratorChainException;
-    Bookshelf getReadingShelf(int userId, int bookId) 
+    Bookshelf getReadingShelf(int userId, int bookId)
         throws DecoratorChainException;
     void moveBook(String srcShelf, String dstShelf,
         int userId, int bookId) throws DecoratorChainException;
 
     List<Integer> getExcludedBooks(int userId) throws DecoratorChainException;
     void addToExcluded(int bookId, int userId) throws DecoratorChainException;
+
+    Book addBookToShelf(Book book,
+            String bookshelf, int userId)
+        throws BookExistsOnTragetShelfException, DecoratorChainException;
 }

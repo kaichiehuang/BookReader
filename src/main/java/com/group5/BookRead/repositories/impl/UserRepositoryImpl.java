@@ -44,9 +44,11 @@ public class UserRepositoryImpl implements UserRepository {
     public int insert(final User user) throws
 
         SQLIntegrityConstraintViolationException {
-        return jdbcTemplate.update("insert into User (username, password, default_bookshelf) "
-        + "values(?, ?, ?)",
-            new Object[] {user.getUsername(), user.getPassword(), user.getDefaultBookshelf()});
+        return jdbcTemplate.update(
+                "insert into User (username, password, default_bookshelf) "
+                        + "values(?, ?, ?)",
+            new Object[] {user.getUsername(),
+                    user.getPassword(), user.getDefaultBookshelf()});
     }
 
     /**  find all user
@@ -128,7 +130,8 @@ public class UserRepositoryImpl implements UserRepository {
      * @return status code
      */
     @Override
-    public int setDefalultBookshelf(final int userId, final String bookshelfName) {
+    public int setDefalultBookshelf(
+            final int userId, final String bookshelfName) {
         return jdbcTemplate.update("update User "
                 + "set default_bookshelf = ? "
                 + "where id = ?",

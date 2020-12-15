@@ -6,8 +6,12 @@ import com.group5.BookRead.services.bookshelf.RecommendBookshelfService;
 
 public class RecommendBookshelfServiceCreator extends BookshelfServiceCreator {
 
+    /**
+     * @return
+     */
     @Override
-    public BookshelfService createBookshelfService(final BookshelfRepository bookshelfRepo) {
+    public BookshelfService createBookshelfService(
+            final BookshelfRepository bookshelfRepo) {
         return new RecommendBookshelfService(bookshelfRepo);
     }
 }

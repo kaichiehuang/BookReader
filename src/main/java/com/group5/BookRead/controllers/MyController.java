@@ -5,7 +5,7 @@ import com.group5.BookRead.models.comment.TimelineComment;
 import com.group5.BookRead.models.Book;
 import com.group5.BookRead.models.User;
 import com.group5.BookRead.models.comment.Comment;
-import com.group5.BookRead.services.BookServiceSelector;
+import com.group5.BookRead.services.book.BookDecorator.BookServiceDecorator;
 import com.group5.BookRead.services.bookAPI.BookAPI;
 import com.group5.BookRead.services.bookAPI.BookFromAPI;
 import com.group5.BookRead.services.comment.CommentService;
@@ -28,6 +28,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.beans.factory.annotation.Qualifier;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,10 +36,9 @@ import java.util.Map;
 
 @Controller
 public class MyController {
-
-
     @Autowired
-    BookServiceSelector bookServiceSelector;
+    @Qualifier("basicDecoratedBookService")
+    BookServiceDecorator bookServiceDecorator;
 
     @Autowired
     BookAPI bookAPI;
@@ -71,7 +71,8 @@ public class MyController {
 
         try {
             //
-            Book book = bookServiceSelector.getBook(identifier);
+            Book book = bookServiceDecorator.getBook(identifier);
+
             if (book != null) {
                 List<ResponseComment> comments = commentService.getComments(
                         book.getId());
@@ -311,7 +312,8 @@ public class MyController {
                 text = "";
             }
             System.out.println(rating + " " + text);
-            Book bookFromDB = bookServiceSelector.getBook(bookId);
+            Book bookFromDB = bookServiceDecorator.getBook(bookId);
+
             if (bookFromDB == null) {
 
                 String title = (String) body.get("title");
@@ -335,7 +337,9 @@ public class MyController {
                         bookId,
                         link);
 
-                bookFromDB = bookServiceSelector.storeBook(newBook);
+                bookFromDB = bookServiceDecorator.chooseBook(newBook);
+
+
             }
 
 
@@ -354,7 +358,7 @@ public class MyController {
             Comment savedComment = commentService.save(comment);
 
             // store to a timeline
-            Book book = bookServiceSelector.getBook(bookFromDB.getId());
+            Book book = bookServiceDecorator.getBook(bookFromDB.getId());
             User user = userService.findByUserId(userId);
             String content = String.format("%s writes on book \"%s\": %s | "
                             + "score:%d",

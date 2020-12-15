@@ -11,7 +11,8 @@ public final class RegularBookshelfService implements BookshelfService {
     private BookshelfRepository bookshelfRepository;
 
     @Autowired
-    public RegularBookshelfService(final BookshelfRepository bookshelfRepository) {
+    public RegularBookshelfService(
+            final BookshelfRepository bookshelfRepository) {
         this.bookshelfRepository = bookshelfRepository;
     }
 

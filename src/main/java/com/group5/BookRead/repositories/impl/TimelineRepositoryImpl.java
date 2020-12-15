@@ -132,15 +132,15 @@ public class TimelineRepositoryImpl implements TimelineRepository {
             return new ArrayList<Timeline>();
         }
         try {
-            String inSql = String.join(",", Collections.nCopies(ids.size(), "?"));
+            String inSql = String.join(",",
+                    Collections.nCopies(ids.size(), "?"));
             List<Timeline> timelines = jdbcTemplate.query(
                     String.format("select * from Timeline "
-                            + "where user_id in (%s) ORDER BY time_created DESC", inSql),
+                            + "where user_id in (%s) "
+                            + "ORDER BY time_created DESC", inSql),
                     ids.toArray(),
                     new TimelineRowMapper());
-//            System.out.println(String.format("select * from Timeline "
-//                    + "where user_id in (%s) ORDER BY time_created DESC", inSql));
-//            System.out.println("timeline: "+ timelines);timelines
+
             return timelines;
         } catch (Exception e) {
             e.printStackTrace();
@@ -148,6 +148,11 @@ public class TimelineRepositoryImpl implements TimelineRepository {
         }
     }
 
+    /**
+     * get timelines by userid
+     * @param userId
+     * @return timelines
+     */
     @Override
     public List<Timeline> getTimelinesByUserId(final int id) {
         try {

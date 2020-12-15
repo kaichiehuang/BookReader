@@ -89,6 +89,13 @@ public class BookshelfServiceSelector {
         return getService(bookshelf).create(bookshelf, userId);
     }
 
+    /**
+     * remove book
+     * @param bookId
+     * @param userId
+     * @param bookshelf name
+     * @return
+     */
     public boolean removeBook(final int bookId, final int userId,
                               final String bookshelf) {
         Bookshelf shelf = getBookShelf(userId, bookshelf);
@@ -96,7 +103,14 @@ public class BookshelfServiceSelector {
                 userId, shelf.getId(), bookId) == 1;
     }
 
-    public List<MyBook> getBooksOnShelf(final String bookshelfName, final int userId) {
+    /**
+     * get books on shelf
+     * @param bookshelf name
+     * @param userId
+     * @return
+     */
+    public List<MyBook> getBooksOnShelf(
+            final String bookshelfName, final int userId) {
         Bookshelf bookshelf = getBookShelf(
                 userId,
                 bookshelfName);
